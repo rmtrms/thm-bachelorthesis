@@ -15,8 +15,9 @@ public class ScanCodeExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ScanCodeExtractor.class);
 
-    private static final String INPUT_DIR = "input";
-    private static final String OUTPUT_DIR = "output";
+    private static final String DATA_BASE_DIR = "/Volumes/Data";
+    private static final String INPUT_DIR = DATA_BASE_DIR + "/analysis";
+    private static final String OUTPUT_DIR = DATA_BASE_DIR + "/extracted"; //change this to a path on the machine to avoid problems regarding permissions
 
     private static final boolean INCLUDE_PATH_IN_JSON = false;
     private static final Pattern SEGMENT_FILE_PATTERN = Pattern.compile("segment-\\d+\\.txt");
