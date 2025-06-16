@@ -14,14 +14,14 @@ import java.util.stream.StreamSupport;
 
         private static final Logger logger = LoggerFactory.getLogger(ScanCodeVerifier.class);
 
-        private static final String INPUT_DIR = "/Users/rtueremis/Documents/output";
-        private static final String VERIFIED_DIR = "/Users/rtueremis/Documents/verified";
+        private static final String INPUT_DIR = "input";
+        private static final String OUTPUT_DIR = "output";
 
         private static int verifiedFileCount = 0;
 
         public static void main(String[] args) throws IOException {
-            prepareOutputDirectory(Paths.get(VERIFIED_DIR));
-            verifyFilesInDirectory(Paths.get(INPUT_DIR), Paths.get(VERIFIED_DIR));
+            prepareOutputDirectory(Paths.get(OUTPUT_DIR));
+            verifyFilesInDirectory(Paths.get(INPUT_DIR), Paths.get(OUTPUT_DIR));
             logger.info("Total files verified and copied: {}", verifiedFileCount);
         }
 

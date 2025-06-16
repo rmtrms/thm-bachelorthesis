@@ -15,8 +15,8 @@ public class ScanCodeExtractor {
 
     private static final Logger logger = LoggerFactory.getLogger(ScanCodeExtractor.class);
 
-    private static final String ANALYSIS_DIR = "/Volumes/Data 1/analysis";
-    private static final String OUTPUT_DIR = "/Users/romeo/metaeffekt/Repositories/thm-bachelorthesis/target/output";
+    private static final String INPUT_DIR = "input";
+    private static final String OUTPUT_DIR = "output";
 
     private static final boolean INCLUDE_PATH_IN_JSON = false;
     private static final Pattern SEGMENT_FILE_PATTERN = Pattern.compile("segment-\\d+\\.txt");
@@ -25,7 +25,7 @@ public class ScanCodeExtractor {
 
     public static void main(String[] args) throws IOException {
         cleanOutputDirectory();
-        Files.walk(Paths.get(ANALYSIS_DIR))
+        Files.walk(Paths.get(INPUT_DIR))
                 .filter(path -> path.getFileName().toString().endsWith("_scancode.json"))
                 .forEach(ScanCodeExtractor::processJsonFile);
 
