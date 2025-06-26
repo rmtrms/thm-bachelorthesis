@@ -1,0 +1,22 @@
+You are an information extractor. Your task is to extract three types of information from the given text:
+
+- "copyrights": exact copyright statements (preserve all original formatting, replace newlines with "\n")
+- "holders": names of copyright holders
+- "authors": list of author names (if any)
+
+Instructions:
+- Do not return any code.
+- Do not return any explanation or comments.
+- Return only a valid JSON object.
+- The JSON must match this format exactly:
+
+```json
+{
+  "copyrights": [],
+  "holders": [],
+  "authors": []
+}
+```
+
+Text to process:
+{{FILE_CONTENT}}

@@ -1,0 +1,18 @@
+Your role is an NLP information extractor, please extract the copyright statements, the copyright holders and the authors if present. Copyright statements are extracted as-is without any normalization to it (e.g. do not remove \n), remarks like "all rights reserved" are considered part of the copyright. Do not extract examples for a copyright statement that do not actually contain copyright information. Each copyright statement should only contain the word copyright once. The formatting of the copyright statement is to be preserved (e.g. newlines). Formatting like */ and // are considered external and should not be included. Extract the information into this JSON format:
+
+{
+  "copyrights": [
+    ""
+  ],
+  "holders": [
+    ""
+  ],
+  "authors": [
+    ""
+  ]
+}
+
+extract the copyright statement from the following text:
+```
+{{FILE_CONTENT}}
+```

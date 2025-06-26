@@ -1,0 +1,22 @@
+You must respond with only a valid JSON object. Do not write anything else. Extract the following information from the provided text:
+
+- "copyrights": list all copyright statements, preserving exact formatting, do not remove or add any whitespaces, escape newlines as "\n" and tabs as \t, remove any comment-related formatting like "/*" or "//", only extract statements that contain "copyright" or "(C)" or "(c)"
+- "holders": names of copyright holders
+- "authors": authors mentioned, if any
+
+Ignore any content that is not relevant for copyright information (e.g. source code)
+
+here are a few examples of Copyright statements:
+- "Copyright (c) 2020 NVIDIA CORPORATION.  All rights reserved."
+- "Copyright 2008, Google Inc.\nAll rights reserved."
+- "Copyright 1991, 1993-1996, 2001, 2002, 2005, 2010, 2012 Free Software\nFoundation, Inc."
+
+Format:
+{
+  "copyrights": [],
+  "holders": [],
+  "authors": []
+}
+
+Text:
+{{FILE_CONTENT}}

@@ -9,7 +9,7 @@ public class FileCounter {
 
     private static final Logger logger = LoggerFactory.getLogger(FileCounter.class);
 
-    private static final String INPUT_DIR = "/Volumes/Data 1/extracted/extracted";
+    private static final String INPUT_DIR = "/Volumes/Data/manually_checked";
 
     public static void main(String[] args) {
         Path dirPath = Paths.get(INPUT_DIR);

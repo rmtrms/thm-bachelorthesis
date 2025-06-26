@@ -1,0 +1,15 @@
+You must respond with only a valid JSON object. Do not write anything else. Extract the following information from the provided text:
+
+- "copyrights": list all copyright statements, preserving exact formatting, escape newlines as "\n" and tabs as \t, remove any comment-related formatting like "/*" or "//", only extract statements that contain "copyright" or "(C)" or "(c)"
+- "holders": names of copyright holders
+- "authors": authors mentioned, if any
+
+Format:
+{
+  "copyrights": [],
+  "holders": [],
+  "authors": []
+}
+
+Text:
+{{FILE_CONTENT}}

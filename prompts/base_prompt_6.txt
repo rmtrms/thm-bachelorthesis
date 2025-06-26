@@ -1,0 +1,34 @@
+You must respond with only a valid JSON object. Do not include explanations, comments, or any text outside the JSON object.
+
+Extract the following information from the provided text:
+
+- "copyrights": A list of **explicit copyright statements**. These must:
+  - Contain the word "copyright", or the symbols "(C)", "(c)", or "©"
+  - Preserve formatting exactly as in the original, including tabs (`\t`) and newlines (`\n`)
+  - **Not** include any comment-related syntax like `/*`, `*/`, `//`, or `*` at the start of lines
+  - Include remarks like "All rights reserved." if part of the original statement
+- "holders": Names of copyright holders (individuals or entities), even if they are not part of an explicit copyright statement
+- "authors": Names of authors mentioned in the text, if any
+
+Output format:
+
+{
+  "copyrights": [],
+  "holders": [],
+  "authors": []
+}
+
+Use this policy for extraction:
+
+**Identification Policy**
+- Authors are individuals or entities contributing written or creative material.
+- Holders are individuals or entities legally holding the rights to the material.
+- Copyright statements are markings asserting legal ownership, explicitly containing "copyright", "©", "(C)", or "(c)", and typically including names and years.
+
+**Extraction Policy**
+- Do not modify copyright statements in content or formatting. Extract them exactly as written.
+- Strip only comment boundaries (like `//`, `*`, `/*`) from the extracted lines.
+- Preserve all internal structure (including `All rights reserved.` if present).
+
+Text to analyze:
+{{FILE_CONTENT}}
