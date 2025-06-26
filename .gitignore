@@ -1,5 +1,7 @@
 ## others:
-/target/
+target/
+.idea/
+latex/result/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
