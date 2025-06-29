@@ -36,14 +36,10 @@ public class SimpleBenchmarkTest {
 
         // Clean result directory
         if (Files.exists(outputPath)) {
-            try (var stream = Files.list(outputPath)) {
-                stream.forEach(path -> {
-                    try {
-                        Files.deleteIfExists(path);
-                    } catch (Exception e) {
-                        logger.warn("Failed to delete file during cleanup: {}", path, e);
-                    }
-                });
+            try (DirectoryStream<Path> files = Files.newDirectoryStream(outputPath)) {
+                for (Path file : files) {
+                    Files.deleteIfExists(file);
+                }
             }
         } else {
             Files.createDirectories(outputPath);
@@ -51,23 +47,25 @@ public class SimpleBenchmarkTest {
 
         // Define wordlist for filtering
         ArrayList<String> wordList = new ArrayList<>();
-        wordList.add("Copyright");
         wordList.add("copyright");
-        wordList.add("(C)");
         wordList.add("(c)");
-        wordList.add("license");
-        wordList.add("All rights reserved");
+        wordList.add("all rights reserved");
+        wordList.add("rights");
         wordList.add("reserved");
-        wordList.add("Author");
         wordList.add("author");
-        wordList.add("by");
-        wordList.add("Holder");
+        wordList.add("modified by");
+        wordList.add("edited by");
+        wordList.add("created by");
+        wordList.add("licensed by");
         wordList.add("holder");
+        wordList.add("license");
+        wordList.add("permission");
+        wordList.add("permission");
 
         // Initialize TextSieve
         TextSieve sieve = TextSieve.builder()
                 .wordlist(wordList)
-                .includeReach(64)
+                .includeReach(100)
                 .build();
 
         List<Path> inputFiles = Files.list(inputPath)
@@ -93,6 +91,9 @@ public class SimpleBenchmarkTest {
         // Select model type (adapt if using Qwen etc.)
         OllamaChatRequestBuilder builder = OllamaChatRequestBuilder.getInstance(OllamaModelType.LLAMA3);
         String promptTemplate = Files.readString(Paths.get(PROMPT_TEMPLATE_PATH));
+
+        long totalDuration = 0;
+        int processedCount = 0;
 
         for (Path inputFile : inputFiles) {
             String fileName = inputFile.getFileName().toString();
@@ -132,8 +133,19 @@ public class SimpleBenchmarkTest {
                     .withOptions(options)
                     .build();
 
+            // Start timing
+            long startTime = System.currentTimeMillis();
+
             // Send request to Ollama
             OllamaChatResult result = ollamaAPI.chat(request);
+
+            // End timing
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+
+            totalDuration += duration;
+            processedCount++;
+
             String response = result.getResponseModel().getMessage().getContent();
 
             // Save original file
@@ -151,7 +163,14 @@ public class SimpleBenchmarkTest {
             // Write _response.json
             Files.writeString(outputPath.resolve(sha1 + "_result.json"), response);
 
-            logger.info("Saved output of file: [{}]", sha1);
+            logger.info("Saved output of file: [{}] in [{}] ms", sha1, duration);
+        }
+
+        if (processedCount > 0) {
+            long averageDuration = totalDuration / processedCount;
+            logger.info("Processed [{}] files. Average duration per file: [{}] ms", processedCount, averageDuration);
+        } else {
+            logger.info("No files were processed.");
         }
     }
 

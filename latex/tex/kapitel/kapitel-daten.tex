@@ -1,0 +1,52 @@
+\chapter{Daten}
+
+In diesem Kapitel wird die Aggregation von Test- und Evaluierungsdaten erläutert.
+Als Datenquelle dient das Scan"=Ergebnis eines Alpine Containers.
+Das Scan"=Ergebnis beinhaltet sämtliche im Container enthaltenen Quellcode"=Dateien zusammen mit dem entsprechenden MetaScan"=Ergebnissen sowie den durch den ScanCode-Service erzeugten Metadaten.
+
+% Hier wird beschrieben, welche Datenquelle ausgewählt wurde, warum sie ausgewählt wurde und welche Alternativen es gab.
+
+\section{Wahl der Datenquelle}
+
+Das Github Repository des ScanCode Toolkit beinhaltet einen Testdatensatz zur Erkennung von Copyrights.
+Dieser Datensatz besteht aus mehreren tausend Dateien und ihren zugehörigen ScanCode"=Ergebnissen.
+Die Daten sind zum Teil in besondere Einzelfälle untergliedert, der Großteil der Daten ist jedoch unsortiert.
+Da der Datensatz zum Testen der ScanCode Copyright Implementierung dient, beinhaltet er sowohl künstlich erzeugte Testfälle, als auch solche, die von Realdaten abgeleitet sind.
+
+In Absprache mit dem Stakeholder wurde die Idee, den Testdatensatz des ScanCode Toolkit zu verwenden verworfen und stattdessen eine bessere Datenquelle herangezogen.
+Als Alternative Datenquelle wurde ein Alpine Container gewählt.
+Dieser Container wurde mit Hilfe des Metaeffekt Scanners analysiert und inventarisiert.
+Der eindeutige Vorteil dieser Datenquelle besteht darin, dass es sich hierbei ausschließlich um Realdaten handelt, wie sie im Produktivbetrieb vorkommen.
+Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode Toolkit.
+
+\section{Erzeugung des Ausgangsdatensatzes}
+
+Beim Scan des Alpine Containers mit Hilfe des Metaeffekt Scanners laufen mehrere Schritte ab, die für die Aggregation eines Copyright"=Datensatzes relevant sind.
+Zunächst werden sämtliche Datenpakete entpackt und die resultierenden Quellcode"=Dateien in eines oder mehrere Segmente unterteilt.
+Die resultierenden Segmente werden normalisiert und auf diese normalisierten Segmente werden Scan"=Prozesse, wie der ScanCode"=Service, angewandt.
+Das durch den ScanCode"=Service erzeugte Ergebnis beinhaltet somit die gefundenen Copyright"=Informationen für ein normalisiertes Segment.
+Die Normalisierung der Segmente beinhaltet unter anderem das Entfernen von mehrfachen Leerzeichen sowie Zeilenumbrüchen.
+Die Copyright Policy besagt, dass Copyright Statements exakt so extrahiert werden sollen, wie sie in der Originaldatei vorkommen.
+Da die Normalisierung und Segmentierung den originalen Zustand der Datei verändern, können sie nicht für den Datensatz herangezogen werden.
+Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt und für jede Datei die Scan"=Ergebnisse aller ihrer Segmente zusammengeführt.
+Um Namenskonflikte zu vermeiden, wurde anschließend für jede Originaldatei der SHA-1 Hash berechnet und zusammen mit dem Dateityp zur Benennung der Datei verwendet.
+Da die Verzeichnisstruktur der Originaldateien nicht relevant ist, werden alle Dateien in einem flachen Verzeichnis gespeichert, dies vereinfacht die anschließende Verarbeitung zusätzlich.
+Der resultierende Ausgangsdatensatz umfasst ca. 467000 Originaldateien und ihre Scan"=Ergebnisse.
+
+\section{Analyse des Datensatzes und Kategorisierung der Daten}
+
+Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht zur Evaluierung und Testierung verwendet werden, da die Scan"=Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
+Um diese Problematik zu adressieren, muss ein Prozess bestimmt werden, der bereits korrekte Daten ermittelt und fehlerhafte Daten, sofern möglich, korrigiert.
+Dieser Prozess wird nachfolgend scrittweise beschrieben:
+
+Der Ausgangsdatensatz umfasst mehrere hunderttausend Quellcode-Dateien in ihrer Verzeichnisstruktur so wie sie im Container vorzufinden sind.
+Um einen qualitativ hochwertigen und validierten Datensatz daraus abzuleiten mussten zunächst relevante Daten identifiziert und kategorisiert werden.
+Mithilfe dieser Kategorisierung der Daten kann überprüft werden, ob die letztendliche Implementierung des Copyright-Scanners alle erfassten Kategorien korrekt behandelt.
+Zunächst wurde der Datensatz in zwei Kategorien unterteilt: Dateien bei denen der ScanCode"=Service Copyright"=Informationen erkannt hat und Dateien die dem Service zufolge keine Copyright"=Informationen enthalten.
+Um sicherzustellen, dass keine Duplikate im Ausgangsdatensatz vorhanden sind, wurde für jede Datei der SHA-1 Hash bestimmt und anschließend alle Duplikate entfernt.
+Diese Filterung reduzierte den Datensatz um ca. 8\%.
+Mithilfe dieser Filterung soll vermieden werden, dass ein auf dem Datensatz trainiertes Modell durch mehrfach vorkommende identische Fälle einen Bias entwickelt.
+Im nächsten Schritt wurden der von duplikaten bereinigte Datensatz nach Dateien gefiltert, die keine \enquote{copyrights}, aber \enquote{holders} und \enquote{authors} enthalten.
+Diese Kategorie umfasst wenige hundert Fälle und wird nicht weiter unterteilt.
+
+
