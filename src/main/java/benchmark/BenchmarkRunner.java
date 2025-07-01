@@ -28,6 +28,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,9 +48,16 @@ public class BenchmarkRunner {
     private static boolean PERFORM_WARMUP = true;
     private static boolean LOG_WARMUP_SEPARATELY = true;
 
-    // Removed JSON_EXTRACT_PATTERN as it's no longer used with the indexOf/lastIndexOf approach.
-    // private static final Pattern JSON_EXTRACT_PATTERN = Pattern.compile("(\\{.*?\\})", Pattern.DOTALL);
-
+    // Pattern to aggressively match JSON within potential Markdown code blocks and outer arrays.
+    // This pattern attempts to capture either a JSON object or array at the root.
+    // It's designed to be more robust than just finding the first { and last }.
+    // It captures content inside ```json ... ``` or directly starting with { or [
+    // This looks for (```json\s*)?([\{\\[].*?[\}\]])(\s*```)?
+    // Group 2 is the actual JSON content we want (either {..} or [..])
+    private static final Pattern ROBUST_JSON_EXTRACT_PATTERN = Pattern.compile(
+        "(?:```json\\s*)?([\\{\\[].*?[\\}\\]])(?:\\s*```)?", // Non-capturing group for optional ```json
+        Pattern.DOTALL
+    );
 
     static final List<String> MODELS_TO_BENCHMARK = List.of(
             //"mistral:7b"
@@ -270,9 +279,10 @@ public class BenchmarkRunner {
             // Initial check for raw response validity
             boolean wasRawResponseValidJson = LLMEvaluator.parseJsonOutput(rawResponse) != null;
 
-            String processedResponse = extractObjectJson(rawResponse);
+            // This new method handles markdown and array/object wrapping
+            String processedResponse = extractRobustJson(rawResponse);
 
-            // Check if extraction was beneficial: it was initially invalid AND now it is valid
+            // Check if extraction was beneficial: it was initially invalid AND now it is valid (as an object or array)
             boolean jsonExtractionBeneficial = !wasRawResponseValidJson && (LLMEvaluator.parseJsonOutput(processedResponse) != null);
 
 
@@ -350,7 +360,7 @@ public class BenchmarkRunner {
             logger.error("Error processing file [{}]: {}", inputFile, e.getMessage(), e);
             // Add a failed benchmark result to ensure it's recorded
             overallResults.addResult(new BenchmarkResult(
-                    sha1, category, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0.0, 0, 0,false, false, false, "Exception: " + e.getMessage() // Pass new flags as false
+                    sha1, category, 0, 0, 0, 0.0, 0.0, 0.0, 0.0, 0, 0, 0,false, false, false, "Exception: " + e.getMessage()
             ));
             return 0;
         }
@@ -358,26 +368,52 @@ public class BenchmarkRunner {
     }
 
     /**
-     * Extracts the first complete JSON object (from first '{' to last '}') from a string,
-     * effectively stripping any leading/trailing characters including array brackets.
-     * This is a simple yet often effective way to clean LLM responses that wrap the JSON.
+     * Extracts a robust JSON string from LLM response, handling common wrappers like Markdown code blocks and outer arrays.
+     * It prioritizes finding a JSON object {...}, but can also extract a JSON array [...] if no object is found.
+     * The goal is to return a string that is a valid JSON object or array, ready for Jackson parsing.
      * @param rawResponse The raw string response from the LLM.
-     * @return The extracted JSON object string, or an empty JSON object string "{}" if no object is found.
+     * @return The extracted JSON string, or an empty JSON object string "{}" if no valid JSON structure is found.
      */
-    private static String extractObjectJson(String rawResponse) {
-        // Find the first '{' and the last '}'
-        int firstBracket = rawResponse.indexOf('{');
-        int lastBracket = rawResponse.lastIndexOf('}');
-
-        if (firstBracket == -1 || lastBracket == -1 || lastBracket < firstBracket) {
-            // No valid JSON object start/end found
-            logger.warn("Could not find a complete JSON object in raw response. Returning empty JSON. Raw: {}", rawResponse);
-            return "{}"; // Return empty JSON to ensure parsing doesn't throw immediate errors
-        }
-
-        // Return the substring from the first '{' to the last '}' inclusive
-        return rawResponse.substring(firstBracket, lastBracket + 1);
+    private static String extractRobustJson(String rawResponse) {
+    if (rawResponse == null) {
+        return "{}";
     }
+
+    // Find the first opening curly or square bracket
+    int firstOpenBracket = -1;
+    int firstCurly = rawResponse.indexOf('{');
+    int firstSquare = rawResponse.indexOf('[');
+
+    if (firstCurly != -1 && firstSquare != -1) {
+        firstOpenBracket = Math.min(firstCurly, firstSquare);
+    } else if (firstCurly != -1) {
+        firstOpenBracket = firstCurly;
+    } else {
+        firstOpenBracket = firstSquare;
+    }
+
+    if (firstOpenBracket == -1) {
+        logger.warn("Could not find a start of JSON ('{{' or '[') in raw response. Raw: {}", rawResponse);
+        return "{}"; // No JSON found
+    }
+
+    // Find the last closing curly or square bracket
+    int lastCloseBracket = -1;
+    int lastCurly = rawResponse.lastIndexOf('}');
+    int lastSquare = rawResponse.lastIndexOf(']');
+    lastCloseBracket = Math.max(lastCurly, lastSquare);
+
+
+    if (lastCloseBracket == -1 || lastCloseBracket < firstOpenBracket) {
+        logger.warn("Found a JSON start but no corresponding end brace in raw response. Raw: {}", rawResponse);
+        return "{}"; // Incomplete JSON
+    }
+
+    // Extract the substring from the first open bracket to the last close bracket
+    String potentialJson = rawResponse.substring(firstOpenBracket, lastCloseBracket + 1);
+    logger.debug("Extracted potential JSON by finding first/last brackets: {}", potentialJson);
+    return potentialJson;
+}
 
     private static String detectEncoding(byte[] bytes) {
         UniversalDetector detector = new UniversalDetector(null);

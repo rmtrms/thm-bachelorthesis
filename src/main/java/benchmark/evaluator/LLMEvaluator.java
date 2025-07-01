@@ -1,6 +1,10 @@
 package benchmark.evaluator;
 
 import benchmark.model.CopyrightInfo;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.slf4j.Logger;
@@ -12,20 +16,48 @@ import java.util.List;
 
 public class LLMEvaluator {
     private static final Logger logger = LoggerFactory.getLogger(LLMEvaluator.class);
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private static final JaroWinklerSimilarity jaroWinkler = new JaroWinklerSimilarity();
     private static final double SIMILARITY_THRESHOLD = 0.95; // Adjust as needed for non-exact matches
 
     /**
-     * Parses a JSON string into a CopyrightInfo object.
+     * Parses a JSON string into a CopyrightInfo object. This method attempts to handle cases
+     * where the LLM might return a single object or a list containing a single object.
      * @param jsonString The JSON string from the LLM's response.
-     * @return A CopyrightInfo object, or null if parsing fails.
+     * @return A CopyrightInfo object, or null if parsing fails or list is empty.
      */
     public static CopyrightInfo parseJsonOutput(String jsonString) {
+        if (jsonString == null || jsonString.trim().isEmpty()) {
+            logger.warn("Received empty or null JSON string for parsing.");
+            return null;
+        }
+
         try {
+            // Attempt 1: Try to parse as a single CopyrightInfo object (standard case: { ... })
             return objectMapper.readValue(jsonString, CopyrightInfo.class);
+        } catch (JsonParseException | JsonMappingException e) {
+            // If parsing as a single object fails (e.g., it's an array root), try as a List.
+            try {
+                // Attempt 2: Try to parse as a List of CopyrightInfo objects (case: [ { ... } ] )
+                List<CopyrightInfo> list = objectMapper.readValue(jsonString, new TypeReference<List<CopyrightInfo>>() {});
+                if (list != null && !list.isEmpty()) {
+                    // If it's a list and not empty, take the first object.
+                    // IMPORTANT: If you expect an array of *multiple* objects to be merged,
+                    // this logic needs to be expanded to iterate and combine them.
+                    return list.get(0);
+                } else {
+                    logger.warn("Parsed JSON as an empty list or null list for: {}", jsonString);
+                    return null; // Return null if it's an empty list
+                }
+            } catch (IOException innerE) {
+                // If parsing as a list also fails
+                logger.error("Failed to parse JSON output as single object or list: {}", innerE.getMessage());
+                return null;
+            }
         } catch (IOException e) {
-            logger.error("Failed to parse JSON output: {}", e.getMessage());
+            // Catch other general IOExceptions during readValue
+            logger.error("General IOException during JSON parsing: {}", e.getMessage());
             return null;
         }
     }
@@ -39,15 +71,13 @@ public class LLMEvaluator {
     public static EvaluationMetrics evaluate(CopyrightInfo golden, CopyrightInfo predicted) {
         // Handle cases where golden or predicted data is null (e.g., parsing failed for predicted)
         if (golden == null) {
-            // If golden is null, we can't evaluate against a truth.
-            // Return 0 for all F1s, and totalGoldenCopyrights as 0.
             return new EvaluationMetrics(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
         if (predicted == null) {
             // If predicted is null (e.g., invalid JSON), all counts are 0, and F1s are 0.
             return new EvaluationMetrics(0, 0, 0, 0, 0, 0, 0, 0,
-                    golden.getCopyrights().size(), // Still provide golden count
-                    0, 0, 0, 0, 0, 0);
+                                         golden.getCopyrights().size(),
+                                         0, 0, 0, 0, 0, 0);
         }
 
         // Evaluate Copyrights (with exact match preference)
@@ -112,33 +142,32 @@ public class LLMEvaluator {
                 }
             }
 
-            // 2. If no exact match (for copyrights) or for holders/authors, proceed with similarity matching
-            // This block only runs if a perfect match wasn't found (for exactMatchForCopyright)
-            // or if exactMatchForCopyright is false (for holders/authors).
-            for (int j = 0; j < remainingPredicted.size(); j++) {
-                String predictedItem = remainingPredicted.get(j);
-                double similarity;
+            if (!foundMatch) {
+                for (int j = 0; j < remainingPredicted.size(); j++) {
+                    String predictedItem = remainingPredicted.get(j);
+                    double similarity;
 
-                if (exactMatchForCopyright) { // For copyrights, use Jaro-Winkler for near matches
-                    similarity = jaroWinkler.apply(goldenItem, predictedItem);
-                } else { // For holders/authors, use Jaro-Winkler with normalization
-                    similarity = jaroWinkler.apply(normalizeName(goldenItem), normalizeName(predictedItem));
-                }
+                    if (exactMatchForCopyright) {
+                        similarity = jaroWinkler.apply(goldenItem, predictedItem);
+                    } else {
+                        similarity = jaroWinkler.apply(normalizeName(goldenItem), normalizeName(predictedItem));
+                    }
 
-                if (similarity >= threshold) {
-                    if (similarity > bestSimilarity) { // Find the most similar match
-                        bestSimilarity = similarity;
-                        bestMatchIndex = j;
-                        foundMatch = true; // A potential match was found
+                    if (similarity >= threshold) {
+                        if (similarity > bestSimilarity) {
+                            bestSimilarity = similarity;
+                            bestMatchIndex = j;
+                            foundMatch = true;
+                        }
                     }
                 }
-            }
 
-            if (foundMatch) {
-                tp++; // Count as a true positive based on similarity
-                remainingPredicted.remove(bestMatchIndex); // Consume the predicted item
-            } else {
-                fn++; // Golden item not found in prediction (neither exact nor similar)
+                if (foundMatch) {
+                    tp++;
+                    remainingPredicted.remove(bestMatchIndex);
+                } else {
+                    fn++;
+                }
             }
         }
 
