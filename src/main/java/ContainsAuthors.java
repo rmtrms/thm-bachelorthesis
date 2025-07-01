@@ -10,10 +10,10 @@ public class ContainsAuthors {
 
     private static final Logger logger = LoggerFactory.getLogger(ContainsAuthors.class);
 
-    private static final String DATA_BASE_DIR = "/Volumes/Data 1";
-    private static final String INPUT_DIR = DATA_BASE_DIR + "/extracted/exact_matches/exact_matches_with_single_copyright/_total";
-    private static final String OUTPUT_WITH_AUTHORS = DATA_BASE_DIR + "/exact_matches_with_single_copyright_with_authors/_total";
-    private static final String OUTPUT_NO_AUTHORS = DATA_BASE_DIR + "/exact_matches_with_single_copyright_without_authors/_total";
+    private static final String DATA_BASE_DIR = "/Volumes/Data";
+    private static final String INPUT_DIR = DATA_BASE_DIR + "/extracted/lowercase_matches/restored_case/exact_matches/exact_matches_with_single_copyright/_total";
+    private static final String OUTPUT_WITH_AUTHORS = "/Users/rtueremis/Metaeffekt/tmp" + "/exact_matches_with_single_copyright_with_authors/_total";
+    private static final String OUTPUT_NO_AUTHORS = "/Users/rtueremis/Metaeffekt/tmp" + "/exact_matches_with_single_copyright_without_authors/_total";
 
     private static int totalFileCount = 0;
     private static int withAuthorsCount = 0;

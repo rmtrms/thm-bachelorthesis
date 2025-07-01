@@ -13,7 +13,6 @@ import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -24,7 +23,7 @@ public class SimpleBenchmarkTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SimpleBenchmarkTest.class);
 
-    static final String MODEL_NAME = "qwen3";
+    static final String MODEL_NAME = "llama3";
     static final String PROMPT_TEMPLATE_PATH = "prompts/base_prompt_5.txt";
     static final String DATA_DIR = "/Volumes/Data/benchmark_test";
     static final String INPUT_DIR = DATA_DIR + "/input";
@@ -53,19 +52,32 @@ public class SimpleBenchmarkTest {
         wordList.add("rights");
         wordList.add("reserved");
         wordList.add("author");
+        wordList.add("maintainer");
+        wordList.add("maintain");
+        wordList.add("developer");
+        wordList.add("creator");
+        wordList.add("created");
+        wordList.add("adapted");
+        wordList.add("contributor");
         wordList.add("modified by");
+        wordList.add("developed by");
+        wordList.add("changed by");
+        wordList.add("written by");
         wordList.add("edited by");
+        wordList.add("added by");
         wordList.add("created by");
-        wordList.add("licensed by");
+        wordList.add("software");
+        wordList.add("updated");
+        wordList.add("licensed");
+        wordList.add("optimization");
         wordList.add("holder");
         wordList.add("license");
-        wordList.add("permission");
         wordList.add("permission");
 
         // Initialize TextSieve
         TextSieve sieve = TextSieve.builder()
                 .wordlist(wordList)
-                .includeReach(100)
+                .includeReach(64)
                 .build();
 
         List<Path> inputFiles = Files.list(inputPath)

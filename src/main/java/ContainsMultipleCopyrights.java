@@ -10,10 +10,10 @@ public class ContainsMultipleCopyrights {
 
     private static final Logger logger = LoggerFactory.getLogger(ContainsMultipleCopyrights.class);
 
-    private static final String DATA_BASE_DIR = "/Volumes/Data 1";
-    private static final String INPUT_DIR = DATA_BASE_DIR + "/extracted/exact_matches/_total";
-    private static final String OUTPUT_MULTIPLE = DATA_BASE_DIR + "exact_matches_with_multiple_copyrights/_total";
-    private static final String OUTPUT_SINGLE = DATA_BASE_DIR + "exact_matches_with_single_copyright/_total";
+    private static final String DATA_BASE_DIR = "/Volumes/Data";
+    private static final String INPUT_DIR = DATA_BASE_DIR + "/extracted/lowercase_matches/restored_case/exact_matches/_total";
+    private static final String OUTPUT_MULTIPLE = "Downloads/" + "exact_matches_with_multiple_copyrights/_total";
+    private static final String OUTPUT_SINGLE = "Downloads/" + "exact_matches_with_single_copyright/_total";
 
     private static int totalFileCount = 0;
     private static int multipleCopyrightsCount = 0;

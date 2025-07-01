@@ -17,14 +17,12 @@
     </properties>
 
     <dependencies>
-        <!-- Jackson Databind for JSON processing -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.16.1</version>
         </dependency>
 
-        <!-- Optional: Jackson core and annotations (pulled automatically) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -37,14 +35,6 @@
             <version>2.16.1</version>
         </dependency>
 
-        <!-- SLF4J API (Logging abstraction) -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.36</version>
-        </dependency>
-
-        <!-- Logback implementation (actual logging backend) -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -58,12 +48,6 @@
         </dependency>
 
         <dependency>
-            <groupId>de.kherud</groupId>
-            <artifactId>llama</artifactId>
-            <version>4.1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>io.github.ollama4j</groupId>
             <artifactId>ollama4j</artifactId>
             <version>1.0.100</version>
@@ -73,6 +57,22 @@
             <groupId>com.metaeffekt.artifact.analysis</groupId>
             <artifactId>ae-artifact-analysis</artifactId>
             <version>0.138.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.13</version> </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.13</version> <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.13.1</version>
         </dependency>
     </dependencies>
 </project>
