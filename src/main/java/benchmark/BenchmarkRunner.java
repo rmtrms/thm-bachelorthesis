@@ -60,14 +60,25 @@ public class BenchmarkRunner {
     );
 
     static final List<String> MODELS_TO_BENCHMARK = List.of(
-            //"mistral:7b"
-            //"gemma3:4b"
-            //"llama3"
-            //"phi4:14b"
-            //"qwen2.5:3b"
-            //"qwen3:4b"
-            //"llava:7b"
-            "gemma3n:e4b"
+            //"mistral:7b",
+            //"phi4:14b",
+            //"phi3:3.8b",
+            //"phi3:14b",
+            //"llama3",
+            //"llava:7b",
+            //"orca-mini:3b",
+            //"qwen2.5:3b",
+            //"qwen2.5:7b",
+            //"qwen2.5-coder:7b"
+            //"gemma3n:e4b",
+            //"mistral-nemo:12b",
+            //"deepseek-coder:6.7b",
+            //"qwen3:4b",
+            //"gemma3:4b",
+            //"dolphin3:8b",
+            //"olmo2:7b"
+            //"tinyllama:1.1b"
+            "qwen2.5-coder:14b"
     );
 
     public static void main(String[] args) throws Exception {
@@ -86,10 +97,10 @@ public class BenchmarkRunner {
         wordList.add("(c)");
         wordList.add("all rights reserved");
         wordList.add("rights");
-        wordList.add("reserved");
         wordList.add("author");
+        wordList.add("authors");
         wordList.add("maintainer");
-        wordList.add("maintain");
+        wordList.add("Maintainers");
         wordList.add("developer");
         wordList.add("creator");
         wordList.add("created");
@@ -102,6 +113,7 @@ public class BenchmarkRunner {
         wordList.add("edited by");
         wordList.add("added by");
         wordList.add("created by");
+        wordList.add("changes by");
         wordList.add("updated by");
         wordList.add("licensed");
         wordList.add("optimization");
@@ -111,7 +123,7 @@ public class BenchmarkRunner {
 
         TextSieve sieve = TextSieve.builder()
                 .wordlist(wordList)
-                .includeReach(64)
+                .includeReach(100)
                 .build();
 
         // Initialize OllamaAPI once
@@ -258,7 +270,8 @@ public class BenchmarkRunner {
 
             // Configure Ollama options
             Options options = new OptionsBuilder()
-                    .setTemperature(0.0f) // Keep temperature low for deterministic output
+                    .setTemperature(0.0f)// Keep temperature low for deterministic output
+                    .setNumCtx(4096)
                     .build();
 
             // Build the chat request for the specified model
