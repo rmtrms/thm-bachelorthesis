@@ -16,3 +16,9 @@
   - Tokens/sec ~ 15
   - gemma erzeugt bei jeder Antwort einen Typo für das Feld "author" --> "authoors"
 
+---
+
+## gemma3:4b
+
+- abgebrochen
+  - fällt in endlosschleife bei 01a0afbe1a4f41cf58f9ce47d65b31e3df7c8680.h
