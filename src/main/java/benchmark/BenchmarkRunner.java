@@ -28,7 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -50,8 +49,6 @@ public class BenchmarkRunner {
 
     // Pattern to aggressively match JSON within potential Markdown code blocks and outer arrays.
     // This pattern attempts to capture either a JSON object or array at the root.
-    // It's designed to be more robust than just finding the first { and last }.
-    // It captures content inside ```json ... ``` or directly starting with { or [
     // This looks for (```json\s*)?([\{\\[].*?[\}\]])(\s*```)?
     // Group 2 is the actual JSON content we want (either {..} or [..])
     private static final Pattern ROBUST_JSON_EXTRACT_PATTERN = Pattern.compile(
@@ -78,7 +75,11 @@ public class BenchmarkRunner {
             //"dolphin3:8b",
             //"olmo2:7b"
             //"tinyllama:1.1b"
-            "qwen2.5-coder:14b"
+            //"qwen2.5-coder:14b"
+            "qwen2.5-coder:32b",
+            "qwen2.5-coder:3b",
+            "qwen2.5-coder:1.5b",
+            "qwen2.5-coder:0.5b"
     );
 
     public static void main(String[] args) throws Exception {
