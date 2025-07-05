@@ -29,5 +29,11 @@ einfach aussagt, wie Lange das Modell für eine bestimmte Größe an Input brauc
 - [Quelle](https://help.openai.com/en/articles/4936856-what-are-tokens-and-how-to-count-them) für Berechnung der Tokens
 
 # Fragen Karsten
-- [ ] Wie soll das Kundeninventar in der Arbeit erklärt werden? Darf erwähnt werden, dass es sich um ein Kundeninventar 
+- [x] Wie soll das Kundeninventar in der Arbeit erklärt werden? Darf erwähnt werden, dass es sich um ein Kundeninventar 
 handelt?
+  - nicht als Kundeninventar beschreiben, sondern einfach als Alpine Container, auf die Eigenschaften von Alpine eingehen
+(Historie von Code, vielseitige Bestandteile, sowohl alte als auch neue Komponenten)
+- [x] Gibt es Alternativen zu ScanCode? Eventuell Proprietär?
+  - Scancode ist der Marktstandard und wird flächendeckend eingesetzt, es gibt proprietäre Lösungen (diese noch Nachschauen)
+- [ ] Von Karsten Inventar zu Alpine Container zukommen lassen
+- [ ] Gemeinsam mit Karsten den MetaScan Prozess durchsprechen damit dieser in der Arbeit erklärt werden kann
