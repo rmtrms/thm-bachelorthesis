@@ -76,10 +76,19 @@ public class BenchmarkRunner {
             //"olmo2:7b"
             //"tinyllama:1.1b"
             //"qwen2.5-coder:14b"
-            "qwen2.5-coder:32b",
-            "qwen2.5-coder:3b",
-            "qwen2.5-coder:1.5b",
-            "qwen2.5-coder:0.5b"
+            //"qwen2.5-coder:32b",
+            //"qwen2.5-coder:3b",
+            //"qwen2.5-coder:1.5b",
+            //"qwen2.5-coder:0.5b"
+            "magistral:24b ",
+            "mistral-small3.2:24b",
+            "mistral-small3.1:24b",
+            "mixtral:8x22b",
+            "mixtral:8x7b",
+            "mistral-small:24b",
+            "devstral:24b",
+            "mistral-small:22b",
+            "mathstral:7b"
     );
 
     public static void main(String[] args) throws Exception {
