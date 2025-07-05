@@ -8,6 +8,7 @@ import io.github.ollama4j.models.chat.OllamaChatRequestBuilder;
 import io.github.ollama4j.models.chat.OllamaChatResult;
 import io.github.ollama4j.utils.Options;
 import io.github.ollama4j.utils.OptionsBuilder;
+import org.json.JSONObject;
 import org.mozilla.universalchardet.UniversalDetector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -47,17 +47,8 @@ public class BenchmarkRunner {
     private static boolean PERFORM_WARMUP = true;
     private static boolean LOG_WARMUP_SEPARATELY = true;
 
-    // Pattern to aggressively match JSON within potential Markdown code blocks and outer arrays.
-    // This pattern attempts to capture either a JSON object or array at the root.
-    // This looks for (```json\s*)?([\{\\[].*?[\}\]])(\s*```)?
-    // Group 2 is the actual JSON content we want (either {..} or [..])
-    private static final Pattern ROBUST_JSON_EXTRACT_PATTERN = Pattern.compile(
-        "(?:```json\\s*)?([\\{\\[].*?[\\}\\]])(?:\\s*```)?", // Non-capturing group for optional ```json
-        Pattern.DOTALL
-    );
-
     static final List<String> MODELS_TO_BENCHMARK = List.of(
-            //"mistral:7b",
+            //"mistral:7b"
             //"phi4:14b",
             //"phi3:3.8b",
             //"phi3:14b",
@@ -76,10 +67,20 @@ public class BenchmarkRunner {
             //"olmo2:7b"
             //"tinyllama:1.1b"
             //"qwen2.5-coder:14b"
-            "qwen2.5-coder:32b",
-            "qwen2.5-coder:3b",
-            "qwen2.5-coder:1.5b",
-            "qwen2.5-coder:0.5b"
+            //"qwen2.5-coder:32b",
+            //"qwen2.5-coder:3b",
+            //"qwen2.5-coder:1.5b",
+            //"qwen2.5-coder:0.5b"
+
+            //"mathstral:7b",
+            //"mixtral:8x7b",
+            "mistral-small:22b",
+            "magistral:24b",
+            "mistral-small3.2:24b",
+            "mistral-small3.1:24b",
+            "mixtral:8x22b",
+            "mistral-small:24b",
+            "devstral:24b"
     );
 
     public static void main(String[] args) throws Exception {
@@ -293,12 +294,21 @@ public class BenchmarkRunner {
             // Initial check for raw response validity
             boolean wasRawResponseValidJson = LLMEvaluator.parseJsonOutput(rawResponse) != null;
 
-            // This new method handles markdown and array/object wrapping
-            String processedResponse = extractRobustJson(rawResponse);
+            // Use ChatUtil to robustly extract the JSON object from the response
+            JSONObject extractedJson = ChatUtil.extractJsonObject(rawResponse);
+            String processedResponse;
+            if (extractedJson != null) {
+                // Convert the extracted JSONObject back to a string for parsing by Jackson
+                processedResponse = extractedJson.toString();
+            } else {
+                // Fallback for cases where no JSON object is found.
+                // This maintains compatibility with downstream logic that expects a JSON string.
+                processedResponse = "{}";
+                logger.warn("ChatUtil.extractJsonObject could not find a valid JSON object. Raw response: {}", rawResponse);
+            }
 
-            // Check if extraction was beneficial: it was initially invalid AND now it is valid (as an object or array)
+            // Check if extraction was beneficial: the raw response was invalid AND the processed response is valid
             boolean jsonExtractionBeneficial = !wasRawResponseValidJson && (LLMEvaluator.parseJsonOutput(processedResponse) != null);
-
 
             int evalTokens = processedResponse.length() / 4;
 
@@ -380,54 +390,6 @@ public class BenchmarkRunner {
         }
         return duration; // Return the measured duration for potential logging/analysis
     }
-
-    /**
-     * Extracts a robust JSON string from LLM response, handling common wrappers like Markdown code blocks and outer arrays.
-     * It prioritizes finding a JSON object {...}, but can also extract a JSON array [...] if no object is found.
-     * The goal is to return a string that is a valid JSON object or array, ready for Jackson parsing.
-     * @param rawResponse The raw string response from the LLM.
-     * @return The extracted JSON string, or an empty JSON object string "{}" if no valid JSON structure is found.
-     */
-    private static String extractRobustJson(String rawResponse) {
-    if (rawResponse == null) {
-        return "{}";
-    }
-
-    // Find the first opening curly or square bracket
-    int firstOpenBracket = -1;
-    int firstCurly = rawResponse.indexOf('{');
-    int firstSquare = rawResponse.indexOf('[');
-
-    if (firstCurly != -1 && firstSquare != -1) {
-        firstOpenBracket = Math.min(firstCurly, firstSquare);
-    } else if (firstCurly != -1) {
-        firstOpenBracket = firstCurly;
-    } else {
-        firstOpenBracket = firstSquare;
-    }
-
-    if (firstOpenBracket == -1) {
-        logger.warn("Could not find a start of JSON ('{{' or '[') in raw response. Raw: {}", rawResponse);
-        return "{}"; // No JSON found
-    }
-
-    // Find the last closing curly or square bracket
-    int lastCloseBracket = -1;
-    int lastCurly = rawResponse.lastIndexOf('}');
-    int lastSquare = rawResponse.lastIndexOf(']');
-    lastCloseBracket = Math.max(lastCurly, lastSquare);
-
-
-    if (lastCloseBracket == -1 || lastCloseBracket < firstOpenBracket) {
-        logger.warn("Found a JSON start but no corresponding end brace in raw response. Raw: {}", rawResponse);
-        return "{}"; // Incomplete JSON
-    }
-
-    // Extract the substring from the first open bracket to the last close bracket
-    String potentialJson = rawResponse.substring(firstOpenBracket, lastCloseBracket + 1);
-    logger.debug("Extracted potential JSON by finding first/last brackets: {}", potentialJson);
-    return potentialJson;
-}
 
     private static String detectEncoding(byte[] bytes) {
         UniversalDetector detector = new UniversalDetector(null);
