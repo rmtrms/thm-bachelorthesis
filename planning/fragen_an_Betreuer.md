@@ -6,7 +6,7 @@ Arbeit abgegeben werden)
   - so zitieren wie bereitgestellt, ansonsten Link
 - [x] Darf Text in Abbildungen (siehe Sanky-Diagramm) auf Englisch sein?
   - ja
-- [x] Wie sollen die Ergebnisse des Benchmark in der Arbeit angehängt werden?
+- [x] Wie sollen die Ergebnisse des Benchmarks in der Arbeit angehängt werden?
   - JSONS mit Ergebnissen müssen nicht abgegeben werden, auch nicht im Repo
 - [x] Wie soll der Prozess der Datenaggregation beschrieben werden? Schritt für Schritt, sehr ausführlich?
   - Schritt für Schritt, zuerst was gemacht wurde, was war das Ergebnis, was lässt sich daraus feststellen/ableiten
