@@ -16,13 +16,14 @@ public class BenchmarkResult {
     private final boolean validJson; // Is final parsed JSON valid?
     private final boolean wasRawResponseValidJson; // Was the raw LLM response valid JSON?
     private final boolean jsonExtractionBeneficial; // Did extractJson change invalid to valid?
-    private final String errorMessage; // If JSON parsing failed
+    private final String errorMessage; // If JSON parsing failed or other error
+    private final BenchmarkStatus status; // The final outcome of the trial
 
     public BenchmarkResult(String sha1, String category, long durationMs, int promptTokens, int evalTokens,
                            double tokensPerSecond, double copyrightF1, double holderF1, double authorF1, double overallF1,
                            int copyrightExactMatches, int totalGoldenCopyrights,
                            boolean validJson, boolean wasRawResponseValidJson, boolean jsonExtractionBeneficial,
-                           String errorMessage) {
+                           String errorMessage, BenchmarkStatus status) {
         this.sha1 = sha1;
         this.category = category;
         this.durationMs = durationMs;
@@ -39,6 +40,7 @@ public class BenchmarkResult {
         this.wasRawResponseValidJson = wasRawResponseValidJson;
         this.jsonExtractionBeneficial = jsonExtractionBeneficial;
         this.errorMessage = errorMessage;
+        this.status = status;
     }
 
     public String getSha1() { return sha1; }
@@ -57,6 +59,7 @@ public class BenchmarkResult {
     public boolean isWasRawResponseValidJson() { return wasRawResponseValidJson; }
     public boolean isJsonExtractionBeneficial() { return jsonExtractionBeneficial; }
     public String getErrorMessage() { return errorMessage; }
+    public BenchmarkStatus getStatus() { return status; }
 
     @Override
     public String toString() {
@@ -64,6 +67,7 @@ public class BenchmarkResult {
                "sha1='" + sha1 + '\'' +
                ", category='" + category + '\'' +
                ", durationMs=" + durationMs +
+               ", status=" + status +
                ", promptTokens=" + promptTokens +
                ", evalTokens=" + evalTokens +
                ", tokensPerSecond=" + String.format("%.2f", tokensPerSecond) +

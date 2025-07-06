@@ -1,6 +1,7 @@
 package benchmark.evaluator;
 
 import benchmark.model.BenchmarkResult;
+import benchmark.model.BenchmarkStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.DoubleSummaryStatistics;
 import java.util.IntSummaryStatistics;
+import java.util.LongSummaryStatistics;
+import java.util.stream.Collectors;
 
 public class OverallBenchmarkResults {
     private static final Logger logger = LoggerFactory.getLogger(OverallBenchmarkResults.class);
@@ -30,6 +33,18 @@ public class OverallBenchmarkResults {
     public void addResult(BenchmarkResult result) {
         results.add(result);
         resultsByCategory.computeIfAbsent(result.getCategory(), k -> new ArrayList<>()).add(result);
+    }
+
+    public long getSuccessCount() {
+        return results.stream().filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS).count();
+    }
+
+    public long getTimeoutCount() {
+        return results.stream().filter(r -> r.getStatus() == BenchmarkStatus.TIMEOUT).count();
+    }
+
+    public long getErrorCount() {
+        return results.stream().filter(r -> r.getStatus() == BenchmarkStatus.ERROR).count();
     }
 
     public double getAverageOverallF1PerFile() {
@@ -49,18 +64,34 @@ public class OverallBenchmarkResults {
                 .orElse(0.0);
     }
 
-    // --- NEW: Tokens/Sec Statistics (Overall) ---
     public double getAverageTokensPerSecond() {
+        // This metric is now calculated ONLY on successful runs to avoid being screwed up by failures.
         return results.stream()
-                .filter(BenchmarkResult::isValidJson)
+                .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
                 .mapToDouble(BenchmarkResult::getTokensPerSecond)
+                .average()
+                .orElse(0.0);
+    }
+
+    public double getAverageDurationMsOfSuccessfulRuns() {
+        return results.stream()
+                .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
+                .mapToLong(BenchmarkResult::getDurationMs)
+                .average()
+                .orElse(0.0);
+    }
+
+    public double getAverageDurationMs() {
+        // This is the average duration across ALL runs (including timeouts)
+        return results.stream()
+                .mapToLong(BenchmarkResult::getDurationMs)
                 .average()
                 .orElse(0.0);
     }
 
     public double getMinimumTokensPerSecond() {
         return results.stream()
-                .filter(BenchmarkResult::isValidJson)
+                .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
                 .mapToDouble(BenchmarkResult::getTokensPerSecond)
                 .min()
                 .orElse(0.0);
@@ -68,13 +99,12 @@ public class OverallBenchmarkResults {
 
     public double getMaximumTokensPerSecond() {
         return results.stream()
-                .filter(BenchmarkResult::isValidJson)
+                .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
                 .mapToDouble(BenchmarkResult::getTokensPerSecond)
                 .max()
                 .orElse(0.0);
     }
 
-    // --- NEW: Prompt Tokens Statistics (Overall) ---
     public double getAveragePromptTokens() {
         return results.stream()
                 .mapToInt(BenchmarkResult::getPromptTokens)
@@ -94,13 +124,6 @@ public class OverallBenchmarkResults {
                 .mapToInt(BenchmarkResult::getPromptTokens)
                 .max()
                 .orElse(0);
-    }
-
-    public double getAverageDurationMs() {
-        return results.stream()
-                .mapToLong(BenchmarkResult::getDurationMs)
-                .average()
-                .orElse(0.0);
     }
 
     public int getTotalGoldenCopyrightsOverall() {
@@ -136,11 +159,12 @@ public class OverallBenchmarkResults {
 
     /**
      * Calculates the total count of files where the final parsed JSON (after extraction) was invalid.
+     * This is only relevant for successful runs.
      * @return Count of invalid final JSONs.
      */
     public long getTotalInvalidJsonsOverall() {
         return results.stream()
-                      .filter(r -> !r.isValidJson())
+                      .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS && !r.isValidJson())
                       .count();
     }
 
@@ -163,6 +187,12 @@ public class OverallBenchmarkResults {
         Map<String, Map<String, Object>> categoryMetrics = new HashMap<>();
         resultsByCategory.forEach((category, categoryResults) -> {
             Map<String, Object> metrics = new HashMap<>();
+
+            // Status counts per category
+            metrics.put("successCount", categoryResults.stream().filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS).count());
+            metrics.put("timeoutCount", categoryResults.stream().filter(r -> r.getStatus() == BenchmarkStatus.TIMEOUT).count());
+            metrics.put("errorCount", categoryResults.stream().filter(r -> r.getStatus() == BenchmarkStatus.ERROR).count());
+
             metrics.put("averageCopyrightF1", categoryResults.stream().mapToDouble(BenchmarkResult::getCopyrightF1).average().orElse(0.0));
             metrics.put("averageHolderF1", categoryResults.stream().mapToDouble(BenchmarkResult::getHolderF1).average().orElse(0.0));
             metrics.put("averageAuthorF1", categoryResults.stream().mapToDouble(BenchmarkResult::getAuthorF1).average().orElse(0.0));
@@ -177,30 +207,35 @@ public class OverallBenchmarkResults {
             metrics.put("totalExactMatches", categoryTotalExactMatches);
             metrics.put("percentageExactMatches", categoryPercentageExactMatches);
 
-            // Per-category invalid JSON counts
-            long categoryInvalidJsons = categoryResults.stream().filter(r -> !r.isValidJson()).count();
+            // Per-category invalid JSON counts (only for successful runs)
+            long categoryInvalidJsons = categoryResults.stream().filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS && !r.isValidJson()).count();
             long categoryJsonExtractionBeneficial = categoryResults.stream().filter(BenchmarkResult::isJsonExtractionBeneficial).count();
-
             metrics.put("invalidJsonsCount", categoryInvalidJsons);
             metrics.put("jsonExtractionBeneficialCount", categoryJsonExtractionBeneficial);
 
-            // Tokens/Sec Statistics (Per Category)
+            // Duration statistics for successful runs per category
+            LongSummaryStatistics durationStatsSuccessful = categoryResults.stream()
+                    .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
+                    .mapToLong(BenchmarkResult::getDurationMs)
+                    .summaryStatistics();
+            metrics.put("averageDurationMsSuccessful", durationStatsSuccessful.getAverage());
+
+            // Tokens/Sec Statistics for successful runs per category
             DoubleSummaryStatistics tokensPerSecondStats = categoryResults.stream()
-                    .filter(BenchmarkResult::isValidJson) // Only count if JSON was valid
+                    .filter(r -> r.getStatus() == BenchmarkStatus.SUCCESS)
                     .mapToDouble(BenchmarkResult::getTokensPerSecond)
                     .summaryStatistics();
             metrics.put("averageTokensPerSecond", tokensPerSecondStats.getAverage());
-            metrics.put("minimumTokensPerSecond", tokensPerSecondStats.getMin());
-            metrics.put("maximumTokensPerSecond", tokensPerSecondStats.getMax());
+            metrics.put("minimumTokensPerSecond", tokensPerSecondStats.getCount() > 0 ? tokensPerSecondStats.getMin() : 0.0);
+            metrics.put("maximumTokensPerSecond", tokensPerSecondStats.getCount() > 0 ? tokensPerSecondStats.getMax() : 0.0);
 
             // Prompt Tokens Statistics (Per Category)
             IntSummaryStatistics promptTokensStats = categoryResults.stream()
                     .mapToInt(BenchmarkResult::getPromptTokens)
                     .summaryStatistics();
             metrics.put("averagePromptTokens", promptTokensStats.getAverage());
-            metrics.put("minimumPromptTokens", promptTokensStats.getMin());
-            metrics.put("maximumPromptTokens", promptTokensStats.getMax());
-
+            metrics.put("minimumPromptTokens", promptTokensStats.getCount() > 0 ? promptTokensStats.getMin() : 0);
+            metrics.put("maximumPromptTokens", promptTokensStats.getCount() > 0 ? promptTokensStats.getMax() : 0);
 
             categoryMetrics.put(category, metrics);
         });
@@ -219,33 +254,36 @@ public class OverallBenchmarkResults {
             Map<String, Object> finalReport = new HashMap<>();
             finalReport.put("modelName", modelName);
             finalReport.put("totalFilesProcessed", results.size());
+            finalReport.put("totalSuccesses", getSuccessCount());
+            finalReport.put("totalTimeouts", getTimeoutCount());
+            finalReport.put("totalErrors", getErrorCount());
+
             finalReport.put("averageOverallF1PerFile", getAverageOverallF1PerFile());
             finalReport.put("averageOverallF1AcrossCategories", getAverageOverallF1AcrossCategories());
 
             // Add Overall Statistics to Report
-            finalReport.put("averageTokensPerSecondOverall", getAverageTokensPerSecond());
-            finalReport.put("minimumTokensPerSecondOverall", getMinimumTokensPerSecond());
-            finalReport.put("maximumTokensPerSecondOverall", getMaximumTokensPerSecond());
+            finalReport.put("averageTokensPerSecondSuccessful", getAverageTokensPerSecond());
+            finalReport.put("minimumTokensPerSecondSuccessful", getMinimumTokensPerSecond());
+            finalReport.put("maximumTokensPerSecondSuccessful", getMaximumTokensPerSecond());
+            finalReport.put("averageDurationMsSuccessful", getAverageDurationMsOfSuccessfulRuns());
+            finalReport.put("averageDurationMsOverall", getAverageDurationMs());
 
             finalReport.put("averagePromptTokensOverall", getAveragePromptTokens());
             finalReport.put("minimumPromptTokensOverall", getMinimumPromptTokens());
             finalReport.put("maximumPromptTokensOverall", getMaximumPromptTokens());
-
-            finalReport.put("averageDurationMs", getAverageDurationMs()); // This is overall duration average
 
             finalReport.put("totalGoldenCopyrightsOverall", getTotalGoldenCopyrightsOverall());
             finalReport.put("totalExactMatchesOverall", getTotalExactMatchesOverall());
             finalReport.put("percentageExactMatchesOverall", getPercentageExactMatchesOverall());
 
             // Overall invalid JSON counts
-            finalReport.put("totalInvalidJsonsOverall", getTotalInvalidJsonsOverall());
+            finalReport.put("totalInvalidJsonsFromSuccesses", getTotalInvalidJsonsOverall());
             finalReport.put("totalJsonExtractionBeneficialOverall", getTotalJsonExtractionBeneficialOverall());
 
-
             finalReport.put("categoryAggregatedMetrics", getCategoryMetrics());
-            finalReport.put("individualFileResults", results);
+            finalReport.put("individualFileResults", results.stream().sorted((r1, r2) -> r1.getSha1().compareTo(r2.getSha1())).collect(Collectors.toList()));
 
-            File outputFile = new File(outputPath, modelName + "_overall_benchmark_results.json");
+            File outputFile = new File(outputPath, modelName.replace(":", "_") + "_overall_benchmark_results.json");
             mapper.writeValue(outputFile, finalReport);
             logger.info("Saved overall benchmark results to: {}", outputFile.getAbsolutePath());
         } catch (IOException e) {
