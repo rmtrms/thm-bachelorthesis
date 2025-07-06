@@ -2,8 +2,9 @@
 
 ## Punkt am Ende des Holders entfernen
 
-- der ScanCode Service fügt die Punkte am Ende eines Copyrights hinzu, die extrahierten Holders enthalten diese dann oft auch.
-- die Punkte am Ende sollen entfernt werden, falls diese nicht Teil der Bezeichnung des Holders sind.
+- Der ScanCode Service (Metaeffekt) fügt die Punkte am Ende eines Copyrights hinzu, die extrahierten Holders enthalten 
+diese dann oft auch.
+- Die Punkte am Ende sollen entfernt werden, falls diese nicht Teil der Bezeichnung des Holders sind.
 - Der Punkt ist Teil der Bezeichnung bei z.B. kürzeln wie "Inc.", "Ltd." und "Corp.".
 
 ### Beispiel 1
@@ -59,14 +60,15 @@ Authors: Mengdong Lin <mengdong.lin@intel.com>
 {
 "copyrights" : [ ],
 "holders" : [ ],
-"authors" : [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>", "Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
+"authors" : [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>", 
+"Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
 }
 ```
 
 ### Beispiel 2
 
 - In diesem Beispiel ist eine sehr komplexe Variante von Autorenkennzeichen zu sehen, es werden verschiedene Arten von
-Beitragenden (Maintainer, Developer, Contributors, usw. genannt). das ScanCode Toolkit erkannte hier lediglich Jim Gettys 
+Beitragenden (Maintainer, Developer, Contributors, usw.) genannt. das ScanCode Toolkit erkennt hier lediglich Jim Gettys 
 und Warren Turkal.
 
 ```
@@ -122,9 +124,10 @@ Copyrights als einzelne Elemente unter "Holders" erfasst werden.
 
 ```
 {
-  "copyrights" : [ "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors" ],
-  "holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud" ", "Investigative Reporters & Editors" ],
-  "authors" : [ ]
+"copyrights" : [ "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &
+ Editors" ],
+"holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud" ", "Investigative Reporters & Editors" ],
+"authors" : [ ]
 }
 ```
 
@@ -139,7 +142,8 @@ Copyrights als einzelne Elemente unter "Holders" erfasst werden.
 
 ```
 {
-"copyrights" : [ "Copyright 2008 Cisco Systems, Inc.  All rights reserved.\nCopyright 2007 Nuova Systems, Inc.  All rights reserved." ],
+"copyrights" : [ "Copyright 2008 Cisco Systems, Inc.  All rights reserved.\nCopyright 2007 Nuova Systems, Inc.  All
+ rights reserved." ],
 "holders" : [ "Nuova Systems, Inc.", "Cisco Systems, Inc." ],
 "authors" : [ ]
 }
@@ -149,14 +153,15 @@ Copyrights als einzelne Elemente unter "Holders" erfasst werden.
 
 ## "Verweise auf Teile" werden einzeln erfasst
 
-- In einigen Fällen werden Verweise gemacht, dass Teile einer Software auf einer Anderen basieren, die unter einem anderen 
-Copyright stehen.
-- Unsere Erwartungshaltung ist, dass das Copyright des Teils einzeln erfasst wird und der Verweis auf den Ursprung dieses 
-Copyrights nicht teil des Statements ist.
+- In einigen Fällen werden Verweise gemacht, dass Teile einer Software auf einer Anderen basieren, die unter einem 
+anderen Copyright stehen.
+- Unsere Erwartungshaltung ist, dass das Copyright des Teils einzeln erfasst wird und der Verweis auf den Ursprung 
+dieses Copyrights nicht teil des Statements ist.
 
-### Beispiel 1
+### Beispiel
 
-- In diesem Beispiel handelt es sich um zwei getrennte Copyright-Statements bei dem der zweite den genannten Vermerk hat.
+- In diesem Beispiel handelt es sich um zwei getrennte Copyright-Statements bei dem der zweite den genannten Vermerk 
+hat.
 
 ```
  * Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved.
@@ -169,38 +174,19 @@ Copyrights nicht teil des Statements ist.
 
 ```
 {
-  "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.", "Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved." ],
-  "holders" : [ "Realtek Corporation", "Andrea Merello et al." ],
-  "authors" : [ ]
+"copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.", "Copyright(c) 2008 - 2010
+ Realtek Corporation. All rights reserved." ],
+"holders" : [ "Realtek Corporation", "Andrea Merello et al." ],
+"authors" : [ ]
 }
 ```
 
-### Beispiel 2
-
-- In diesem Beispiel gibt es zwar einen Verweis auf einen Teil, der unter einem anderen Copyright steht, hier wirkt aber 
-die Regel, dass Blöcke von Statements nicht aufgelöst werden stärker und somit wird das Statement inkl. Verweis erfasst, 
-da das Entfernen des "Portions"-Verweis zu sehr eine Interpretation des Copyrights darstellen würde.
-
-```
- * Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
- * Copyright (c) 2001 David E. O'Brien
- * Portions Copyright 2009 The Go Authors. All rights reserved.
-```
-
-#### extrahiertes JSON
-
-```
-{
-  "copyrights" : [ "Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.\nCopyright (c) 2001 David E. O'Brien\nPortions Copyright 2009 The Go Authors. All rights reserved." ],
-  "holders" : [ "John D. Polstra", "David E. O'Brien", "The Go Authors" ],
-  "authors" : [ ]
-}
-```
+---
 
 ## E-Mails werden bei Autoren erfasst, bei Holders nicht
 
-- Das Scancode Toolkit erfasst Holders ohne E-Mail-Adressen, wenn diese vorhanden sind. Bei Autoren hingegen werden diese 
-übernommen.
+- Das Scancode Toolkit erfasst Holders ohne E-Mail-Adressen, wenn diese vorhanden sind. Bei Autoren hingegen werden 
+diese übernommen.
 - Da die E-Mail-Adressen zur Kontaktaufnahme mit dem Autor dienen, aber nicht Teil einer rechtlichen Entität sind 
 (vorsicht Annahme) ist unsere Erwartungshaltung gleich dem ScanCode Verfahren.
 
@@ -214,9 +200,9 @@ da das Entfernen des "Portions"-Verweis zu sehr eine Interpretation des Copyrigh
 
 ```
 {
-  "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
-  "holders" : [ "Andrea Merello et al." ],
-  "authors" : [ ]
+"copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
+"holders" : [ "Andrea Merello, et al." ],
+"authors" : [ ]
 }
 ```
 
@@ -231,17 +217,20 @@ da das Entfernen des "Portions"-Verweis zu sehr eine Interpretation des Copyrigh
 
 ```
 {
-  "copyrights" : [ ],
-  "holders" : [ ],
-  "authors" : [ "Giuliano Pochini <pochini@shiny.it>" ]
+"copyrights" : [ ],
+"holders" : [ ],
+"authors" : [ "Giuliano Pochini <pochini@shiny.it>" ]
 }
 ```
 
+---
+
 ## Kontaktinformationen implizieren kein "Authorship"
 
-- Manche Copyrights sind mit zusätzlichen Kontaktinformationen versehen, das ScanCode Toolkit erfasst diese nicht als Autoren.
-- Unsere Erwartungshaltung ist, dass diese Kontaktinformationen keine Authorship implizieren, sondern nur eine Anlaufstelle 
-für Fragen o.Ä. darstellen und deckt sich somit mit dem ScanCode Ergebnis.
+- Manche Copyrights sind mit zusätzlichen Kontaktinformationen versehen, das ScanCode Toolkit erfasst diese nicht als 
+Autoren.
+- Unsere Erwartungshaltung ist, dass diese Kontaktinformationen keine Authorship implizieren, sondern nur eine 
+Anlaufstelle für Fragen o.Ä. darstellen und deckt sich somit mit dem ScanCode Ergebnis.
 
 ## Beispiel
 
@@ -257,8 +246,99 @@ für Fragen o.Ä. darstellen und deckt sich somit mit dem ScanCode Ergebnis.
 
 ```
 {
-  "copyrights" : [ "Copyright(c) 2010 Larry Finger. All rights reserved." ],
-  "holders" : [ "Larry Finger" ],
-  "authors" : [ ]
+"copyrights" : [ "Copyright(c) 2010 Larry Finger. All rights reserved." ],
+"holders" : [ "Larry Finger" ],
+"authors" : [ ]
+}
+```
+
+---
+
+## URLs am Ende des Copyright-Statements sind nicht teil des Statements 
+
+- Manche Copyrights werden zusammen mit einer URL angegeben.
+- Unsere Erwartungshaltung ist, dass die URL nicht Teil der rechtlichen Entität ist (vorsicht Annahme) und somit kein 
+Teil des Copyrights.
+
+## Beispiel 1
+
+```
+Copyright Echo Digital Audio Corporation (c) 1998 - 2004
+All rights reserved
+www.echoaudio.com
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "Copyright Echo Digital Audio Corporation (c) 1998 - 2004\n   All rights reserved\n" ],
+"holders" : [ "Echo Digital Audio Corporation" ],
+"authors" : [ ]
+}
+```
+
+## Beispiel 2
+
+```
+// Copyright (c) 2011 Samsung Electronics Co., Ltd
+//              http://www.samsung.com
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "Copyright (c) 2011 Samsung Electronics Co., Ltd" ],
+"holders" : [ "Samsung Electronics Co., Ltd" ],
+"authors" : [ ]
+}
+```
+
+---
+
+## Sonderfälle
+
+### Sonderfall 1
+
+- In diesem Sonderfall ist der Holder einerseits explizit mit E-Mail-Adresse genannt und andererseits sind weitere mit 
+"et al." vermerkt.
+- Da die E-Mail-Adresse beim Holder nicht erfasst wird (siehe oben) aber der Verweis auf "et al." schon, entsteht 
+folgender Holder Eintrag: "Andrea Merello, et al.".
+
+```
+ * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
+"holders" : [ "Andrea Merello, et al." ],
+"authors" : [ ]
+}
+```
+
+### Sonderfall 2
+
+- In diesem Sonderfall gibt es zwar einen Verweis auf einen Teil (siehe oben), der unter einem anderen Copyright steht, 
+hier wirkt aber die Regel, dass Blöcke von Statements nicht aufgelöst werden stärker und somit wird das Statement inkl.
+Verweis erfasst, da das Entfernen des "Portions"-Verweis zu sehr eine Interpretation des Copyrights darstellen würde.
+
+```
+* Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.
+* Copyright (c) 2001 David E. O'Brien
+* Portions Copyright 2009 The Go Authors. All rights reserved.
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "Copyright (c) 1996-1998 John D. Polstra.  All rights reserved.\nCopyright (c) 2001 David E. O'Brien\n
+Portions Copyright 2009 The Go Authors. All rights reserved." ],
+"holders" : [ "John D. Polstra", "David E. O'Brien", "The Go Authors" ],
+"authors" : [ ]
 }
 ```

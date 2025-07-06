@@ -3,7 +3,7 @@
 Arbeit abgegeben werden)
   - Link reicht aus
 - [x] Sollen/dürfen alle verwendeten Ressourcen mit Links angegeben werden? (Sprachmodelle auf Ollama/Github Repositories usw.)
-  - --> so zitieren wie bereitgestellt, ansonsten Link
+  - so zitieren wie bereitgestellt, ansonsten Link
 - [x] Darf Text in Abbildungen (siehe Sanky-Diagramm) auf Englisch sein?
   - ja
 - [x] Wie sollen die Ergebnisse des Benchmark in der Arbeit angehängt werden?
