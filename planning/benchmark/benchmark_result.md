@@ -22,3 +22,11 @@
 
 - abgebrochen
   - fällt in endlosschleife bei 01a0afbe1a4f41cf58f9ce47d65b31e3df7c8680.h
+
+## Graphs with results
+
+- make x-axis logorithmic
+- color-code llms
+  - same color for different sizes of the same model
+  - different gradients for different models of the same provider
+  - -different colors for different providers

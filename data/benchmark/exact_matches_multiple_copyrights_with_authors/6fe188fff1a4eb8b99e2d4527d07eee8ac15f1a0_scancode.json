@@ -1,0 +1,5 @@
+{
+  "copyrights" : [ "Copyright (c) 1999-2001 Motorola, Inc.", "Copyright (c) 2001-2003 International Business Machines Corp.", "Copyright (c) 2001 La Monte H.P. Yarroll", "Copyright (c) 1999-2000 Cisco, Inc.", "Copyright (c) 2001 Intel Corp." ],
+  "holders" : [ "La Monte H.P. Yarroll", "Intel Corp.", "Cisco, Inc.", "Motorola, Inc.", "International Business Machines Corp." ],
+  "authors" : [ "La Monte H.P. Yarroll <piggy@acm.org>", "Karl Knutson <karl@athena.chicago.il.us>", "Jon Grimm <jgrimm@us.ibm.com>", "Xingang Guo <xingang.guo@intel.com>", "Hui Huang <hui.huang@nokia.com>", "Sridhar Samudrala <sri@us.ibm.com>", "Ardelle Fan <ardelle.fan@intel.com>" ]
+}
