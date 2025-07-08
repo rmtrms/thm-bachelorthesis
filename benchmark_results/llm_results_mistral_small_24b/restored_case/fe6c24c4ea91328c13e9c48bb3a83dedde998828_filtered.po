@@ -1,0 +1,7 @@
+# Portuguese (Portugal) translation of 'hello-java-qtjambi' package.
+# Copyright (C) 2018 Yoyodyne, Inc. (msgids)
+# This file is distributed under the same license as the gettext package.
+# Pedro Albuquerque <pmra@protonmail.com>, 2019, 2020.
+#
+msgid ""
+msgstr "" 

@@ -1,0 +1,17 @@
+ {
+  "copyrights": [
+    "Copyright 2008 Advanced Micro Devices, Inc.",
+    "Copyright 2008 Red Hat Inc.",
+    "Copyright 2009 Jerome Glisse."
+  ],
+  "holders": [
+    "Advanced Micro Devices, Inc.",
+    "Red Hat Inc.",
+    "Jerome Glisse"
+  ],
+  "authors": [
+    "Dave Airlie",
+    "Alex Deucher",
+    "Jerome Glisse"
+  ]
+}

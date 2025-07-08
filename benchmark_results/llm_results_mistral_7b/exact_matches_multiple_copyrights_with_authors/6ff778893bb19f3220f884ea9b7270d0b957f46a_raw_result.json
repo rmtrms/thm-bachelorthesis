@@ -1,0 +1,16 @@
+ {
+  "copyrights": [
+    "Copyright (c) 2006-2009 Red Hat Inc.",
+    "Copyright (c) 2006-2008 Intel Corporation",
+    "Copyright (c) 2007 Dave Airlie <airlied@linux.ie>"
+  ],
+  "holders": [
+    "Red Hat Inc.",
+    "Intel Corporation",
+    "Dave Airlie"
+  ],
+  "authors": [
+    "Dave Airlie <airlied@linux.ie>",
+    "Jesse Barnes <jesse.barnes@intel.com>"
+  ]
+}

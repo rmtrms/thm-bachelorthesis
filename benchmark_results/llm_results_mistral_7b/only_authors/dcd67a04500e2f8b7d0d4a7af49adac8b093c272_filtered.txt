@@ -1,0 +1,17 @@
+# Contributor: Carlo Landmeter <clandmeter@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=opus
+pkgver=1.5.2
+pkgrel=1
+pkgdesc="Codec des ctive speech and audio transmission over the Internet"
+url="https://www.opus-codec.org/"
+arch="all"
+license="BSD-3-Clause"
+makedepends="meson"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://download  meson install --no-rebuild -C output
+	install -Dm644 COPYING "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}
+
+sha512sums="
+78d963cd56d5504611f111e2b3606e236189a3585d65fae1ecdbec9bf4545632b1956f11824328279a2 

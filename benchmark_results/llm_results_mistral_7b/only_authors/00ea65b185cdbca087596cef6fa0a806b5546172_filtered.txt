@@ -1,0 +1,11 @@
+ automatically test the given tool with the tool's test cases,
+# reporting anything of interest.
+
+# Written by Mike Stump <mrs@cygnus.com>
+# Subdir comparison added by Quentin Neill <quentin.neill@amd.com>
+
+usage()
+{
+	if [ -n "$1" ] ; then
+		echo "$0: Error: $1" >&2
+ 

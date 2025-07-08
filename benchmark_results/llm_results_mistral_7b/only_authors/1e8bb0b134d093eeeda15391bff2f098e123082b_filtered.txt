@@ -1,0 +1,17 @@
+# Contributor: Rasmus Thomsen <oss@cogitri.dev>
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=linux-pam
+pkgver=1.7.0
+pkgrel=1
+pkgdesc="Linux PAM ( gable Authentication Modules for Linux)"
+url="https://www.kernel.org/pub/linux/libs/pam"
+arch="all"
+license="BSD-3-Clause"
+makedepends="
+	bison
+	flex-dev
+	linux-headers
+	meson
+	utmps-dev
+	"
+options="suid !ch 

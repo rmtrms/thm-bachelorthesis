@@ -1,0 +1,12 @@
+# Contributor: Johannes Matheis <jomat+alpinebuild@jmt.gr>
+# Maintainer: Patrycja Rosa <alpine@ptrcnull.me>
+pkgname=jq
+pkgver=1.7.1
+pkgrel=0
+pkgdesc="A lightweight and flexible command-line JSON processor"
+url="https://jqlang.github.io/jq/"
+arch="all"
+license="MIT"
+makedepends="oniguruma-dev"
+subpackages="$pkgname-doc $pkgname-dev"
+source="jq-$pkgver.tar.gz 

@@ -1,0 +1,15 @@
+ {
+  "copyrights": [
+    "Copyright (c) 2008-2013 Broadcom Corporation",
+    "Copyright (c) 2014-2016 QLogic Corporation",
+    "Copyright (c) 2016-2017 Cavium Inc."
+  ],
+  "holders": [
+    "Broadcom Corporation",
+    "QLogic Corporation",
+    "Cavium Inc."
+  ],
+  "authors": [
+    "Bhanu Prakash Gollapudi (bprakash@broadcom.com)"
+  ]
+}

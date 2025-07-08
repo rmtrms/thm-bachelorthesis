@@ -1,0 +1,11 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=libev
+pkgver=4.33
+pkgrel=1
+pkgdesc="event dispatch l rary"
+url="http://software.schmorp.de/pkg/libev.html"
+arch="all"
+options="!check"  # No test suite.
+license="BSD-2-Clause OR GPL-2.0-or-later"
+makedepends="autoconf automake libtool"
+subpackages="$pkgname-de 

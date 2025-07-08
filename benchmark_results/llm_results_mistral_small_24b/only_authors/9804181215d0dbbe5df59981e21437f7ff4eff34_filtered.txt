@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# Bzgrep wrapped for bzip2, 
+# adapted from zgrep by Philippe Troin <phil@fifi.org> for Debian GNU/Linux.
+## zgrep notice:
+## zgrep -- a wrapper around a grep program that decompresses files as needed
+## Adapted from a version sent by Charles Levert <charles@comm.polymtl.ca>
+
+PATH="/usr/bin:$PATH"; export PATH ho "$i" | sed 's/\\/&&/g;s/|/\\&/g;s/&/\\&/g')
+    j=`printf "%s" "$j" | tr '\n' ' '`
+    # A trick adapted from
+    # https://groups.google.com/forum/#!original/comp.unix.shell/x1345iu10eg/Nn1n-1r1uU0J
+     

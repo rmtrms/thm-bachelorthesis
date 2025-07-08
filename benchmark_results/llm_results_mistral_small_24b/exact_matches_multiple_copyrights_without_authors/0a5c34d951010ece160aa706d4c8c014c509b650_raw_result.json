@@ -1,0 +1,19 @@
+```json
+{
+  "copyrights": [
+    "Copyright (c) 2004-2008 Reyk Floeter <reyk@openbsd.org>",
+    "Copyright (c) 2006-2008 Nick Kossifidis <mickflemm@gmail.com>",
+    "Copyright (c) 2007-2008 Pavel Roskin <proski@gnu.org>"
+  ],
+  "holders": [
+    "Reyk Floeter",
+    "Nick Kossifidis",
+    "Pavel Roskin"
+  ],
+  "authors": [
+    "Reyk Floeter <reyk@openbsd.org>",
+    "Nick Kossifidis <mickflemm@gmail.com>",
+    "Pavel Roskin <proski@gnu.org>"
+  ]
+}
+```

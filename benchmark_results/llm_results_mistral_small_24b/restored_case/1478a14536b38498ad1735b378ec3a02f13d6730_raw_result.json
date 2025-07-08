@@ -1,0 +1,15 @@
+```json
+{
+  "copyrights": [
+    "Copyright (C) 2011 Texas Instruments, Inc.",
+    "Copyright (C) 2013 Intel Corporation. All rights reserved.",
+    "Copyright (C) 2014 Marvell International Ltd."
+  ],
+  "holders": [
+    "Texas Instruments, Inc.",
+    "Intel Corporation",
+    "Marvell International Ltd."
+  ],
+  "authors": ["Ilan Elias <ilane@ti.com>"]
+}
+```

@@ -1,0 +1,4 @@
+This library has been written by:
+Steve Grubb <sgrubb@redhat.com>
+
+ 

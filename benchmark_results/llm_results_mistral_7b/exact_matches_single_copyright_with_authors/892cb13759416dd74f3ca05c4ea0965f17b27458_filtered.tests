@@ -1,0 +1,11 @@
+#
+# libseccomp regression test automation data
+#
+# Copyright (c) 2023 Microsoft Corporation <paulmoore@microsoft.com>
+# Author: Paul Moore <paul@paul-moore.com>
+# Author: Tom Hromatka <tom.hromatka@oracle.com>
+#
+
+test type: bpf-sim
+
+# Testname			Arch	Syscall		Arg0	Arg1 

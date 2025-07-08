@@ -1,0 +1,10 @@
+This is tellerstats Version 1.9.2
+
+
+Author: Phil Edelbrock <phil@netroedge.com>
+with Changes by 
+   Mark D. Studebaker <mdsxyz123@yahoo.com> and
+   Hans Ecke <hans@ecke.ws>
+
+
+Required Utilities a 

@@ -1,0 +1,6 @@
+ds to be kept in sync with tests/Makefile.am, as it
+# defines the order in which tests are run.
+#
+# Written by Ewen McNeill <ewen@imatix.com>, 2014-07-19
+# Updated by Ewen McNeill <ewen@imatix.com>, 2014-07-24
+#------------------------------------------------------- 

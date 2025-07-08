@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: GPL-2.0-only
+# Abilis Systems TB10x platform kernel configuration file
+#
+# Author: Christian Ruppert <christian.ruppert@abilis.com>
+#
+
+
+menuconfig ARC_PLAT_TB10X
+	bool "Abilis TB10x 

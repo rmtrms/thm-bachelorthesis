@@ -1,0 +1,20 @@
+Series
+===========================
+
+Common Device Support (CDS)
+Device Driver I/O Support Routines
+
+Authors:
+	- Ingo Adlung
+	- Cornelia Huck
+
+Copyright, IBM Corp. 1999-2002
+
+Introduction
+============
+
+This document describes the common device support    functions of the ccw_driver.
+* The channel device layer is gone.
+* The interrupt handlers must be adapted to use a ccw_device as argument.
+  Moreover, they don't return a devstat, but an irb.
+* Before init 

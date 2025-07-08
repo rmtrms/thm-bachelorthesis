@@ -1,0 +1,20 @@
+```json
+{
+  "copyrights": [
+    "(c) Copyright 2000-2004 Grant Grundler <grundler @ parisc-linux x org>",
+    "(c) Copyright 2004 Naresh Kumar Inna <knaresh at india x hp x com>",
+    "(c) Copyright 2000-2004 Hewlett-Packard Company",
+    "Portions (c) 1999 Dave S. Miller"
+  ],
+  "holders": [
+    "Grant Grundler",
+    "Naresh Kumar Inna",
+    "Hewlett-Packard Company",
+    "Dave S. Miller"
+  ],
+  "authors": [
+    "Grant Grundler <grundler @ parisc-linux x org>",
+    "Naresh Kumar Inna <knaresh at india x hp x com>"
+  ]
+}
+```

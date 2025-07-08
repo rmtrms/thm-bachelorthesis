@@ -1,0 +1,11 @@
+ {
+  "copyrights": [
+    "/*\n * Amlogic Meson Reset Controller driver\n *\n * Copyright (c) 2016 BayLibre, SAS.\n */"
+  ],
+  "holders": [
+    "BayLibre, SAS."
+  ],
+  "authors": [
+    "Neil Armstrong <narmstrong@baylibre.com>"
+  ]
+}

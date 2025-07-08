@@ -1,0 +1,15 @@
+tdc - Linux Traffic Control (tc) unit testing suite
+
+Author: Lucas Bates - lucasb@mojatatu.com
+
+tdc is a Python script to load tc unit tests from a separate JS espace support if using nsPlugin
+
+*  The kernel must have veth support available, as a veth pair is created
+   prior to running the tests when using nsPlugin.
+
+*  The kernel must have the appropriate infrast thin the namespace, pass the -N option
+to tdc when starting a test run; the veth pair will still be created
+by the plugin.
+
+Running tdc without any arguments will run all tests. Refer to the section
+on comma 

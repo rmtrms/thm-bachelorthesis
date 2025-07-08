@@ -1,0 +1,16 @@
+```json
+{
+  "copyrights": [
+    "Copyright (c) 2011, Sagrad Inc.",
+    "Copyright (c) 2010, ST-Ericsson"
+  ],
+  "holders": [
+    "Sagrad Inc.",
+    "ST-Ericsson"
+  ],
+  "authors": [
+    "Solomon Peachy <speachy@sagrad.com>",
+    "Dmitry Tarnyagin <dmitry.tarnyagin@lockless.no>"
+  ]
+}
+```

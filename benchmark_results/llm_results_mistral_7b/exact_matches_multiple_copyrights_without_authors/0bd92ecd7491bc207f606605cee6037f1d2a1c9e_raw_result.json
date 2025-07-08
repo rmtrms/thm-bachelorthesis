@@ -1,0 +1,17 @@
+ {
+  "copyrights": [
+    "Copyright (c) 2014 Peter Meerwald <pmeerw@pmeerw.net>",
+    "Copyright (c) 2015 Essensium NV",
+    "Copyright (c) 2015 Melexis"
+  ],
+  "holders": [
+    "Peter Meerwald",
+    "Essensium NV",
+    "Melexis"
+  ],
+  "authors": [
+    "Peter Meerwald <pmeerw@pmeerw.net>",
+    "Vianney le Clément de Saint-Marcq <vianney.leclement@essensium.com>",
+    "Crt Mori <cmo@melexis.com>"
+  ]
+}

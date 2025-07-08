@@ -1,0 +1,22 @@
+/*
+ * P1023 RDB Device Tree Source
+ *
+ * Copyright 2013 - 2014 Freescale Semiconductor Inc.
+ *
+ * Author: Chunhe Lan <Chunhe.Lan@freescale.com>
+ *
+ * Redistribution and use in source and binary forms, wit hat the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation d to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ *
+ * ALTERNATIVELY, this software may be distributed under the terms of the
+ * GNU General Public License ("GPL") as published by the Free Software
+ * Foundation, either version 2 of that License or (at your option) any
+ * later version.
+ *
+ * THIS SOFTWARE IS PROVIDED BY Freescale Semiconducto 

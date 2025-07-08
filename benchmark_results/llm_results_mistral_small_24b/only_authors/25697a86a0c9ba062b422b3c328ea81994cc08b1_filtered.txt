@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+# $Id$
+#
+# Created by Andrew G. Morgan (morgan@parc.power.net)
+#
+
+MD5SUM=md5sum
+CHKFILE1=./.md5sum
+CHKFILE2=./.md5sum-new 

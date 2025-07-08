@@ -1,0 +1,11 @@
+# Contributor: Leonardo Arena <rnalrd@alpinelinux.org>
+# Maintainer: Francesco Colista <fcolista@alpinelinux.org>
+pkgname=i2c-tools
+pkgver=4.4
+pkgrel=0
+pkgdesc="Tools for monitoring I2C devices"
+url="https://i2c.wiki.kernel.org/index.php/I2C_Tools"
+arch="all"
+license="GPL-2.0-or-later AND LGPL-2.1-or-later"
+options="!check" #no test/check provided by upstream
+maked 

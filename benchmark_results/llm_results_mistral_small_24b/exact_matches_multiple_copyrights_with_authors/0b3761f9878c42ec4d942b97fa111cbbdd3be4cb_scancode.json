@@ -1,0 +1,5 @@
+{
+  "copyrights" : [ "Copyright 1998-2014,2016 Free Software Foundation, Inc.", "Copyright 2018-2021,2024 Thomas E. Dickey" ],
+  "holders" : [ "Thomas E. Dickey", "Free Software Foundation, Inc." ],
+  "authors" : [ "Zeyd M. Ben-Halim <zmbenhal@netcom.com>", "Eric S. Raymond <esr@snark.thyrsus.com>", "Juergen Pfeifer", "Sven Verdoolaege", "Thomas E. Dickey" ]
+}

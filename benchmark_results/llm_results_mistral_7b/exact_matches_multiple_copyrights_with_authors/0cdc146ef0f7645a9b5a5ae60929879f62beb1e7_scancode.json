@@ -1,0 +1,5 @@
+{
+  "copyrights" : [ "Copyright (c) 2006-2012 Patrick McHardy <kaber@trash.net>", "Copyright (c) 2006 Jing Min Zhao <zhaojingmin@users.sourceforge.net>" ],
+  "holders" : [ "Jing Min Zhao", "Patrick McHardy" ],
+  "authors" : [ "Jozsef Kadlecsik <kadlec@netfilter.org>" ]
+}

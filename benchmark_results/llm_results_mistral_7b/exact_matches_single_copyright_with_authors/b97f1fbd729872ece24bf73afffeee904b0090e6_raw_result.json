@@ -1,0 +1,19 @@
+ {
+  "copyrights": [
+    "Copyright 1992, 1993 by TOSHIBA Corp.",
+    "Permission to use, copy, modify, and distribute this software and its\n" +
+    "documentation for any purpose and without fee is hereby granted,\n" +
+    "provided that the above copyright notice appear in all copies and that\n" +
+    "both that copyright notice and this permission notice appear in supporting\n" +
+    "documentation, and that the name of TOSHIBA not be used in advertising\n" +
+    "or publicity pertaining to distribution of the software without specific,\n" +
+    "written prior permission. TOSHIBA make no representations about the\n" +
+    "suitability of this software for any purpose.\n" +
+    "\n" +
+    "IT IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,\n" +
+    "ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS\n" +
+    "SOFTWARE."
+  ],
+  "holders": [ "TOSHIBA Corp." ],
+  "authors": [ "Katsuhisa Yano", "mopi@osa.ilab.toshiba.co.jp" ]
+}
