@@ -43,7 +43,7 @@ public class BenchmarkRunner {
 
     static final String PROMPT_TEMPLATE_PATH = "prompts/base_prompt_7.txt";
     static final String BASE_DATA_DIR = "data/benchmark";
-    static final String PROCESSED_OUTPUT_ROOT_DIR = "/Users/rtueremis/documents/benchmark_results";
+    static final String PROCESSED_OUTPUT_ROOT_DIR = "./benchmark_results";
     static final String WARMUP_PROMPT = "Hello, respond with a single word 'Ready'.";
 
     private static final long REQUEST_TIMEOUT_MINUTES = 3; // Change this value as needed
