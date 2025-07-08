@@ -31,9 +31,17 @@
   - Unterschiedliche Farbtöne pro Modell von einem Provider
   - Unterschiedliche Farben pro provider
 
-## Vergleich Mac Studio M4 Max 128GB vs. Mac Mini M4 Pro 64GB
-| Modell            | Mac Mini M4 Pro                     | Mac Studio M4 Max                   |
-|-------------------|-------------------------------------|-------------------------------------|
-| Mistral:7b        | 15.982954225698766 avg. tokens/sec  | 33.067868658619275 avg. tokens/sec  |
-| Mistral-small:24b | 6.0405880963133685 avg. tokens/sec  | 11.001220949632641 avg. tokens/sec  |
+## Vergleich Benchmark mit Unterschiedlicher Hardware
+
+Angaben sind in avg. tokens/sec 
+
+| Modell            | MacBook Pro M1 Pro 16GB | Mac Mini M4 Pro 64GB | Mac Studio M4 Max 128GB |
+|-------------------|-------------------------|----------------------|-------------------------|
+| Mistral:7b        | 13.636327375972774      | 15.982954225698766   | 33.067868658619275      |
+| Mistral-small:24b |                         | 6.0405880963133685   | 11.001220949632641      |
+
+
+
+
+
 
