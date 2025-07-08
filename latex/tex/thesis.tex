@@ -93,8 +93,8 @@
 
 
 %Laden der Dateien mit Abkürzungen, Begriffserklärungen (Glossar), Symbole
-%\input{kapitel/abkuerzungen}
-%\input{kapitel/glossar}
+\input{kapitel/abkuerzungen}
+\input{kapitel/glossar}
 %\input{kapitel/symbole}
 	
 \pagestyle{headings}
@@ -104,7 +104,14 @@
 \mainmatter
 
 %% Ihre Inhaltsdateien werden an dieser Stelle in das Dokument eingefügt
+\input{kapitel/kapitel_einleitung}
+\input{kapitel/kapitel_stand-der-technik}
+\input{kapitel/kapitel_anforderungen}
 \input{kapitel/kapitel_daten}
+\input{kapitel/kapitel_benchmark}
+\input{kapitel/kapitel_prompt-engineering}
+\input{kapitel/kapitel_disukussion}
+\input{kapitel/kapitel_fazit}
 
 %\input{kapitel/kapitel1} % Externe Datei einbinden
 %\input{kapitel/kapitel2} % Externe Datei einbinden
@@ -114,7 +121,7 @@
 
 
 \label{lastpage}
-%Beginn des Anhangs. Befehl \appendix nicht entfernen auch wenn kein Anhang vorhanden ist!
+%Beginn des Anhangs. Befehl \appendix nicht entfernen, auch wenn kein Anhang vorhanden ist!
 \appendix
 
 %Wenn Sie keinen Anhang haben, entfernen Sie ausschließlich die nachfolgenden beiden Dateien.
