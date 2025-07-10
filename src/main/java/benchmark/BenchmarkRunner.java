@@ -62,7 +62,7 @@ public class BenchmarkRunner {
             //"qwen3:4b",
             //"gemma3:4b",
             //"deepseek-coder:6.7b",
-            "mistral:7b",
+            //"mistral:7b",
             //"mathstral:7b",
             //"olmo2:7b",
             //"llama3:latest",
@@ -78,7 +78,7 @@ public class BenchmarkRunner {
             //"phi4:14b",
             //"mistral-small:22b",
             //"devstral:24b",
-            "mistral-small:24b"
+            //"mistral-small:24b"
             //"magistral:24b",
             //"mistral-small3.1:24b",
             //"mistral-small3.2:24b",
@@ -88,6 +88,7 @@ public class BenchmarkRunner {
             //"mixtral:8x22b",
             //"qwen3:30b",
             //"deepseek-r1:8b"
+            "gemma3:27b"
     );
 
     public static void main(String[] args) throws Exception {

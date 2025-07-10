@@ -18,7 +18,7 @@ Die anderen Funktionen des ScanCode-Toolkit sind für diese Arbeit nicht weiter 
 
 \section{Der ScanCode Service}\label{sec:scancode-service}
 
-Der ScanCode-Service ist eine Entwicklung der Metaeffekt, welche das ScanCode-Toolkit nutzt und erweitert.
+Der ScanCode-Service ist eine Entwicklung der metaeffekt, welche das ScanCode-Toolkit nutzt und erweitert.
 Im Gegensatz zum ScanCode-Toolkit nutzt der Service kein \gls{cli}, sondern einen Web-Service der z.B.\ in einem Docker-Container ausgeführt werden kann.
 Neben den integrativen Vorteilen eines Services sind auch inhaltliche Verbesserungen Teil seiner Implementierung.
 
@@ -32,20 +32,26 @@ Diese Änderungen dienen dazu, die Policy-Konformität des ScanCode-Toolkit zu v
 
 \section{Die Policy}\label{sec:policy}
 
-In Kooperation mit einem Kunden der Metaeffekt wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
-Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die Metaeffekt GmbH mit einem Team von Experten im Bereich des License-Compliance-Managements im engen Austausch steht.
+In Kooperation mit einem Kunden der metaeffekt wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
+% TODO: diesen Abschnitt eventuell in eine subsection o.Ä. auslagern bezüglich Kooperationen bei der Arbeit.
+Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements im engen Austausch steht.
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
+Diese Policy stellt den formalen und rechtlichen Rahmen dieser Arbeit dar, an dem sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
+Es wird der Versuch unternommen, dass die technischen Umsetzungen dieser Arbeit die Policy möglichst umfangreich abbilden.
+Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, ist eine Priorisierung erforderlich.
+Anhand dieser Priorisierung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
 Die Policy orientiert sich bei den Kategorien der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
 \begin{itemize}
-    \item Copyright Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu identifizieren.
+    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu identifizieren.
     \item Holders sind Individuen oder Entitäten, die Rechte am Material haben.
+% TODO: Genauer erklären, wer Author ist und wer nicht, Maintainer z.B. gelten laut dem Kunden nicht zu Autoren.
     \item Authors sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
 \end{itemize}
 
-Die Policy gliedert sich in eine \gls{cir} und sechs \glspl{cep}.
+Die erste Version der Policy gliedert sich in eine \gls{cir} und sechs \glspl{cep}.
 
 % TODO: Herausfinden, wie man die Referenz auf den Anhang besser gestaltet.
-Im Folgenden wird die Policy kurz erläutert, die originale Fassung der Policy ist im Anhang \ref{ch:anhang} zu finden.
+Im Folgenden wird die Policy kurz erläutert, die originale Fassung der Policy ist im ~\nameref{ch:anhang} zu finden.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -54,7 +60,7 @@ Im Folgenden wird die Policy kurz erläutert, die originale Fassung der Policy i
 Die \gls{cir} besagt, dass ein explizites Copyright Statement dann vorliegt, wenn klar erkennbar ist, wer Rechte an den verwendeten Materialien besitzt -- etwa durch die Zeichen ©, (C), (c) oder das Wort \enquote{Copyright} in Verbindung mit Namen und/oder Jahreszahlen.
 Eine bloße Nennung eines Rechteinhabers im Text gilt jedoch nicht als expliziter Copyright-Hinweis, auch wenn diese Person oder Organisation trotzdem als Rechteinhaber betrachtet wird.
 
-Hierzu ein paar Beispiele für Copyright Statements:
+Hierzu ein paar Beispiele für Copyright-Statements:
 \begin{itemize}
     \item Copyright (c) 2009 Motorola, Inc.\ All Rights Reserved.
     \item Copyright Motorola, Inc.
@@ -92,8 +98,8 @@ Copyright (c) 2018-2019, Oracle and/or its affiliates.  All rights reserved.
 \subsection{CEP-02}\label{subsec:cep-02}
 
 Der Vermerk \enquote{All Rights Reserved} wird nicht als Teil der Lizenz betrachtet, sondern als ergänzende Aussage des Rechteinhabers.
-Der Vermerk ist jedoch rechtlich nicht erforderlich, da das Urheberrecht ohnehin gilt, da es sich aber um eine Angabe des Urhebers handelt wird diese erhalten.
-% TODO: Klären was genau hiermit gemacht ist.
+Der Vermerk ist jedoch rechtlich nicht erforderlich, da das Urheberrecht ohnehin gilt, da es sich aber um eine explizite Angabe des Urhebers handelt wird diese erhalten.
+% TODO: Klären was genau hiermit gemeint ist.
 Generell werden alle Vermerke des Urhebers als Teil des Copyrights angesehen.
 Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinformationen:
 
@@ -118,13 +124,136 @@ All rights reserved.
 
 \subsection{CEP-03}\label{subsec:cep-03}
 
+Blöcke von Copyright-Statements werden bei der Extraktion nicht aufgeteilt.
+Ein solcher Block beinhaltet mehrere Copyrights und deren Holder zu verschiedenen Teilen oder Änderungen der Software.
+Diese Blöcke weisen unter anderem auf ein gemeinschaftliches Werk mehrerer Holder hin.
+Außerdem werden diese Blöcke oft von einem einzelnen \enquote{All Rights Reserved} Vermerken begleitet.
+Eine Ergänzung des Vermerks an jedes Statement oder gar das Entfernen des Vermerks stellt eine Verzerrung des ursprünglichen Statements dar.
+Der Block bleibt in seiner ursprünglichen Form erhalten, da eine sinnvolle Aufteilung zusätzliches Wissen über das geschützte Material voraussetzen würde.
+Durch das Belassen des Blocks wird vermieden, Annahmen über die Absichten der Urheber oder über die genaue Verteilung der Rechte treffen zu müssen.
+Dieses Beispiel veranschaulicht einerseits einen Block von mehreren Copyright-Statements und andererseits einen einzelnen \enquote{All Rights Reserved} Vermerk:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+/*
+* Copyright 2013-2016 Freescale Semiconductor Inc.
+* Copyright 2016-2018 NXP
+* Copyright 2020 NXP
+* All Rights Reserved
+*/
+\end{lstlisting}
+
+Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen, sowie den Vermerk am Ende, enthält:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+Copyright 2013-2016 Freescale Semiconductor Inc.
+Copyright 2016-2018 NXP
+Copyright 2020 NXP
+All Rights Reserved
+\end{lstlisting}
+
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{CEP-04}\label{subsec:cep-04}
 
+Lizenzen können Copyright-Statements enthalten die sich vom Copyright des Materials, welches unter der Lizenz veröffentlicht ist, unterscheiden.
+Das extrahierte Copyright muss eindeutig dem Material zugewiesen werden.
+Die Copyrights der Lizenz dürfen nicht ignoriert werden, sondern müssen als Copyright der Lizenz erfasst werden.
+
+% TODO: Hier ein Beispiel aus TMD einfügen und erklären, dass die TMD hier als Datenquelle herangezogen werden könnte aber diese Policy gilt für diese Arbeit out of scope!
+
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{CEP-05}\label{subsec:cep-05}
+
+Eine Zusammenführung oder Vereinheitlichung der Copyrights ist nicht zulässig.
+Die Konsolidierung von Zeitangaben und die Vereinheitlichung von Urhebern ist bei einer Extraktion `\enquote{as-is} verboten.
+Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Jahreszahlen vermerkt:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+/*
+* Image format
+* Copyright (c) 2000, 2001, 2002 Fabrice Bellard
+* Copyright (c) 2004 Michael Niedermayer
+*
+\end{lstlisting}
+
+Eine unzulässige Extraktion, die die Jahreszahlen zusammenfasst, könnte demnach folgend aussehen:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+Copyright (c) 2000-2002 Fabrice Bellard
+Copyright (c) 2004 Michael Niedermayer
+\end{lstlisting}
+
+Stattdessen müssen die tatsächlichen Angaben erhalten bleiben:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+Copyright (c) 2000, 2001, 2002 Fabrice Bellard
+Copyright (c) 2004 Michael Niedermayer
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------------------------------------------------
+
+\subsection{CEP-06}\label{subsec:cep-06}
+
+Copyrights werden einzeln erfasst.
+Die Zuordnung zu den jeweils geltenden Lizenzen erfolgt in einem späteren Verarbeitungsschritt.
+Dabei kann ein und dasselbe Copyright-Statement mehrfach vorkommen, jeweils in Verbindung mit unterschiedlichen Lizenzzuordnungen.
+Es genügt, das Copyright einmal gemeinsam mit der zugehörigen Lizenz anzugeben.
+Mehrfache Nennungen desselben Copyrights mit identischer Lizenz gelten nicht als erforderlich.
+
+% TODO: Abwägen ob hier ein ausdrückliches Beispiel nötig ist, eventuell mit Karsten besprechen.
+
+% ======================================================================================================================
+
+\section{Erweiterung der Policy}\label{sec:extended-policy}
+
+Im Lauf der Arbeit wurde die Policy um weitere \glspl{cep} ergänzt.
+Während die sechs ursprünglichen \glspl{cep} hauptsächlich die Extraktion des Copyright-Statements behandeln, konzentrieren sich die ergänzenden \glspl{cep} auf die Authors und Holders sowie identifizierte Einzelfälle.
+Die Erweiterungen entstanden dadurch, dass bei der tieferen Analyse der ScanCode-Ergebnisse Situationen identifiziert wurden, die durch die Policy bisher nicht eindeutig geregelt sind.
+Da diese Policies zum Teil an den Problemen von ScanCode-Ergebnissen abgeleitet wurden, dienen diese als Negativbeispiele, die extrahierten Informationen werden im \gls{json}-Format dargestellt.
+
+% ----------------------------------------------------------------------------------------------------------------------
+
+\subsection{CEP-07}\label{subsec:cep-07}
+
+Die Autoren des Materials werden einzeln erfasst.
+Das Zielformat bei der Extraktion von Autoren ist eine Liste von atomaren Informationen, somit ist das Erhalten eines Blocks hier nicht zielführend.
+Grund für diese Policy ist, dass das ScanCode-Toolkit eine Liste von Autoren im Quellcode als Block extrahiert.
+Nachfolgend ist ein Beispiel für eine Auflistung mehrerer Autoren zu sehen:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+Authors: Mengdong Lin <mengdong.lin@intel.com>
+         Yao Jin <yao.jin@intel.com>
+         Liam Girdwood <liam.r.girdwood@linux.intel.com>
+\end{lstlisting}
+
+Das nach der Policy extrahierte \gls{json} zu dieser Autorenliste entspricht somit:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+{
+"copyrights" : [ ],
+"holders" : [ ],
+"authors" : [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>",
+"Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
+}
+\end{lstlisting}
+
+Hier zum Vergleich das ScanCode-Ergebnis:
+
+\begin{lstlisting}[numbers=none, keepspaces=true]
+{
+  "copyrights" : [ ],
+  "holders" : [ ],
+  "authors" : [ "Mengdong Lin <mengdong.lin@intel.com> Yao Jin <yao.jin@intel.com> Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
+}
+\end{lstlisting}
+
+% ----------------------------------------------------------------------------------------------------------------------
+
+\subsection{CEP-08}\label{subsec:cep-08}
+
+Die Urheber des Materials werden einzeln erfasst.
+Analog zur Erfassung von Autoren (siehe~\nameref{subsec:cep-07}) werden Urheber (\enquote{Holder}) einzeln und nicht als Block erfasst.
 
 % ======================================================================================================================
 
