@@ -4,29 +4,34 @@ In diesem Kapitel wird die Aggregation von Test- und Evaluierungsdaten erläuter
 Als Datenquelle dient das Scan-Ergebnis eines Alpine-Containers.
 Das Scan-Ergebnis beinhaltet sämtliche im Container enthaltenen Quellcode-Dateien zusammen mit den entsprechenden MetaScan-Ergebnissen, sowie die durch den ScanCode-Service erzeugten Metadaten.
 
+% ======================================================================================================================
+
 % Hier wird beschrieben, welche Datenquelle ausgewählt wurde, warum sie ausgewählt wurde und welche Alternativen es gab.
 \section{Wahl der Datenquelle}\label{sec:wahl-der-datenquelle}
 
 % TODO: Quelle einfügen
-Das Github Repository des ScanCode Toolkit beinhaltet einen Testdatensatz zur Erkennung von Copyrights.
+Das Github Repository des ScanCode-Toolkit beinhaltet einen Testdatensatz zur Erkennung von Copyrights.
 Dieser Datensatz besteht aus mehreren tausend Dateien und ihren zugehörigen ScanCode-Ergebnissen.
 Die Daten sind zum Teil in besondere Einzelfälle untergliedert, der Großteil der Daten ist jedoch unsortiert.
 Da der Datensatz zum Testen der ScanCode Copyright Implementierung dient, beinhaltet er sowohl künstlich erzeugte Testfälle, als auch solche, die von Realdaten abgeleitet sind.
 
-In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode Toolkit zu verwenden verworfen und stattdessen eine bessere Datenquelle herangezogen.
+In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode-Toolkit zu verwenden verworfen und stattdessen eine vielversprechendere Datenquelle herangezogen.
 Als Alternative Datenquelle wurde ein Alpine-Container gewählt.
 Dieser Container wurde mithilfe des metaeffekt-Scanners analysiert und inventarisiert.
 Der eindeutige Vorteil dieser Datenquelle besteht darin, dass es sich hierbei ausschließlich um Realdaten handelt, wie sie im Produktivbetrieb vorkommen.
-Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode Toolkit.
+Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode-Toolkit.
+
+% ======================================================================================================================
 
 \section{Erzeugung des Ausgangsdatensatzes}\label{sec:erzeugung-datensatz}
 
 Beim Scan des Alpine-Containers mithilfe des metaeffekt-Scanners laufen mehrere Schritte ab, die für die Aggregation eines Copyright-Datensatzes relevant sind.
 Zunächst werden sämtliche Datenpakete entpackt und die resultierenden Quellcode-Dateien in eines oder mehrere Segmente unterteilt.
 Die resultierenden Segmente werden normalisiert und auf diese normalisierten Segmente werden Scan-Prozesse, wie der ScanCode-Service, angewandt.
-Das durch den ScanCode-Service erzeugte Ergebnis beinhaltet somit die gefundenen Copyright-Informationen für ein normalisiertes Segment.
-Die Normalisierung der Segmente beinhaltet unter anderem das Entfernen von mehrfachen Leerzeichen sowie Zeilenumbrüchen.
-Die Copyright Policy besagt, dass Copyright Statements exakt so extrahiert werden sollen, wie sie in der Originaldatei vorkommen.
+
+Das vom ScanCode-Service erzeugte Ergebnis enthält die ermittelten Copyright-Informationen für ein normalisiertes Segment.
+Die Normalisierung umfasst unter anderem das Entfernen mehrfacher Leerzeichen sowie von Zeilenumbrüchen.
+Die \nameref{subsec:cep-01} besagt, dass Copyright-Statements nicht verändert werden dürfen.
 Da die Normalisierung und Segmentierung den originalen Zustand der Datei verändern, können sie nicht für den Datensatz herangezogen werden.
 Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt und für jede Datei die Scan-Ergebnisse aller ihrer Segmente zusammengeführt.
 
@@ -35,6 +40,8 @@ Um Namenskonflikte zu vermeiden, wurde anschließend für jede Originaldatei der
 Da die Verzeichnisstruktur der Originaldateien nicht relevant ist, werden alle Dateien in einem flachen Verzeichnis gespeichert, dies vereinfacht die anschließende Verarbeitung zusätzlich.
 Der resultierende Ausgangsdatensatz umfasst etwa num{467000} Originaldateien und ihre Scan-Ergebnisse.
 
+% ======================================================================================================================
+
 \section{Analyse des Datensatzes und Kategorisierung der Daten}\label{sec:analyse-datensatz}
 
 Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht zur Evaluation und Testierung verwendet werden, da die Scan-Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
@@ -42,41 +49,59 @@ Um diese Problematik zu adressieren, muss ein Prozess bestimmt werden, der berei
 Korrekt bedeutet in diesem Kontext, dass die extrahierten Daten der Policy entsprechen.
 Dieser Prozess wird nachfolgend schrittweise beschrieben:
 
-\textbf{Schritt 1: Unterteilung nach ScanCode-Ergebnissen.}
+\textbf{Schritt 1 -- Unterteilung nach ScanCode-Ergebnissen.}
 Der Datensatz wurde in zwei Kategorien unterteilt: Dateien, für die ScanCode \enquote{copyrights}, \enquote{holders} bzw. \enquote{authors} ermitteln konnte, und solche, die keine der genannten Informationen enthalten.
 Etwa zwei Drittel des Datensatzes gehören zur letzteren Kategorie.
-Die Daten ohne ScanCode-Ergebnis sind allerdings dennoch relevant, da es sich hierbei um False-Negatives handeln kann, die zur Verbesserung der Extraktion unbedingt ermittelt werden müssen.
+Die Daten ohne ScanCode-Ergebnis sind allerdings dennoch relevant, da es sich hierbei um False-Negatives des ScanCode-Toolkit handeln kann, die zur Verbesserung der Extraktion unbedingt ermittelt werden müssen.
 
-\textbf{Schritt 2: Entfernung von Duplikaten.}
-Es wurden zunächst Duplikate aus dem Datensatz mit ScanCode-Ergebnissen entfernt.
+\textbf{Schritt 2 -- Entfernung von Duplikaten.}
+Zunächst wurden Duplikate aus dem Datensatz mit ScanCode-Ergebnissen entfernt.
 Hierzu wurden Daten mit demselben SHA-1 Hash ermittelt und alle Duplikate eliminiert.
 Diese Filterung reduzierte den Datensatz um etwa 8\,\%.
 
-\textbf{Schritt 3: Trennung von Autoren-only-Einträgen.}
+\textbf{Schritt 3 -- Trennung von Einträgen ohne Copyrights.}
 Der von Duplikaten bereinigte Datensatz wurde danach unterteilt, ob das ScanCode-Ergebnis ausschließlich \enquote{authors} enthält.
 Diese Kategorie von Daten ohne Copyrights umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \enquote{copyrights} zu analysieren.
 Außerdem kann dieser Datensatz genutzt werden, das Extrahieren von Autoren gezielt und isoliert zu untersuchen.
 
-\textbf{Schritt 4: Abgleich mit Originaldateien (Exact Matches).}
-Die extrahierten Copyright-Statements der ScanCode-Ergebnisse wurden in den Originaldateien gesucht.
-Wenn eine Originaldatei das extrahierte Statement exakt enthält, wird diese Datei und ihr extrahiertes Ergebnis den \enquote{exact matches} zugeordnet.
-Das exakte Vorkommen des extrahierten Statements in der Originaldatei ist deshalb relevant, da die Policy besagt, dass die Statements unverändert bleiben sollen.
-ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen, sind demnach ohne weitere Verarbeitung Policy-konform.
+\textbf{Schritt 4 -- Abgleich mit Originaldateien (Exact Matches).}
+Die extrahierten Copyright-Statements der ScanCode-Ergebnisse wurden in den entsprechenden Originaldateien gesucht.
+Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde diese Datei und ihr extrahiertes Ergebnis den \enquote{exact matches} zugeordnet.
+Das exakte Vorkommen des extrahierten Statements in der Originaldatei erfüllt die Bedingung einer Extraktion \enquote{as-is} gemäß \nameref{subsec:cep-01}.
+ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen, sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \enquote{copyrights} Policy-konform.
+Eine korrekte Extraktion der \enquote{holder} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
+Da die Priorisierung der Extraktion bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
+
+\textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{no exact match} Daten.}
 Die ScanCode-Ergebnisse ohne \enquote{exact match} umfassen ca.\ zwei Drittel des Datensatzes.
 Die Analyse dieser Ergebnisse zeigte, dass ScanCode unter anderem die Groß- und Kleinschreibung der Statements normalisiert.
-% TODO: Hier ein Beispiel für die Case-Normalisierung einfügen.
-Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob ein \enquote{exact match} auftritt.
-Wenn ein solcher Match vorlag, konnte geschlossen werden, dass die einzige Differenz zwischen Originaldatei und Extrakt die Groß- bzw.\ Kleinschreibung war.
+Ein Beispiel hierfür ist die konsequente Ersetzung der \enquote{(C)} Markierung durch \enquote{(c)}.
+Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob für jedes extrahierte Statement ein \enquote{exact match} vorliegt.
+Wenn ein solcher Match vorlag, konnte geschlussfolgert werden, dass die einzige Differenz zwischen Originaldatei und Extrakt die Groß- bzw.\ Kleinschreibung war.
+Dieser Teil des Datensatzes wurde der Kategorie \enquote{exact matches without case} zugeordnet und die enthaltenen Fälle wurden anschließend zu \enquote{exact matches} aufgewertet.
 Die Rekonstruktion der Original-Statements erfolgte, indem das extrahierte Statement in der Originaldatei gesucht und anschließend das Original-Statement in das ScanCode-Ergebnis kopiert wurde.
 Auf diese Weise konnten ca.\ \num{57000} Dateien den \enquote{exact matches} hinzugefügt werden.
+
+\textbf{Schritt 6 -- Rekonstruktion der Formatierung.}
+Da sowohl durch das ScanCode-Toolkit als auch durch die metaeffekt Prozesse Normalisierungen stattfinden, gehen Formatierungen with Zeilenumbrüche und Tabulatoren bzw.\ mehrfache Leerzeichen verloren.
+Um die \nameref{subsec:cep-06} zu erfüllen, muss die Formatierung im extrahierten Copyright-Statement erhalten bleiben.
+Die durch Normalisierung betroffenen Statements wurden dadurch identifiziert, dass aus den Originaldateien und ScanScode-Ergebnissen jegliche Formatierungen, also Leerzeichen, Zeilenumbrüche und Tabulatoren entfernt wurden.
+Anschließend wurde überprüft, ob für jedes Statement einer Datei ein \enquote{exact match} vorliegt.
+Die Rekonstruktion dieser \enquote{exact matches without format} erfordert, dass das Statement in der Originaldatei gefunden und anschließend in das ScanCode-Ergebnis kopiert wird.
+Da die Statements durch ihre Formatierung nicht eindeutig dem Ergebnis zuweisbar sind, wurde die Levenstein-Distanz zwischen den extrahierten Statements und jedem Substring der Originaldatei berechnet und der Substring gewählt, welcher die geringste Distanz zum Statement ergab.
+Anschließend wurden alle Zeichen zwischen dem ersten und letzten Index des Substring aus der Originaldatei in das ScanCode-Ergebnis übertragen.
+
+% ======================================================================================================================
 
 % Hier soll darauf eingegangen werden, welche Probleme und Herausforderungen der Datensatz mit sich gebracht hat, einige
 % davon sind die Größe (170GB), die Encoding, Binary-Dateien und die geringe Qualität der Scancode extraktion im "authors" Feld.
 \section{Herausforderungen bei der Datenaggregation}\label{sec:herausforderungen-datenaggregation}
 
+% ======================================================================================================================
+
 % Hier soll darauf eingegangen werden, welche Probleme/Qualitätseinbußen der Datensatz aufzuweisen hat, darüber hinaus soll erläutert werden, warum der Datensatz gut ist
 % Der Datensatz ist nicht gut weil es keinen besseren gibt -> vielleicht ist ein besserer nur nicht bekannt, stattdessen
 % ist der Datensatz mit dem aktuellen Industriestandard (ScanCode) erzeugt worden und wurde nach der von uns erstellten Policy verbessert und validiert
-\section{Qualität der Daten}\label{sec:qualitat-der-daten}
+\section{Qualität der Daten}\label{sec:qualitaet-der-daten}
 
 
