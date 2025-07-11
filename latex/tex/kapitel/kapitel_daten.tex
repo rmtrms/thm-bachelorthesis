@@ -15,13 +15,13 @@ Da der Datensatz zum Testen der ScanCode Copyright Implementierung dient, beinha
 
 In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode Toolkit zu verwenden verworfen und stattdessen eine bessere Datenquelle herangezogen.
 Als Alternative Datenquelle wurde ein Alpine-Container gewählt.
-Dieser Container wurde mithilfe des Metaeffekt-Scanners analysiert und inventarisiert.
+Dieser Container wurde mithilfe des metaeffekt-Scanners analysiert und inventarisiert.
 Der eindeutige Vorteil dieser Datenquelle besteht darin, dass es sich hierbei ausschließlich um Realdaten handelt, wie sie im Produktivbetrieb vorkommen.
 Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode Toolkit.
 
 \section{Erzeugung des Ausgangsdatensatzes}\label{sec:erzeugung-datensatz}
 
-Beim Scan des Alpine-Containers mithilfe des Metaeffekt-Scanners laufen mehrere Schritte ab, die für die Aggregation eines Copyright-Datensatzes relevant sind.
+Beim Scan des Alpine-Containers mithilfe des metaeffekt-Scanners laufen mehrere Schritte ab, die für die Aggregation eines Copyright-Datensatzes relevant sind.
 Zunächst werden sämtliche Datenpakete entpackt und die resultierenden Quellcode-Dateien in eines oder mehrere Segmente unterteilt.
 Die resultierenden Segmente werden normalisiert und auf diese normalisierten Segmente werden Scan-Prozesse, wie der ScanCode-Service, angewandt.
 Das durch den ScanCode-Service erzeugte Ergebnis beinhaltet somit die gefundenen Copyright-Informationen für ein normalisiertes Segment.
