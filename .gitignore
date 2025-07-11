@@ -2,6 +2,7 @@
 target/
 .idea/
 latex/result/
+**/.DS_Store
 
 ## Core latex/pdflatex auxiliary files:
 *.aux

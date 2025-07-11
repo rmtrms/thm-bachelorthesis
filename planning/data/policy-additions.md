@@ -2,10 +2,10 @@
 
 ## Punkt am Ende des Holders entfernen
 
-- Der ScanCode Service (Metaeffekt) fügt die Punkte am Ende eines Copyrights hinzu, die extrahierten Holders enthalten 
+- Der ScanCode Service (metaeffekt) fügt die Punkte am Ende eines Copyrights hinzu, die extrahierten Holders enthalten 
 diese dann oft auch.
 - Die Punkte am Ende sollen entfernt werden, falls diese nicht Teil der Bezeichnung des Holders sind.
-- Der Punkt ist Teil der Bezeichnung bei z.B. kürzeln wie "Inc.", "Ltd." und "Corp.".
+- Der Punkt ist Teil der Bezeichnung bei z.B. Kürzeln wie "Inc.", "Ltd." und "Corp.".
 
 ### Beispiel 1
 
@@ -43,8 +43,11 @@ diese dann oft auch.
 
 ## Autoren werden einzeln erfasst
 
-- Das ScanCode Toolkit extrahiert Autoren die als Liste vorliegen oft als einen String der mehrere Autoren enthält.
+- Das ScanCode Toolkit extrahiert Autoren, die als Liste vorliegen, oft als einen String der mehrere Autoren enthält.
 - Unsere Erwartungshaltung ist, dass Autoren, auch wenn sie in einem Block gelistet werden, einzeln erfasst werden.
+
+--> Diskussion: Maintainer sind möglicherweise keine Autoren da sie eventuell keinen sichtbaren Beitrag zum Material 
+gelistet haben, hierzu wird eine Liste von Typen erstellt die erfasst werden, diese wird anschließend geprüft.
 
 ### Beispiel 1
 
@@ -110,7 +113,7 @@ Gaetan Nadon and Alan Coopersmith.
 ## Holders werden einzeln erfasst
 
 - Das Scancode Toolkit ist bei der Extraktion der Holders inkonsistent, manchmal werde diese getrennt erfasst, manchmal
-in einem String inkl. Satzbau (z.B. "and") erfasst.
+in einem String inkl. Satzbau (z.B. "and").
 - Unsere Erwartungshaltung ist, dass sowohl mehrere Holders eines Copyrights als auch mehrere Holders unterschiedlicher
 Copyrights als einzelne Elemente unter "Holders" erfasst werden.
 
@@ -156,7 +159,7 @@ Copyrights als einzelne Elemente unter "Holders" erfasst werden.
 - In einigen Fällen werden Verweise gemacht, dass Teile einer Software auf einer Anderen basieren, die unter einem 
 anderen Copyright stehen.
 - Unsere Erwartungshaltung ist, dass das Copyright des Teils einzeln erfasst wird und der Verweis auf den Ursprung 
-dieses Copyrights nicht teil des Statements ist.
+dieses Copyrights nicht Teil des Statements ist.
 
 ### Beispiel
 
@@ -169,6 +172,9 @@ hat.
  * Based on the r8180 driver, which is:
  * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
 ```
+
+--> Diskussion: Policy um "all remarks that help identify the material or holder" ergänzen, somit würde der "Based on 
+the..." Verweis Teil des Statement werden.
 
 #### extrahiertes JSON
 
@@ -183,12 +189,12 @@ hat.
 
 ---
 
-## E-Mails werden bei Autoren erfasst, bei Holders nicht
+## E-Mails werden bei Autoren erfasst, bei Holders auch
 
 - Das Scancode Toolkit erfasst Holders ohne E-Mail-Adressen, wenn diese vorhanden sind. Bei Autoren hingegen werden 
 diese übernommen.
-- Da die E-Mail-Adressen zur Kontaktaufnahme mit dem Autor dienen, aber nicht Teil einer rechtlichen Entität sind 
-(vorsicht Annahme) ist unsere Erwartungshaltung gleich dem ScanCode Verfahren.
+- Da die E-Mail-Adressen zur Kontaktaufnahme mit dem Autor dienen, bzw. zur weiteren Identifikation des Holders 
+beitragen, werden diese übernommen.
 
 ### Beispiel 1
 
@@ -201,7 +207,7 @@ diese übernommen.
 ```
 {
 "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
-"holders" : [ "Andrea Merello, et al." ],
+"holders" : [ "Andrea Merello <andrea.merello@gmail.com>, et al." ],
 "authors" : [ ]
 }
 ```
@@ -231,6 +237,10 @@ diese übernommen.
 Autoren.
 - Unsere Erwartungshaltung ist, dass diese Kontaktinformationen keine Authorship implizieren, sondern nur eine 
 Anlaufstelle für Fragen o.Ä. darstellen und deckt sich somit mit dem ScanCode Ergebnis.
+- Frage: Soll diese Information anderweitig erfasst werden?
+  - Ja, eventuell kann eine neue Kategorie "contact information" abgeleitet werden, für die Copyrights an sich spielt es allerdings keine Rolle
+- Frage: Wenn Kontaktinformationen zusätzliche Möglichkeiten bieten, den Holder zu identifizieren oder Kontakt aufzunehmen, werden diese Teil des Holders?
+  - Nein sie werden nicht dem Holder ergänzt, können aber eventuell als neue Information "contact information" erfasst werden
 
 ## Beispiel
 
@@ -254,11 +264,10 @@ Anlaufstelle für Fragen o.Ä. darstellen und deckt sich somit mit dem ScanCode 
 
 ---
 
-## URLs am Ende des Copyright-Statements sind nicht teil des Statements 
+## URLs am Ende des Copyright-Statements sind Teil des Statements 
 
 - Manche Copyrights werden zusammen mit einer URL angegeben.
-- Unsere Erwartungshaltung ist, dass die URL nicht Teil der rechtlichen Entität ist (vorsicht Annahme) und somit kein 
-Teil des Copyrights.
+- Die URL wird als Teil des Copyrights gesehen, wenn anhand der Formatierung eine Zugehörigkeit zum Statement erkennbar ist.
 
 ## Beispiel 1
 
@@ -272,7 +281,7 @@ www.echoaudio.com
 
 ```
 {
-"copyrights" : [ "Copyright Echo Digital Audio Corporation (c) 1998 - 2004\n   All rights reserved\n" ],
+"copyrights" : [ "Copyright Echo Digital Audio Corporation (c) 1998 - 2004\n   All rights reserved\nwww.echoaudio.com" ],
 "holders" : [ "Echo Digital Audio Corporation" ],
 "authors" : [ ]
 }
@@ -289,7 +298,7 @@ www.echoaudio.com
 
 ```
 {
-"copyrights" : [ "Copyright (c) 2011 Samsung Electronics Co., Ltd" ],
+"copyrights" : [ "Copyright (c) 2011 Samsung Electronics Co., Ltd\n             http://www.samsung.com" ],
 "holders" : [ "Samsung Electronics Co., Ltd" ],
 "authors" : [ ]
 }
@@ -303,8 +312,7 @@ www.echoaudio.com
 
 - In diesem Sonderfall ist der Holder einerseits explizit mit E-Mail-Adresse genannt und andererseits sind weitere mit 
 "et al." vermerkt.
-- Da die E-Mail-Adresse beim Holder nicht erfasst wird (siehe oben) aber der Verweis auf "et al." schon, entsteht 
-folgender Holder Eintrag: "Andrea Merello, et al.".
+- Da der Vermerk "et al." weitere Holders impliziert, muss der Vermerk erhalten bleiben.
 
 ```
  * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
@@ -315,7 +323,7 @@ folgender Holder Eintrag: "Andrea Merello, et al.".
 ```
 {
 "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
-"holders" : [ "Andrea Merello, et al." ],
+"holders" : [ "Andrea Merello <andrea.merello@gmail.com>, et al." ],
 "authors" : [ ]
 }
 ```
@@ -342,3 +350,71 @@ Portions Copyright 2009 The Go Authors. All rights reserved." ],
 "authors" : [ ]
 }
 ```
+
+---
+
+## Diskussion
+
+### Fall 1
+
+- Können E-Mails normalisiert werden?
+
+```
+ *   Copyright (c) International Business Machines  Corp., 2000,2002
+ *   Modified by Steve French (sfrench@us.ibm.com)
+```
+
+--> Ja E-Mails können normalisiert werden, die Hauptsache ist, dass sie nach wie vor korrekt angegeben ist.
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "opyright (c) International Business Machines  Corp., 2000,2002" ],
+"holders" : [ "International Business Machines  Corp.," ],
+"authors" : [ "Steve French sfrench@us.ibm.com"]
+}
+```
+---
+
+### Fall 2
+
+- Werden Whitespaces vor dem Statement erhalten, oder nur innerhalb des Blocks?
+  - Nur innerhalb des Blocks, führende Leerzeichen im Statement erfüllen keinen semantischen Zweck.
+
+```
+|*                                                                           *|
+|*       Copyright 1993-1999 NVIDIA, Corporation.  All rights reserved.      *|
+|*                                                                           *|
+|*     NOTICE TO USER:   The source code  is copyrighted under  U.S. and     *|
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "  Copyright 1993-1999 NVIDIA, Corporation.  All rights reserved." ],
+"holders" : [ "NVIDIA, Corporation" ],
+"authors" : [ ""]
+}
+```
+
+---
+
+### Beispiel für Formatierung
+
+```
+// Copyright (c) 2023 Cirrus Logic, Inc. and
+//                    Cirrus Logic International Semiconductor Ltd.
+```
+
+#### extrahiertes JSON
+
+```
+{
+"copyrights" : [ "Copyright (c) 2023 Cirrus Logic, Inc. and\                   Cirrus Logic International Semiconductor Ltd." ],
+"holders" : [ "Cirrus Logic, Inc.", "Cirrus Logic International Semiconductor Ltd." ],
+"authors" : [ ]
+}
+```
+
