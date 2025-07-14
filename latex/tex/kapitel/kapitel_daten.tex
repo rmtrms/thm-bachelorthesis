@@ -61,10 +61,11 @@ Diese Filterung reduzierte den Datensatz um etwa 8\,\%.
 
 \textbf{Schritt 3 -- Trennung von Einträgen ohne Copyrights.}
 Der von Duplikaten bereinigte Datensatz wurde danach unterteilt, ob das ScanCode-Ergebnis ausschließlich \enquote{authors} enthält.
-Diese Kategorie von Daten ohne Copyrights umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \enquote{copyrights} zu analysieren.
+% TODO: Kategorie von contains no copyrigths zu contains only authors umbenennen.
+Diese Kategorie von Daten ohne Copyrights (\enquote{contains only authors}) umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \enquote{copyrights} zu analysieren.
 Außerdem kann dieser Datensatz genutzt werden, das Extrahieren von Autoren gezielt und isoliert zu untersuchen.
 
-\textbf{Schritt 4 -- Abgleich mit Originaldateien (Exact Matches).}
+\textbf{Schritt 4 -- Abgleich mit Originaldateien (\enquote{exact matches}).}
 Die extrahierten Copyright-Statements der ScanCode-Ergebnisse wurden in den entsprechenden Originaldateien gesucht.
 Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde diese Datei und ihr extrahiertes Ergebnis den \enquote{exact matches} zugeordnet.
 Das exakte Vorkommen des extrahierten Statements in der Originaldatei erfüllt die Bedingung einer Extraktion \enquote{as-is} gemäß \nameref{subsec:cep-01}.
@@ -72,7 +73,7 @@ ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen, sind demnach ohn
 Eine korrekte Extraktion der \enquote{holder} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
 Da die Priorisierung der Extraktion bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
 
-\textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{no exact match} Daten.}
+\textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{no exact matches}}
 Die ScanCode-Ergebnisse ohne \enquote{exact match} umfassen ca.\ zwei Drittel des Datensatzes.
 Die Analyse dieser Ergebnisse zeigte, dass ScanCode unter anderem die Groß- und Kleinschreibung der Statements normalisiert.
 Ein Beispiel hierfür ist die konsequente Ersetzung der \enquote{(C)} Markierung durch \enquote{(c)}.
@@ -90,11 +91,39 @@ Anschließend wurde überprüft, ob für jedes Statement einer Datei ein \enquot
 Die Rekonstruktion dieser \enquote{exact matches without format} erfordert, dass das Statement in der Originaldatei gefunden und anschließend in das ScanCode-Ergebnis kopiert wird.
 Da die Statements durch ihre Formatierung nicht eindeutig dem Ergebnis zuweisbar sind, wurde die Levenstein-Distanz zwischen den extrahierten Statements und jedem Substring der Originaldatei berechnet und der Substring gewählt, welcher die geringste Distanz zum Statement ergab.
 Anschließend wurden alle Zeichen zwischen dem ersten und letzten Index des Substring aus der Originaldatei in das ScanCode-Ergebnis übertragen.
+Durch diese Methode konnten ca.\ \num{6000} \enquote{exact matches without case} rekonstruiert werden.
+Die Statements erfordern dennoch Teils manuelle Arbeit, da bei mehrzeiligen Statements die in Kommentarsyntax eingebettet sind, nun auch die entspreche Kommentarsyntax in die Metadaten übertagen wurde.
+Die Kategorie \enquote{exact match without format and case} enthält solche Fälle, die sowohl abweichende Formatierung als auch abweichende Groß- und Kleinschreibung im ScanCode-Ergebnis enthalten.
+Die Fälle dieser Kategorie wurden dadurch ermittelt, dass zunächst jegliche Formatierung und dann jede Großschreibung in den Originaldateien und den ScanCode-Ergebnissen entfernt wurde, anschließend wurde auch \enquote{exact matches} geprüft.
+Von den ursprünglichen rund \num{94000} \enquote{no exact matches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \enquote{other reasons} an.
+Diese Kategorie erfordert weitere Untersuchungen und eventuell manuelle Aufbereitung.
+
+\textbf{Schritt 7 -- Identifizierung von\enquote{multiple copyrights}.}
+Die \enquote{exact matches} wurden danach unterteilt, ob das entsprechende ScanCode-Ergebnis mehrere oder nur ein einzelnes Statement beinhalten.
+Die Datei, welche mehrere Statements beinhalten wurde der Kategorie \enquote{multiple copyrights} zugeordnet und anschließend erneut unterteilt, je nachdem ob sie \enquote{authors} enthalten oder nicht.
+Die Absicht bei der Unterteilung nach \enquote{multiple copyrights} und die anschließende Unterteilung nach \enquote{authors} soll dazu dienen, dass bei späteren Erstellen von Benchmark bzw.\ Evaluationsdatensätzen möglichst viele Formen von Copyrights in vergleichbarer Anzahl vorhanden sind.
+Da die meisten Copyright-Statements im Datensatz einzelne Copyrights ohne Autoren sind, ist es wichtig, keinen Bias aufgrund dieser Datenlage zu erzeugen.
+
+\textbf{Schritt 8 -- Identifizierung von \enquote{single copyrights}.}
+Analog zu den \enquote{multiple copyrights} wurden die \enquote{single copyrights} identifiziert und nach dem Vorkommen von \enquote{authors} unterteilt.
+Die resultierenden Kategorien \enquote{single copyrights with authors} und \enquote{single copyrights without auhtors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \enquote{authors}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=16cm]{daten/sanky-daten}
+    \caption{Sanky-Diagramm der verschiedenen Kategorien von ScanCode-Ergebnissen bei der Datenaggregation. Das Diagramm veranschaulicht die schrittweise Bildung von Datenkategorien sowie die Anzahl der Quellcode-Dateien pro Zwischenschritt.}
+    \label{fig:sanky-daten}
+\end{figure}
+Das Resultat der Datenaggregation sind neun Kategorien von Dateien in Hinsicht auf ihr ScanCode-Ergebnis, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
+Die \autoref{fig:sanky-daten} veranschaulicht die schrittweise Verarbeitung und Kategorisierung der Daten.
+Besonders bei der Abbildung hervorzuheben ist einerseits die Zusammenführung der \enquote{exact matches} und der rekonstruierten \enquote{exact matches without case}, welche den größten Anteil des Datensatzes ausmachen.
+Außerdem kann der geneigte Leser anhand der Abbildung erkennen, in welchem Größenverhältnis die verschiedenen Kategorien zueinander stehen bzw.\ welche Kategorien den geringsten Teil des Datensatzes abdecken.
+Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst unterschiedliche Testdaten zu wählen und dabei möglichst viele Gestalten von Copyrights zu prüfen.
 
 % ======================================================================================================================
 
 % Hier soll darauf eingegangen werden, welche Probleme und Herausforderungen der Datensatz mit sich gebracht hat, einige
-% davon sind die Größe (170GB), die Encoding, Binary-Dateien und die geringe Qualität der Scancode extraktion im "authors" Feld.
+% davon sind die Größe (170GB), die Encodings, Binary-Dateien und die geringe Qualität der Scancode extraktion im "authors" Feld.
 \section{Herausforderungen bei der Datenaggregation}\label{sec:herausforderungen-datenaggregation}
 
 % ======================================================================================================================
