@@ -1,4 +1,4 @@
-// SankeyMATIC diagram inputs - Saved: 1.7.2025, 14:37:15
+// SankeyMATIC diagram inputs - Saved: 15.7.2025, 17:11:44
 // https://sankeymatic.com/build/
 
 // === Nodes and Flows ===
@@ -7,31 +7,31 @@
 //         Source [AMOUNT] Target
 
 total dataset [300000] no copyrights\nor holders\nor authors
-total dataset [165000] contains copyrights\nor holders\nor authors
+total dataset [165000] copyrights\nor holders\nor authors
 
-contains copyrights\nor holders\nor authors [151000] unique files
-contains copyrights\nor holders\nor authors [14000] duplicate files
+copyrights\nor holders\nor authors [151000] unique files
+copyrights\nor holders\nor authors [14000] duplicate files
 
-unique files [11000] contains no copyrights
+unique files [11000] only authors
 unique files [140000] contains copyrights
 
-contains copyrights [94000] no exact match
-contains copyrights [46000] exact match
-exact match [90000] single-copyright
-exact match [13000] multi-copyright
+contains copyrights [94000] no exact matches
+contains copyrights [46000] exact matches
+exact matches [90000] single\ncopyrights
+exact matches [13000] multiple\ncopyrights
 
-single-copyright [20000] single with authors
-single-copyright [70000] single without authors
+single\ncopyrights [20000] single\nwith authors
+single\ncopyrights [70000] single\nwithout authors
 
-multi-copyright [3000] multi with authors
-multi-copyright [10000] multi without authors
+multiple\ncopyrights [3000] multiple\nwith authors
+multiple\ncopyrights [10000] multiple\nwithout authors
 
-no exact match [57000] exact match without case
-no exact match [6000] exact match without format
-no exact match [4000] exact match without format & case
-no exact match [27000] other reasons
+no exact matches [57000] exact matches\n without case
+no exact matches [6000] exact matches\n without format
+no exact matches [4000] exact matches\n without format & case
+no exact matches [27000] other reasons
 
-exact match without case [57000] exact match
+exact matches\n without case [57000] exact matches
 
 // You can set a Node's color, like this:
 //:Budget #057
@@ -46,17 +46,17 @@ exact match without case [57000] exact match
 
 // === Settings ===
 
-size w 1158
+size w 988
   h 600
 margin l 6
   r 6
-  t 6
-  b 6
+  t 0
+  b 0
 bg color #ffffff
   transparent N
 node w 10
-  h 10
-  spacing 44
+  h 11.5
+  spacing 49.5
   border 0
   theme a
   color #888888
@@ -74,8 +74,8 @@ labels color #000000
   hide N
   highlight 0
   fontface sans-serif
-  linespacing 0.4
-  relativesize 101
+  linespacing 0.25
+  relativesize 97
   magnify 100
 labelname appears Y
   size 12
@@ -95,5 +95,5 @@ themeoffset a 6
   b 0
   c 0
   d 0
-meta mentionsankeymatic Y
+meta mentionsankeymatic N
   listimbalances Y
