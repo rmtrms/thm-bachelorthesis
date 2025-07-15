@@ -11,25 +11,39 @@ Der resultierende Datensatz stellt eines der zentralen Ergebnisse dieser Arbeit 
 
 Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen alternativen abgewogen werden.
 Die Datenquelle wird anhand folgender Kriterien ausgewählt:
+
 \begin{itemize}
-    \item Verfügbarkeit -- die Datenquelle muss für die metaeffekt frei zugänglich sein.
-    \item Realitätsnähe -- die Datenquelle muss reale Daten enthalten, künstliche Daten sollen weitgehend vermieden werden.
-    \item Umfang -- der Datensatz soll einen für den Anwendungsfall ausreichenden Umfang haben.
-    \item Reproduzierbarkeit und Erweiterbarkeit -- der Datensatz sollte durch einen reproduzierbaren Prozess erzeugt und idealerweise um weitere Quellen erweiterbar sein.
+    \item \textit{Verfügbarkeit} -- die Datenquelle muss für die metaeffekt frei zugänglich sein.
+    \item \textit{Realitätsnähe} -- die Datenquelle muss heterogene, reale Daten enthalten, künstliche Daten sollen weitgehend vermieden werden.
+    \item \textit{Umfang} -- der Datensatz muss einen für den Anwendungsfall ausreichenden Umfang haben.
+    \item \textit{Reproduzierbarkeit} -- der Datensatz soll durch einen reproduzierbaren Prozess erzeugt werden können.
+    \item \textit{Erweiterbarkeit} -- der Datensatz soll erweiterbar sein, etwa durch das Hinzufügen weiterer Quellen.
 \end{itemize}
 
 % TODO: Quelle einfügen
-Das Github Repository des ScanCode-Toolkit beinhaltet einen Testdatensatz zur Erkennung von Copyrights.
-Dieser Datensatz besteht aus mehreren tausend Dateien und ihren zugehörigen ScanCode-Ergebnissen.
-Die Daten sind zum Teil in besondere Einzelfälle untergliedert, der Großteil der Daten ist jedoch unsortiert.
-Da der Datensatz zum Testen der ScanCode Copyright Implementierung dient, beinhaltet er sowohl künstlich erzeugte Testfälle, als auch solche, die von Realdaten abgeleitet sind.
+Eine naheliegende Datenquelle ist das Github Repository des ScanCode-Toolkits, welches einen Testdatensatz zur Erkennung von Copyrights beinhaltet.
+Dieser Datensatz besteht aus Quellcode-Dateien und ihren zugehörigen ScanCode-Ergebnissen.
+Der Datensatz ist, wie auch das ScanCode-Toolkit, frei verfügbar.
+Da es sich in erster Linie um Testdaten für die bestehende Implementierung handelt, bestehen diese zum Teil aus künstlich erzeugten, kuratierten Testfällen, welche nicht klar von realen Daten abgrenzbar sind.
+Außerdem ist es schwer einzuschätzen, inwiefern die Testdaten ein reales Spektrum an Copyrights abdecken.
+Jedoch ist der Umfang des Testdatensatzes mit mehreren Tausend Dateien ausreichend für die vorgesehene Verwendung (Benchmark und Fine-Tuning).
+Der Datensatz wurde manuell kuratiert und entspringt keinem wiederholbaren Prozess, eine Reproduzierbarkeit ist somit nicht gegeben.
+Wegen des fehlenden Prozesses ist der Datensatz nur manuell um weitere Quellen erweiterbar.
 
-In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode-Toolkit zu verwenden verworfen und stattdessen eine Datenquelle herangezogen, die einen möglichst heterogenen aber realen Datensatz beinhaltet.
-Als Alternative Datenquelle wurde ein Alpine-Container gewählt.
-Dieser Container wurde mithilfe des metaeffekt-Scanners analysiert und inventarisiert.
-Das Scan-Ergebnis beinhaltet sämtliche im Container enthaltenen Quellcode-Dateien zusammen mit den entsprechenden MetaScan-Ergebnissen, sowie die durch den ScanCode-Service erzeugten Metadaten.
-Der eindeutige Vorteil dieser Datenquelle besteht darin, dass es sich hierbei ausschließlich um Realdaten handelt, wie sie im Produktivbetrieb vorkommen.
-Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode-Toolkit.
+Die Lizenzdatenbank der metaeffekt \gls{tmd} bietet sich ebenfalls als Datenquelle an.
+Sie umfasst über \num{2000} Lizenztexte und ihre metaeffekt-interne Modellierung.
+Die Lizenztexte enthalten zwar Copyright-Statements, allerdings dienen diese hauptsächlich als Randfälle, die zur Umsetzung der \nameref{subsec:cep-04} dienen können.
+Sowohl die Realitätsnähe als auch die Reproduzierbarkeit und Erweiterbarkeit sind bei dieser Datenquelle kaum gegeben.
+
+Im Laufe der Arbeit wurde eine weitere Datenquelle identifiziert, welche die bisherige Qualität des ScanCode-Toolkit beinhaltet, dabei aber nicht auf künstlichen Daten beruht.
+Diese Datenquelle ist ein durch die Prozesse der metaeffekt analysierter und inventarisierter Alpine-Container.
+Die Verfügbarkeit der Quelle ist dadurch gegeben, dass der Scan ein Produkt der metaeffekt ist.
+Das analysierte Container-Image beinhaltet ausschließlich reale Daten, welche ein breites Spektrum an Paketen und Quellcode beinhalten.
+Der Umfang des Scans ist um ein Vielfaches größer als die Testdaten von ScanCode.
+Dadurch dass der Scan das Ergebnis eines automatischen Prozesses ist, kann dieser ohne Hindernisse reproduziert und um weitere Scan-Ergebnisse von anderen Quellen erweitert werden.
+
+Anhand der genannten Kriterien wurde der Alpine-Container-Scan als Datenquelle dieser Arbeit gewählt.
+Die konkrete Erzeugung dieser Datenquelle wird im nächsten Abschnitt erläutert.
 
 % ======================================================================================================================
 
@@ -72,7 +86,7 @@ Diese Filterung reduzierte den Datensatz um etwa 8\,\%.
 \textbf{Schritt 3 -- Trennung von Einträgen ohne Copyrights.}
 Der von Duplikaten bereinigte Datensatz wurde danach unterteilt, ob das ScanCode-Ergebnis ausschließlich \enquote{authors} enthält.
 % TODO: Kategorie von contains no copyrigths zu contains only authors umbenennen.
-Diese Kategorie von Daten ohne Copyrights (\enquote{contains only authors}) umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \enquote{copyrights} zu analysieren.
+Diese Kategorie von Daten ohne Copyrights (\enquote{only authors}) umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \enquote{copyrights} zu analysieren.
 Außerdem kann dieser Datensatz genutzt werden, das Extrahieren von Autoren gezielt und isoliert zu untersuchen.
 
 \textbf{Schritt 4 -- Abgleich mit Originaldateien (\enquote{exact matches}).}
@@ -81,8 +95,8 @@ Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde 
 Das exakte Vorkommen des extrahierten Statements in der Originaldatei erfüllt die Bedingung einer Extraktion \enquote{as-is} gemäß \nameref{subsec:cep-01}.
 ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen und keine Blöcke von Copyrights beinhalten (siehe \nameref{subsec:cep-03}), sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \enquote{copyrights} Policy-konform.
 Blöcke von Copyright-Statements können zwar für jedes extrahierte Statement einen \enquote{exact match} aufweisen, verstoßen aber durch ihre ScanCode bedingte Aufteilung gegen die \nameref{subsec:cep-03}.
-Eine korrekte Extraktion der \enquote{holder} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
-Da die Priorisierung der Extraktion bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
+Eine korrekte Extraktion der \enquote{holders} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
+Da die Priorität bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
 
 \textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{no exact matches}}
 Die ScanCode-Ergebnisse ohne \enquote{exact match} umfassen ca.\ zwei Drittel des Datensatzes.
@@ -119,23 +133,39 @@ Da die meisten Copyright-Statements im Datensatz einzelne Copyrights ohne Autore
 Analog zu den \enquote{multiple copyrights} wurden die \enquote{single copyrights} identifiziert und nach dem Vorkommen von \enquote{authors} unterteilt.
 Die resultierenden Kategorien \enquote{single copyrights with authors} und \enquote{single copyrights without auhtors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \enquote{authors}.
 
+\textbf{Schritt 9 -- Manuelle Datenpflege.}
+Im Laufe dieser Arbeit wurde zu mehreren Zeitpunkten eine Untermenge der Kategorien \enquote{exact matches without format}, \enquote{exact matches without format and case}, \enquote{multiple copyrights}, \enquote{other reasons} und \enquote{only authors} manuell anhand der Policy geprüft und, wenn nötig, korrigiert.
+Diese manuell gepflegten Daten wurden regelmäßig dem Stakeholder stichprobenartig zur Validierung vorgelegt und sofern Unregelmäßigkeiten identifiziert wurden, angepasst.
+% TODO: hier die finale Zahl der manuellen Datenpflege eintragen und noch auf die Zusammensetzung pro Kategorie eingehen.
+Der resultierende Datensatz \enquote{manually checked} umfasst x Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
+
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=16cm]{daten/sanky-daten}
-    \caption{Sanky-Diagramm der verschiedenen Kategorien von ScanCode-Ergebnissen bei der Datenaggregation. Das Diagramm veranschaulicht die schrittweise Bildung von Datenkategorien sowie die Anzahl der Quellcode-Dateien pro Zwischenschritt.}
-    \label{fig:sanky-daten}
+    \includegraphics[width=15cm]{daten/data-sankey}
+    \caption{Sankey-Diagramm der verschiedenen Kategorien von ScanCode-Ergebnissen bei der Datenaggregation. Das Diagramm veranschaulicht die schrittweise Bildung von Datenkategorien sowie die Anzahl der Quellcode-Dateien pro Zwischenschritt.}
+    \label{fig:data-sankey}
 \end{figure}
-Das Resultat der Datenaggregation sind neun Kategorien von Dateien in Hinsicht auf ihr ScanCode-Ergebnis, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
-Die \autoref{fig:sanky-daten} veranschaulicht die schrittweise Verarbeitung und Kategorisierung der Daten.
+Das Resultat der Datenaggregation sind neun Kategorien von Dateien, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
+Die \autoref{fig:data-sankey} veranschaulicht die schrittweise Verarbeitung und Kategorisierung der Daten.
 Besonders bei der Abbildung hervorzuheben ist einerseits die Zusammenführung der \enquote{exact matches} und der rekonstruierten \enquote{exact matches without case}, welche den größten Anteil des Datensatzes ausmachen.
 Außerdem kann der geneigte Leser anhand der Abbildung erkennen, in welchem Größenverhältnis die verschiedenen Kategorien zueinander stehen bzw.\ welche Kategorien den geringsten Teil des Datensatzes abdecken.
-Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst unterschiedliche Testdaten zu wählen und dabei möglichst viele Gestalten von Copyrights zu prüfen.
+Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst heterogene Testdaten zu wählen und dabei möglichst viele Gestalten von Copyrights zu prüfen.
 
 % ======================================================================================================================
 
 % Hier soll darauf eingegangen werden, welche Probleme und Herausforderungen der Datensatz mit sich gebracht hat, einige
 % davon sind die Größe (170GB), die Encodings, Binary-Dateien und die geringe Qualität der Scancode extraktion im "authors" Feld.
 \section{Herausforderungen bei der Datenaggregation}\label{sec:herausforderungen-datenaggregation}
+
+Die Verarbeitung der Daten brachte einige Schwierigkeiten mit sich.
+Der ursprüngliche Datensatz umfasste ca.\ 170 Gigabyte an Quellcode-Dateien und Metadaten.
+Die automatische Analyse einer solchen Datenmenge erfordert robuste Prozesse und zuverlässige, leistungsfähige Hardware.
+Eine weitere Herausforderung bei der Verarbeitung der Daten waren die verschiedenen Encodings der Quellcode-Dateien.
+Da es sich beim Datensatz um jede Art von Datentyp und Enkodierung handeln kann, muss sichergestellt werden, dass Encodings korrekt erfasst und entsprechend verarbeitet werden.
+Im Falle eines nicht klar erkennbaren Encodings wird auf UTF-8 als Default zurückgegriffen.
+Neben den Encodings verursachen auch Binär-Dateien zahlreiche Probleme bei der automatischen Auswertung des Datensatzes.
+Tritt der Fall auf, dass der Prozess auf eine nicht lesbare Datei stößt, wird diese übersprungen und im weiteren Verlauf nicht berücksichtigt.
+Eine verbesserte Version des Datenaggregationsprozesses sollte demnach die korrekte Verarbeitung von Binär-Dateien unterstützen.
 
 % ======================================================================================================================
 
@@ -144,4 +174,9 @@ Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglic
 % ist der Datensatz mit dem aktuellen Industriestandard (ScanCode) erzeugt worden und wurde nach der von uns erstellten Policy verbessert und validiert
 \section{Qualität der Daten}\label{sec:qualitaet-der-daten}
 
-
+Der aus der Datenaggregation resultierende Datensatz umfasst eine große Anzahl an Dateien die eine Policy-konforme Extraktion von Copyright-Statements aufweisen.
+Die \enquote{holders} und \enquote{authors} dieser Extraktionen sind allerdings nicht geprüft und können aus Sicht der Policy fehlerhaft sein.
+Einige der Datenkategorien benötigen außerdem noch manuelle Prüfung bzw.\ Pflege.
+Um dennoch korrekte Daten dieser Kategorien zur Verfügung zu haben wurde ein manuell überprüfter Datensatz erstellt.
+Trotz dieser Qualitätseinbußen ist der generierte und kuratierte Datensatz qualitativ hochwertig.
+Die Qualität des Datensatzes ist damit zu begründen, dass der Ausgangsdatensatz mithilfe des Toolkits erzeugt wurde, welches der aktuelle Industriestandard ist, und anschließend in Form der Datenaggregation Schrittweise verbessert wurde.
