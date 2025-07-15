@@ -36,13 +36,13 @@ In Kooperation mit einem Kunden der metaeffekt wurde eine Policy zur Erkennung u
 % TODO: diesen Abschnitt eventuell in eine subsection o.Ä. auslagern bezüglich Kooperationen bei der Arbeit.
 Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements im engen Austausch steht.
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
-Diese Policy stellt den formalen und rechtlichen Rahmen dieser Arbeit dar, an dem sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
-Es wird der Versuch unternommen, dass die technischen Umsetzungen dieser Arbeit die Policy möglichst umfangreich abbilden.
-Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, ist eine Priorisierung erforderlich.
+Diese Policy stellt die formale und rechtliche Grundlage dieser Arbeit dar, an der sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
+Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfangreich abzubilden.
+Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der Anforderungen, die durch die Policy abgeleitet werden können, erforderlich.
 Anhand dieser Priorisierung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
 Die Policy orientiert sich bei den Kategorien der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
 \begin{itemize}
-    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu identifizieren.
+    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
     \item Holders sind Individuen oder Entitäten, die Rechte am Material haben.
 % TODO: Genauer erklären, wer Author ist und wer nicht, Maintainer z.B. gelten laut dem Kunden nicht zu Autoren.
     \item Authors sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
@@ -77,8 +77,8 @@ Dies wird durch eine exakte Extraktion \enquote{as is} gewährleistet.
 Als technische Einschränkung gelten hier unterschiedliche Zeichensätze und grafische Repräsentationen.
 Das extrahierte Copyright muss versuchen, so weit wie möglich das Original abzubilden.
 Dabei werden Tabulatoren und Zeilenumbrüche innerhalb des Statements erhalten.
-Formatierungen und Zeichen die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Einschränkungen betrachtet und werden nicht erhalten.
-Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein doppeltes Leerzeichen vor dem zweiten \enquote{ALl rights reserved.} Vermerk:
+Formatierungen und Zeichen die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Gegebenheiten betrachtet und werden nicht erhalten.
+Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein doppeltes Leerzeichen vor dem zweiten \enquote{All rights reserved.} Vermerk:
 \begin{lstlisting}[numbers=none, keepspaces=true]
 /*
  * Copyright 2018-2023 The OpenSSL Project Authors. All Rights Reserved.
@@ -98,7 +98,9 @@ Copyright (c) 2018-2019, Oracle and/or its affiliates.  All rights reserved.
 \subsection{CEP-02}\label{subsec:cep-02}
 
 Der Vermerk \enquote{All Rights Reserved} wird nicht als Teil der Lizenz betrachtet, sondern als ergänzende Aussage des Rechteinhabers.
-Der Vermerk ist jedoch rechtlich nicht erforderlich, da das Urheberrecht ohnehin gilt, da es sich aber um eine explizite Angabe des Urhebers handelt wird diese erhalten.
+
+Der Vermerk ist im Allgemeinen nicht erforderlich, da das Urheberrecht in den beteiligten Ländern gesetzlich geregelt ist.
+Da es sich aber um eine explizite Angabe des Urhebers handelt, wird diese erhalten.
 % TODO: Klären was genau hiermit gemeint ist.
 Generell werden alle Vermerke des Urhebers als Teil des Copyrights angesehen.
 Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinformationen:
@@ -166,7 +168,7 @@ Die Copyrights der Lizenz dürfen nicht ignoriert werden, sondern müssen als Co
 \subsection{CEP-05}\label{subsec:cep-05}
 
 Eine Zusammenführung oder Vereinheitlichung der Copyrights ist nicht zulässig.
-Die Konsolidierung von Zeitangaben und die Vereinheitlichung von Urhebern ist bei einer Extraktion `\enquote{as-is} verboten.
+Die Konsolidierung von Zeitangaben und die Vereinheitlichung von Urhebern ist bei einer Extraktion \enquote{as-is} verboten.
 Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Jahreszahlen vermerkt:
 
 \begin{lstlisting}[numbers=none, keepspaces=true]
@@ -217,7 +219,7 @@ Da diese Policies zum Teil an den Problemen von ScanCode-Ergebnissen abgeleitet 
 \subsection{CEP-07}\label{subsec:cep-07}
 
 Die Autoren des Materials werden einzeln erfasst.
-Das Zielformat bei der Extraktion von Autoren ist eine Liste von atomaren Informationen, somit ist das Erhalten eines Blocks hier nicht zielführend.
+Das Zielformat bei der Extraktion von Autoren ist eine Liste von einzelnen Einträgen zur Identifikation der individuellen Autoren, somit ist das Erhalten eines Blocks hier nicht zielführend.
 Grund für diese Policy ist, dass das ScanCode-Toolkit eine Liste von Autoren im Quellcode als Block extrahiert.
 Nachfolgend ist ein Beispiel für eine Auflistung mehrerer Autoren zu sehen:
 
@@ -233,8 +235,11 @@ Das nach der Policy extrahierte \gls{json} zu dieser Autorenliste entspricht som
 {
 "copyrights" : [ ],
 "holders" : [ ],
-"authors" : [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>",
-"Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
+"authors" : [
+              "Mengdong Lin <mengdong.lin@intel.com>",
+              "Yao Jin <yao.jin@intel.com>",
+              "Liam Girdwood <liam.r.girdwood@linux.intel.com>"
+            ]
 }
 \end{lstlisting}
 

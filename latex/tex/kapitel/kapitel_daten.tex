@@ -1,13 +1,22 @@
 \chapter{Daten}\label{ch:daten}
 
-In diesem Kapitel wird die Aggregation von Test- und Evaluierungsdaten erläutert.
-Als Datenquelle dient das Scan-Ergebnis eines Alpine-Containers.
-Das Scan-Ergebnis beinhaltet sämtliche im Container enthaltenen Quellcode-Dateien zusammen mit den entsprechenden MetaScan-Ergebnissen, sowie die durch den ScanCode-Service erzeugten Metadaten.
+In diesem Kapitel wird zunächst die Wahl der Datenquelle erläutert, anschließend wird die konkrete Erzeugung des Ausgangsdatensatzes beschrieben.
+Außerdem wird schrittweise die Verarbeitung des Ausgangsdatensatzes und die daraus resultierende Datenaggregation hin zu einem Evaluations- und Testdatensatzes aufgezeigt.
+Der resultierende Datensatz stellt eines der zentralen Ergebnisse dieser Arbeit dar.
 
 % ======================================================================================================================
 
 % Hier wird beschrieben, welche Datenquelle ausgewählt wurde, warum sie ausgewählt wurde und welche Alternativen es gab.
 \section{Wahl der Datenquelle}\label{sec:wahl-der-datenquelle}
+
+Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen alternativen abgewogen werden.
+Die Datenquelle wird anhand folgender Kriterien ausgewählt:
+\begin{itemize}
+    \item Verfügbarkeit -- die Datenquelle muss für die metaeffekt frei zugänglich sein.
+    \item Realitätsnähe -- die Datenquelle muss reale Daten enthalten, künstliche Daten sollen weitgehend vermieden werden.
+    \item Umfang -- der Datensatz soll einen für den Anwendungsfall ausreichenden Umfang haben.
+    \item Reproduzierbarkeit und Erweiterbarkeit -- der Datensatz sollte durch einen reproduzierbaren Prozess erzeugt und idealerweise um weitere Quellen erweiterbar sein.
+\end{itemize}
 
 % TODO: Quelle einfügen
 Das Github Repository des ScanCode-Toolkit beinhaltet einen Testdatensatz zur Erkennung von Copyrights.
@@ -15,9 +24,10 @@ Dieser Datensatz besteht aus mehreren tausend Dateien und ihren zugehörigen Sca
 Die Daten sind zum Teil in besondere Einzelfälle untergliedert, der Großteil der Daten ist jedoch unsortiert.
 Da der Datensatz zum Testen der ScanCode Copyright Implementierung dient, beinhaltet er sowohl künstlich erzeugte Testfälle, als auch solche, die von Realdaten abgeleitet sind.
 
-In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode-Toolkit zu verwenden verworfen und stattdessen eine vielversprechendere Datenquelle herangezogen.
+In Absprache mit dem Stakeholder wurde die Absicht, den Testdatensatz des ScanCode-Toolkit zu verwenden verworfen und stattdessen eine Datenquelle herangezogen, die einen möglichst heterogenen aber realen Datensatz beinhaltet.
 Als Alternative Datenquelle wurde ein Alpine-Container gewählt.
 Dieser Container wurde mithilfe des metaeffekt-Scanners analysiert und inventarisiert.
+Das Scan-Ergebnis beinhaltet sämtliche im Container enthaltenen Quellcode-Dateien zusammen mit den entsprechenden MetaScan-Ergebnissen, sowie die durch den ScanCode-Service erzeugten Metadaten.
 Der eindeutige Vorteil dieser Datenquelle besteht darin, dass es sich hierbei ausschließlich um Realdaten handelt, wie sie im Produktivbetrieb vorkommen.
 Das Scan-Ergebnis ist außerdem um ein Vielfaches größer als der Testdatensatz des ScanCode-Toolkit.
 
@@ -38,13 +48,13 @@ Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt
 % TODO: Eventuell hier kurz darauf eingehen, dass der SHA-1 Hash gewählt wurde, um kollisionen zu vermeiden und von originalen Dateinamen zu abstrahieren. Wahrscheinlichkeit für Kollision nennen.
 Um Namenskonflikte zu vermeiden, wurde anschließend für jede Originaldatei der SHA-1 Hash berechnet und zusammen mit dem Dateityp zur Benennung der Datei verwendet.
 Da die Verzeichnisstruktur der Originaldateien nicht relevant ist, werden alle Dateien in einem flachen Verzeichnis gespeichert, dies vereinfacht die anschließende Verarbeitung zusätzlich.
-Der resultierende Ausgangsdatensatz umfasst etwa num{467000} Originaldateien und ihre Scan-Ergebnisse.
+Der resultierende Ausgangsdatensatz umfasst etwa \num{467000} Originaldateien und ihre Scan-Ergebnisse.
 
 % ======================================================================================================================
 
 \section{Analyse des Datensatzes und Kategorisierung der Daten}\label{sec:analyse-datensatz}
 
-Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht zur Evaluation und Testierung verwendet werden, da die Scan-Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
+Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht zur Evaluation und Test verwendet werden, da die Scan-Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
 Um diese Problematik zu adressieren, muss ein Prozess bestimmt werden, der bereits korrekte Daten ermittelt und fehlerhafte Daten, sofern möglich, korrigiert.
 Korrekt bedeutet in diesem Kontext, dass die extrahierten Daten der Policy entsprechen.
 Dieser Prozess wird nachfolgend schrittweise beschrieben:
@@ -69,7 +79,8 @@ Außerdem kann dieser Datensatz genutzt werden, das Extrahieren von Autoren gezi
 Die extrahierten Copyright-Statements der ScanCode-Ergebnisse wurden in den entsprechenden Originaldateien gesucht.
 Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde diese Datei und ihr extrahiertes Ergebnis den \enquote{exact matches} zugeordnet.
 Das exakte Vorkommen des extrahierten Statements in der Originaldatei erfüllt die Bedingung einer Extraktion \enquote{as-is} gemäß \nameref{subsec:cep-01}.
-ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen, sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \enquote{copyrights} Policy-konform.
+ScanCode-Ergebnisse, die einen \enquote{exact match} aufweisen und keine Blöcke von Copyrights beinhalten (siehe \nameref{subsec:cep-03}), sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \enquote{copyrights} Policy-konform.
+Blöcke von Copyright-Statements können zwar für jedes extrahierte Statement einen \enquote{exact match} aufweisen, verstoßen aber durch ihre ScanCode bedingte Aufteilung gegen die \nameref{subsec:cep-03}.
 Eine korrekte Extraktion der \enquote{holder} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
 Da die Priorisierung der Extraktion bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
 
@@ -80,7 +91,7 @@ Ein Beispiel hierfür ist die konsequente Ersetzung der \enquote{(C)} Markierung
 Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob für jedes extrahierte Statement ein \enquote{exact match} vorliegt.
 Wenn ein solcher Match vorlag, konnte geschlussfolgert werden, dass die einzige Differenz zwischen Originaldatei und Extrakt die Groß- bzw.\ Kleinschreibung war.
 Dieser Teil des Datensatzes wurde der Kategorie \enquote{exact matches without case} zugeordnet und die enthaltenen Fälle wurden anschließend zu \enquote{exact matches} aufgewertet.
-Die Rekonstruktion der Original-Statements erfolgte, indem das extrahierte Statement in der Originaldatei gesucht und anschließend das Original-Statement in das ScanCode-Ergebnis kopiert wurde.
+Die Rekonstruktion der Original-Statements erfolgte, indem das extrahierte Statement in der Originaldatei gesucht und anschließend das Original-Statement im Ergebnis ersetzt wurde.
 Auf diese Weise konnten ca.\ \num{57000} Dateien den \enquote{exact matches} hinzugefügt werden.
 
 \textbf{Schritt 6 -- Rekonstruktion der Formatierung.}

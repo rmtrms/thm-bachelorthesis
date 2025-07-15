@@ -37,3 +37,6 @@ handelt?
   - Scancode ist der Marktstandard und wird flächendeckend eingesetzt, es gibt proprietäre Lösungen (diese noch Nachschauen)
 - [ ] Von Karsten Inventar zu Alpine Container zukommen lassen
 - [ ] Gemeinsam mit Karsten den MetaScan Prozess durchsprechen damit dieser in der Arbeit erklärt werden kann
+- [ ] Beispiel für CEP-04 geben lassen (evtl. GPL 2.0 mit Beispielen für Copyright Disclaimer gemeint?)
+- [ ] Beispiel für CEP-06 geben lassen
+- [ ] klären was mit "wie oben" bei CEP-05 gemeint ist
