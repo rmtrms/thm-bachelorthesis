@@ -24,7 +24,7 @@ Neben den integrativen Vorteilen eines Services sind auch inhaltliche Verbesseru
 
 % TODO: hier ein Copyright Beispiel einfügen, welches den Vermerk darstellt.
 Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{all rights reserved} aus dem Copyright auszuschließen.
-Der Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden, der ScanCode-Service hingegen schließt sie nicht aus.
+Die Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden, der ScanCode-Service hingegen schließt sie nicht aus.
 Außerdem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Punktsetzung im Extrakt.
 Diese Änderungen dienen dazu, die Policy-Konformität des ScanCode-Toolkit zu verbessern\autocite{noauthor_metaeffekt-scancode-service_2025}.
 
@@ -38,14 +38,14 @@ Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit 
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
 Diese Policy stellt die formale und rechtliche Grundlage dieser Arbeit dar, an der sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
 Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfangreich abzubilden.
-Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der Anforderungen, die durch die Policy abgeleitet werden können, erforderlich.
+Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der \glspl{cep}, die durch die Policy definiert werden, erforderlich.
 Anhand dieser Priorisierung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
-Die Policy orientiert sich bei den Kategorien der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
+Die Policy orientiert sich bei der Klassifikation der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
 \begin{itemize}
     \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
-    \item Holders sind Individuen oder Entitäten, die Rechte am Material haben.
+    \item Holders (Urheber) sind Individuen oder Entitäten, die Rechte am Material haben.
 % TODO: Genauer erklären, wer Author ist und wer nicht, Maintainer z.B. gelten laut dem Kunden nicht zu Autoren.
-    \item Authors sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
+    \item Authors (Autoren) sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
 \end{itemize}
 
 Die erste Version der Policy gliedert sich in eine \gls{cir} und sechs \glspl{cep}.
@@ -57,7 +57,7 @@ Im Folgenden wird die Policy kurz erläutert, die originale Fassung der Policy i
 
 \subsection{CIR-01}\label{subsec:cir-01}
 
-Die \gls{cir} besagt, dass ein explizites Copyright Statement dann vorliegt, wenn klar erkennbar ist, wer Rechte an den verwendeten Materialien besitzt -- etwa durch die Zeichen ©, (C), (c) oder das Wort \enquote{Copyright} in Verbindung mit Namen und/oder Jahreszahlen.
+Die \gls{cir} besagt, dass ein explizites Copyright Statement dann vorliegt, wenn klar erkennbar ist, wer Rechte an den verwendeten Materialien besitzt, gekennzeichnet durch die Hinweise ©, (C), (c) oder das Wort \enquote{Copyright} in Verbindung mit Namen und/oder Jahreszahlen.
 Eine bloße Nennung eines Rechteinhabers im Text gilt jedoch nicht als expliziter Copyright-Hinweis, auch wenn diese Person oder Organisation trotzdem als Rechteinhaber betrachtet wird.
 
 Hierzu ein paar Beispiele für Copyright-Statements:
@@ -129,7 +129,7 @@ All rights reserved.
 Blöcke von Copyright-Statements werden bei der Extraktion nicht aufgeteilt.
 Ein solcher Block beinhaltet mehrere Copyrights und deren Holder zu verschiedenen Teilen oder Änderungen der Software.
 Diese Blöcke weisen unter anderem auf ein gemeinschaftliches Werk mehrerer Holder hin.
-Außerdem werden diese Blöcke oft von einem einzelnen \enquote{All Rights Reserved} Vermerken begleitet.
+Außerdem werden diese Blöcke oft von einem einzelnen \enquote{All Rights Reserved} Vermerk begleitet.
 Eine Ergänzung des Vermerks an jedes Statement oder gar das Entfernen des Vermerks stellt eine Verzerrung des ursprünglichen Statements dar.
 Der Block bleibt in seiner ursprünglichen Form erhalten, da eine sinnvolle Aufteilung zusätzliches Wissen über das geschützte Material voraussetzen würde.
 Durch das Belassen des Blocks wird vermieden, Annahmen über die Absichten der Urheber oder über die genaue Verteilung der Rechte treffen zu müssen.
@@ -256,7 +256,7 @@ Hier zum Vergleich das ScanCode-Ergebnis:
 \subsection{CEP-08}\label{subsec:cep-08}
 
 Die Urheber des Materials werden einzeln erfasst.
-Analog zur Erfassung von Autoren (siehe~\nameref{subsec:cep-07}) werden Urheber (\enquote{Holder}) einzeln und nicht als Block erfasst.
+Analog zur Erfassung von Autoren (siehe~\nameref{subsec:cep-07}) werden \enquote{holders} einzeln und nicht als Block erfasst.
 
 % ======================================================================================================================
 

@@ -33,8 +33,8 @@ Diese Einstellung ermöglicht es, die Varianz zwischen den Ausgaben, welche bei 
 Die Funktionalität der Temperatur wurde praktisch geprüft, indem ein Modell in einer bestimmten Größe und Version auf zwei verschiedenen Endgeräten mit demselben Prompt angewiesen wurde und in beiden Fällen eine identische Ausgabe generierte.
 Um sicherzustellen, dass im Verlauf des Benchmarks und darüber hinaus keine Updates der Modelle die Ergebnisse verfälschen, müssen feste Versionen der \glspl{llm} verwendet werden.
 Da proprietäre \glspl{llm} wie ChatGPT oder Gemini keine Steuerung der Versionen oder Temperatur ermöglichen, ist eine lokale Ausführung der Modelle erforderlich.
-Außerdem fallen für die Nutzung der API dieser Modelle kosten an, weshalb eine lokale Ausführung auch hier zu bevorzugen ist.
-Allerdings erfordert die lokale Ausführung der Modelle, dass diese auf der vorhandenen Hardware lauffähig sind, dies beschränkt die Auswahl der Modelle auf kleinere Parametergrößen und quantisierte Versionen der Modelle.
+Außerdem fallen für die Nutzung der \gls{api} dieser Modelle kosten an, weshalb eine lokale Ausführung auch hier zu bevorzugen ist.
+Allerdings erfordert die lokale Ausführung der Modelle, dass diese auf der vorhandenen Hardware lauffähig sind, dies beschränkt die Auswahl der Modelle auf kleinere Parametergrößen und durch \gls{glos:quantization} verkleinerte Modelle.
 
 \section{Implementierung}\label{sec:benchmark-implementierung}
 

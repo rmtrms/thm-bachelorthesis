@@ -11,7 +11,7 @@ Dieser bildet die Grundlage für die in dieser Arbeit durchgeführten Untersuchu
 % Hier wird beschrieben, welche Datenquelle ausgewählt wurde, warum sie ausgewählt wurde und welche Alternativen es gab.
 \section{Wahl der Datenquelle}\label{sec:wahl-der-datenquelle}
 
-Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen Alternativen abgewogen werden.
+Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen alternativen abgewogen werden.
 Die Datenquelle wird anhand folgender Kriterien ausgewählt:
 
 \begin{itemize}
@@ -30,7 +30,7 @@ Da es sich in erster Linie um Testdaten für die bestehende Implementierung hand
 Eine Unterscheidung zwischen realen und synthetischen Beispielen ist jedoch im Datensatz nicht explizit gegeben.
 Es fehlen sowohl entsprechende Bezeichner als auch strukturelle Merkmale, die Rückschlüsse auf den Ursprung einzelner Datenpunkte zulassen.
 Außerdem ist es schwer einzuschätzen, inwiefern die Testdaten ein reales Spektrum an Copyrights abdecken.
-Jedoch ist der Umfang des Testdatensatzes mit mehreren Tausend Dateien ausreichend für die vorgesehene Verwendung (Benchmark und Fine-Tuning).
+Jedoch ist der Umfang des Testdatensatzes mit mehreren Tausend Dateien ausreichend für die vorgesehene Verwendung (\gls{glos:benchmark} und \gls{glos:fine-tuning}).
 Der Datensatz wurde manuell kuratiert und entspringt keinem wiederholbaren Prozess, eine Reproduzierbarkeit ist somit nicht gegeben.
 Wegen des fehlenden Prozesses ist der Datensatz nur manuell um weitere Quellen erweiterbar.
 
@@ -72,7 +72,7 @@ Der resultierende Ausgangsdatensatz umfasst etwa \num{467000} Originaldateien un
 
 \section{Analyse des Datensatzes und Kategorisierung der Daten}\label{sec:analyse-datensatz}
 
-Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht zur Evaluation und Test verwendet werden, da die Scan-Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
+Der erzeugte Datensatz kann in seiner extrahierten Form noch nicht für Evaluation und Test verwendet werden, da die Scan-Ergebnisse nicht auf den Originaldateien, sondern auf ihren normalisierten Segmenten beruhen.
 Um diese Problematik zu adressieren, muss ein Prozess bestimmt werden, der bereits korrekte Daten ermittelt und fehlerhafte Daten, sofern möglich, korrigiert.
 Korrekt bedeutet in diesem Kontext, dass die extrahierten Daten der Policy entsprechen.
 Dieser Prozess wird nachfolgend schrittweise beschrieben:
@@ -127,10 +127,10 @@ Die Fälle dieser Kategorie wurden dadurch ermittelt, dass zunächst jegliche Fo
 Von den ursprünglichen rund \num{94000} \enquote{mismatches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \enquote{other reasons} an.
 Diese Kategorie erfordert weitere Untersuchungen und eventuell manuelle Aufbereitung.
 
-\textbf{Schritt 7 -- Identifizierung von\enquote{multiple copyrights}.}
+\textbf{Schritt 7 -- Identifizierung von \enquote{multiple copyrights}.}
 Die \enquote{exact matches} wurden danach unterteilt, ob das entsprechende ScanCode-Ergebnis mehrere oder nur ein einzelnes Statement beinhalten.
-Die Datei, welche mehrere Statements beinhalten wurde der Kategorie \enquote{multiple copyrights} zugeordnet und anschließend erneut unterteilt, je nachdem ob sie \enquote{authors} enthalten oder nicht.
-Die Absicht bei der Unterteilung nach \enquote{multiple copyrights} und die anschließende Unterteilung nach \enquote{authors} soll dazu dienen, dass bei späteren Erstellen von Benchmark bzw.\ Evaluationsdatensätzen möglichst viele Formen von Copyrights in vergleichbarer Anzahl vorhanden sind.
+Die Dateien, welche mehrere Statements beinhalten wurden der Kategorie \enquote{multiple copyrights} zugeordnet und anschließend erneut unterteilt, je nachdem ob sie \enquote{authors} enthalten oder nicht.
+Die Absicht bei der Unterteilung nach \enquote{multiple copyrights} und die anschließende Unterteilung nach \enquote{authors} soll dazu dienen, dass beim späteren Erstellen von Benchmark- bzw.\ Evaluationsdatensätzen möglichst viele Formen von Copyrights in vergleichbarer Anzahl vorhanden sind.
 Da die meisten Copyright-Statements im Datensatz einzelne Copyrights ohne Autoren sind, ist es wichtig, keinen Bias aufgrund dieser Datenlage zu erzeugen.
 
 \textbf{Schritt 8 -- Identifizierung von \enquote{single copyrights}.}
@@ -141,12 +141,12 @@ Die resultierenden Kategorien \enquote{single copyrights with authors} und \enqu
 Im Laufe dieser Arbeit wurde zu mehreren Zeitpunkten eine Untermenge der Kategorien \enquote{format-insensitive matches}, \enquote{format-insensitive matches and case}, \enquote{multiple copyrights}, \enquote{other reasons} und \enquote{only authors} manuell anhand der Policy geprüft und, wenn nötig, korrigiert.
 Diese manuell gepflegten Daten wurden regelmäßig dem Stakeholder stichprobenartig zur Validierung vorgelegt und sofern Unregelmäßigkeiten identifiziert wurden, angepasst.
 % TODO: hier die finale Zahl der manuellen Datenpflege eintragen und noch auf die Zusammensetzung pro Kategorie eingehen.
-Der resultierende Datensatz \enquote{manually checked} umfasst 700 Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
+Der resultierende Datensatz \enquote{manually checked} umfasst \num{700} Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=15cm]{daten/data-sankey}
-    \caption{Sankey-Diagramm der verschiedenen Kategorien von ScanCode-Ergebnissen bei der Datenaggregation. Das Diagramm veranschaulicht die schrittweise Bildung von Datenkategorien sowie die Anzahl der Quellcode-Dateien pro Zwischenschritt.}
+    \caption{Sankey-Diagramm der verschiedenen Kategorien von extrahierten Copyrights bei der Datenaggregation. Das Diagramm veranschaulicht die schrittweise Bildung von Datenkategorien sowie die Anzahl der Quellcode-Dateien pro Zwischenschritt.}
     \label{fig:data-sankey}
 \end{figure}
 Das Resultat der Datenaggregation sind neun Kategorien von Dateien, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
@@ -182,5 +182,4 @@ Der aus der Datenaggregation resultierende Datensatz umfasst eine große Anzahl 
 Die \enquote{holders} und \enquote{authors} dieser Extraktionen sind allerdings nicht geprüft und können aus Sicht der Policy fehlerhaft sein.
 Einige der Datenkategorien benötigen außerdem noch manuelle Prüfung bzw.\ Pflege.
 Um dennoch korrekte Daten dieser Kategorien zur Verfügung zu haben wurde ein manuell überprüfter Datensatz erstellt.
-Trotz dieser Qualitätseinbußen ist der generierte und kuratierte Datensatz qualitativ hochwertig.
-Die Qualität des Datensatzes ist damit zu begründen, dass der Ausgangsdatensatz mithilfe des Toolkits erzeugt wurde, welches der aktuelle Industriestandard ist, und anschließend in Form der Datenaggregation Schrittweise verbessert wurde.
+Die Qualität des Datensatzes ist dadurch gegeben, dass der Ausgangsdatensatz mithilfe des Toolkits erzeugt wurde, welches der aktuelle Industriestandard ist, und anschließend in Form der Datenaggregation Schrittweise verbessert wurde.
