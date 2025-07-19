@@ -1,15 +1,17 @@
 \chapter{Daten}\label{ch:daten}
 
-In diesem Kapitel wird zunächst die Wahl der Datenquelle erläutert, anschließend wird die konkrete Erzeugung des Ausgangsdatensatzes beschrieben.
-Außerdem wird schrittweise die Verarbeitung des Ausgangsdatensatzes und die daraus resultierende Datenaggregation hin zu einem Evaluations- und Testdatensatzes aufgezeigt.
-Der resultierende Datensatz stellt eines der zentralen Ergebnisse dieser Arbeit dar.
+Die Qualität und Eignung des Datensatzes zählen zu den entscheidenden Faktoren für den Erfolg empirischer Arbeiten im Feld der \glspl{llm}.
+Insbesondere bei der Evaluierung durch Benchmarks sowie beim Fine-Tuning wirken sich Aufbau, Umfang und Relevanz der verwendeten Daten unmittelbar auf die Aussagekraft der Ergebnisse aus.
+Vor diesem Hintergrund erläutert das folgende Kapitel zunächst die Auswahl der Datenquelle und beschreibt im Anschluss die systematische Erstellung des Ausgangsdatensatzes.
+Darauf aufbauend wird der Prozess der Weiterverarbeitung und Aggregation dargestellt, der schließlich in einem strukturierten Evaluations- und Testdatensatz resultiert.
+Dieser bildet die Grundlage für die in dieser Arbeit durchgeführten Untersuchungen und stellt zugleich ein zentrales Ergebnis des Forschungsprozesses dar.
 
 % ======================================================================================================================
 
 % Hier wird beschrieben, welche Datenquelle ausgewählt wurde, warum sie ausgewählt wurde und welche Alternativen es gab.
 \section{Wahl der Datenquelle}\label{sec:wahl-der-datenquelle}
 
-Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen alternativen abgewogen werden.
+Um einen Evaluations- und Testdaten zu erzeugen, muss zuerst eine geeignete Datenquelle identifiziert und gegen Alternativen abgewogen werden.
 Die Datenquelle wird anhand folgender Kriterien ausgewählt:
 
 \begin{itemize}
@@ -17,27 +19,29 @@ Die Datenquelle wird anhand folgender Kriterien ausgewählt:
     \item \textit{Realitätsnähe} -- die Datenquelle muss heterogene, reale Daten enthalten, künstliche Daten sollen weitgehend vermieden werden.
     \item \textit{Umfang} -- der Datensatz muss einen für den Anwendungsfall ausreichenden Umfang haben.
     \item \textit{Reproduzierbarkeit} -- der Datensatz soll durch einen reproduzierbaren Prozess erzeugt werden können.
-    \item \textit{Erweiterbarkeit} -- der Datensatz soll erweiterbar sein, etwa durch das Hinzufügen weiterer Quellen.
+    \item \textit{Erweiterbarkeit} -- der Datensatz soll durch zusätzliche Quellen erweiterbar sein.
 \end{itemize}
 
 % TODO: Quelle einfügen
 Eine naheliegende Datenquelle ist das Github Repository des ScanCode-Toolkits, welches einen Testdatensatz zur Erkennung von Copyrights beinhaltet.
 Dieser Datensatz besteht aus Quellcode-Dateien und ihren zugehörigen ScanCode-Ergebnissen.
 Der Datensatz ist, wie auch das ScanCode-Toolkit, frei verfügbar.
-Da es sich in erster Linie um Testdaten für die bestehende Implementierung handelt, bestehen diese zum Teil aus künstlich erzeugten, kuratierten Testfällen, welche nicht klar von realen Daten abgrenzbar sind.
+Da es sich in erster Linie um Testdaten für die bestehende Implementierung handelt, bestehen diese zum Teil aus künstlich erzeugten, kuratierten Testfällen.
+Eine Unterscheidung zwischen realen und synthetischen Beispielen ist jedoch im Datensatz nicht explizit gegeben.
+Es fehlen sowohl entsprechende Bezeichner als auch strukturelle Merkmale, die Rückschlüsse auf den Ursprung einzelner Datenpunkte zulassen.
 Außerdem ist es schwer einzuschätzen, inwiefern die Testdaten ein reales Spektrum an Copyrights abdecken.
 Jedoch ist der Umfang des Testdatensatzes mit mehreren Tausend Dateien ausreichend für die vorgesehene Verwendung (Benchmark und Fine-Tuning).
 Der Datensatz wurde manuell kuratiert und entspringt keinem wiederholbaren Prozess, eine Reproduzierbarkeit ist somit nicht gegeben.
 Wegen des fehlenden Prozesses ist der Datensatz nur manuell um weitere Quellen erweiterbar.
 
 Die Lizenzdatenbank der metaeffekt \gls{tmd} bietet sich ebenfalls als Datenquelle an.
-Sie umfasst über \num{2000} Lizenztexte und ihre metaeffekt-interne Modellierung.
+Sie umfasst über \num{2600} Lizenztexte und ihre metaeffekt-interne Modellierung.
 Die Lizenztexte enthalten zwar Copyright-Statements, allerdings dienen diese hauptsächlich als Randfälle, die zur Umsetzung der \nameref{subsec:cep-04} dienen können.
-Sowohl die Realitätsnähe als auch die Reproduzierbarkeit und Erweiterbarkeit sind bei dieser Datenquelle kaum gegeben.
+Sowohl eine verallgemeinerte Realitätsnähe, als auch die Reproduzierbarkeit und Erweiterbarkeit sind bei dieser Datenquelle kaum gegeben.
 
 Im Laufe der Arbeit wurde eine weitere Datenquelle identifiziert, welche die bisherige Qualität des ScanCode-Toolkit beinhaltet, dabei aber nicht auf künstlichen Daten beruht.
 Diese Datenquelle ist ein durch die Prozesse der metaeffekt analysierter und inventarisierter Alpine-Container.
-Die Verfügbarkeit der Quelle ist dadurch gegeben, dass der Scan ein Produkt der metaeffekt ist.
+Die Verfügbarkeit der Quelle ist dadurch gegeben, dass der Scan ein Produkt der metaeffekt-Werkzeuge ist.
 Das analysierte Container-Image beinhaltet ausschließlich reale Daten, welche ein breites Spektrum an Paketen und Quellcode beinhalten.
 Der Umfang des Scans ist um ein Vielfaches größer als die Testdaten von ScanCode.
 Dadurch dass der Scan das Ergebnis eines automatischen Prozesses ist, kann dieser ohne Hindernisse reproduziert und um weitere Scan-Ergebnisse von anderen Quellen erweitert werden.
@@ -49,7 +53,7 @@ Die konkrete Erzeugung dieser Datenquelle wird im nächsten Abschnitt erläutert
 
 \section{Erzeugung des Ausgangsdatensatzes}\label{sec:erzeugung-datensatz}
 
-Beim Scan des Alpine-Containers mithilfe des metaeffekt-Scanners laufen mehrere Schritte ab, die für die Aggregation eines Copyright-Datensatzes relevant sind.
+Beim Scan des Alpine-Containers mithilfe des metaeffekt-Scanners laufen mehrere Verarbeitungsschritte ab, die für die Aggregation eines Copyright-Datensatzes relevant sind.
 Zunächst werden sämtliche Datenpakete entpackt und die resultierenden Quellcode-Dateien in eines oder mehrere Segmente unterteilt.
 Die resultierenden Segmente werden normalisiert und auf diese normalisierten Segmente werden Scan-Prozesse, wie der ScanCode-Service, angewandt.
 
@@ -57,10 +61,10 @@ Das vom ScanCode-Service erzeugte Ergebnis enthält die ermittelten Copyright-In
 Die Normalisierung umfasst unter anderem das Entfernen mehrfacher Leerzeichen sowie von Zeilenumbrüchen.
 Die \nameref{subsec:cep-01} besagt, dass Copyright-Statements nicht verändert werden dürfen.
 Da die Normalisierung und Segmentierung den originalen Zustand der Datei verändern, können sie nicht für den Datensatz herangezogen werden.
-Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt und für jede Datei die Scan-Ergebnisse aller ihrer Segmente zusammengeführt.
+Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt und für jede Datei die Scan-Ergebnisse aller ihrer Segmente zurückgeführt.
 
 % TODO: Eventuell hier kurz darauf eingehen, dass der SHA-1 Hash gewählt wurde, um kollisionen zu vermeiden und von originalen Dateinamen zu abstrahieren. Wahrscheinlichkeit für Kollision nennen.
-Um Namenskonflikte zu vermeiden, wurde anschließend für jede Originaldatei der SHA-1 Hash berechnet und zusammen mit dem Dateityp zur Benennung der Datei verwendet.
+Um Namenskonflikte zu vermeiden, wurde für jede Originaldatei der SHA-1 Hash berechnet und zusammen mit dem Dateityp zur Benennung der Datei verwendet.
 Da die Verzeichnisstruktur der Originaldateien nicht relevant ist, werden alle Dateien in einem flachen Verzeichnis gespeichert, dies vereinfacht die anschließende Verarbeitung zusätzlich.
 Der resultierende Ausgangsdatensatz umfasst etwa \num{467000} Originaldateien und ihre Scan-Ergebnisse.
 
@@ -98,13 +102,13 @@ Blöcke von Copyright-Statements können zwar für jedes extrahierte Statement e
 Eine korrekte Extraktion der \enquote{holders} und \enquote{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
 Da die Priorität bei einer korrekten Extraktion der \enquote{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als verkraftbares Übel hingenommen.
 
-\textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{no exact matches}}
+\textbf{Schritt 5 -- Analyse und Rekonstruktion der \enquote{mismatches}}
 Die ScanCode-Ergebnisse ohne \enquote{exact match} umfassen ca.\ zwei Drittel des Datensatzes.
 Die Analyse dieser Ergebnisse zeigte, dass ScanCode unter anderem die Groß- und Kleinschreibung der Statements normalisiert.
 Ein Beispiel hierfür ist die konsequente Ersetzung der \enquote{(C)} Markierung durch \enquote{(c)}.
 Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob für jedes extrahierte Statement ein \enquote{exact match} vorliegt.
 Wenn ein solcher Match vorlag, konnte geschlussfolgert werden, dass die einzige Differenz zwischen Originaldatei und Extrakt die Groß- bzw.\ Kleinschreibung war.
-Dieser Teil des Datensatzes wurde der Kategorie \enquote{exact matches without case} zugeordnet und die enthaltenen Fälle wurden anschließend zu \enquote{exact matches} aufgewertet.
+Dieser Teil des Datensatzes wurde der Kategorie \enquote{case-insenstitive matches} zugeordnet und die enthaltenen Fälle wurden anschließend zu \enquote{exact matches} aufgewertet.
 Die Rekonstruktion der Original-Statements erfolgte, indem das extrahierte Statement in der Originaldatei gesucht und anschließend das Original-Statement im Ergebnis ersetzt wurde.
 Auf diese Weise konnten ca.\ \num{57000} Dateien den \enquote{exact matches} hinzugefügt werden.
 
@@ -113,14 +117,14 @@ Da sowohl durch das ScanCode-Toolkit als auch durch die metaeffekt Prozesse Norm
 Um die \nameref{subsec:cep-06} zu erfüllen, muss die Formatierung im extrahierten Copyright-Statement erhalten bleiben.
 Die durch Normalisierung betroffenen Statements wurden dadurch identifiziert, dass aus den Originaldateien und ScanScode-Ergebnissen jegliche Formatierungen, also Leerzeichen, Zeilenumbrüche und Tabulatoren entfernt wurden.
 Anschließend wurde überprüft, ob für jedes Statement einer Datei ein \enquote{exact match} vorliegt.
-Die Rekonstruktion dieser \enquote{exact matches without format} erfordert, dass das Statement in der Originaldatei gefunden und anschließend in das ScanCode-Ergebnis kopiert wird.
+Die Rekonstruktion dieser \enquote{format-insensitive matches} erfordert, dass das Statement in der Originaldatei gefunden und anschließend in das ScanCode-Ergebnis kopiert wird.
 Da die Statements durch ihre Formatierung nicht eindeutig dem Ergebnis zuweisbar sind, wurde die Levenstein-Distanz zwischen den extrahierten Statements und jedem Substring der Originaldatei berechnet und der Substring gewählt, welcher die geringste Distanz zum Statement ergab.
 Anschließend wurden alle Zeichen zwischen dem ersten und letzten Index des Substring aus der Originaldatei in das ScanCode-Ergebnis übertragen.
-Durch diese Methode konnten ca.\ \num{6000} \enquote{exact matches without case} rekonstruiert werden.
+Durch diese Methode konnten ca.\ \num{6000} \enquote{case-insenstitive matches} rekonstruiert werden.
 Die Statements erfordern dennoch Teils manuelle Arbeit, da bei mehrzeiligen Statements die in Kommentarsyntax eingebettet sind, nun auch die entspreche Kommentarsyntax in die Metadaten übertagen wurde.
-Die Kategorie \enquote{exact match without format and case} enthält solche Fälle, die sowohl abweichende Formatierung als auch abweichende Groß- und Kleinschreibung im ScanCode-Ergebnis enthalten.
+Die Kategorie \enquote{case-and-format-insensitive-matches} enthält solche Fälle, die sowohl abweichende Formatierung als auch abweichende Groß- und Kleinschreibung im ScanCode-Ergebnis enthalten.
 Die Fälle dieser Kategorie wurden dadurch ermittelt, dass zunächst jegliche Formatierung und dann jede Großschreibung in den Originaldateien und den ScanCode-Ergebnissen entfernt wurde, anschließend wurde auch \enquote{exact matches} geprüft.
-Von den ursprünglichen rund \num{94000} \enquote{no exact matches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \enquote{other reasons} an.
+Von den ursprünglichen rund \num{94000} \enquote{mismatches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \enquote{other reasons} an.
 Diese Kategorie erfordert weitere Untersuchungen und eventuell manuelle Aufbereitung.
 
 \textbf{Schritt 7 -- Identifizierung von\enquote{multiple copyrights}.}
@@ -131,13 +135,13 @@ Da die meisten Copyright-Statements im Datensatz einzelne Copyrights ohne Autore
 
 \textbf{Schritt 8 -- Identifizierung von \enquote{single copyrights}.}
 Analog zu den \enquote{multiple copyrights} wurden die \enquote{single copyrights} identifiziert und nach dem Vorkommen von \enquote{authors} unterteilt.
-Die resultierenden Kategorien \enquote{single copyrights with authors} und \enquote{single copyrights without auhtors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \enquote{authors}.
+Die resultierenden Kategorien \enquote{single copyrights with authors} und \enquote{single copyrights without authors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \enquote{authors}.
 
 \textbf{Schritt 9 -- Manuelle Datenpflege.}
-Im Laufe dieser Arbeit wurde zu mehreren Zeitpunkten eine Untermenge der Kategorien \enquote{exact matches without format}, \enquote{exact matches without format and case}, \enquote{multiple copyrights}, \enquote{other reasons} und \enquote{only authors} manuell anhand der Policy geprüft und, wenn nötig, korrigiert.
+Im Laufe dieser Arbeit wurde zu mehreren Zeitpunkten eine Untermenge der Kategorien \enquote{format-insensitive matches}, \enquote{format-insensitive matches and case}, \enquote{multiple copyrights}, \enquote{other reasons} und \enquote{only authors} manuell anhand der Policy geprüft und, wenn nötig, korrigiert.
 Diese manuell gepflegten Daten wurden regelmäßig dem Stakeholder stichprobenartig zur Validierung vorgelegt und sofern Unregelmäßigkeiten identifiziert wurden, angepasst.
 % TODO: hier die finale Zahl der manuellen Datenpflege eintragen und noch auf die Zusammensetzung pro Kategorie eingehen.
-Der resultierende Datensatz \enquote{manually checked} umfasst x Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
+Der resultierende Datensatz \enquote{manually checked} umfasst 700 Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
 
 \begin{figure}[ht]
     \centering
@@ -147,9 +151,9 @@ Der resultierende Datensatz \enquote{manually checked} umfasst x Dateien und ste
 \end{figure}
 Das Resultat der Datenaggregation sind neun Kategorien von Dateien, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
 Die \autoref{fig:data-sankey} veranschaulicht die schrittweise Verarbeitung und Kategorisierung der Daten.
-Besonders bei der Abbildung hervorzuheben ist einerseits die Zusammenführung der \enquote{exact matches} und der rekonstruierten \enquote{exact matches without case}, welche den größten Anteil des Datensatzes ausmachen.
-Außerdem kann der geneigte Leser anhand der Abbildung erkennen, in welchem Größenverhältnis die verschiedenen Kategorien zueinander stehen bzw.\ welche Kategorien den geringsten Teil des Datensatzes abdecken.
-Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst heterogene Testdaten zu wählen und dabei möglichst viele Gestalten von Copyrights zu prüfen.
+Besonders bei der Abbildung hervorzuheben ist einerseits die Zusammenführung der \enquote{exact matches} und der rekonstruierten \enquote{case-insenstitive matches}, welche den größten Anteil des Datensatzes ausmachen.
+Außerdem ermöglicht die Abbildung Rückschlüsse darüber, in welchem Größenverhältnis die verschiedenen Kategorien zueinander stehen bzw.\ welche Kategorien den geringsten Teil des Datensatzes abdecken.
+Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst heterogene Testdaten zu wählen und dabei möglichst viele Arten von Copyrights zu prüfen.
 
 % ======================================================================================================================
 

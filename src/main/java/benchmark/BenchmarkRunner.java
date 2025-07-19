@@ -113,6 +113,7 @@ public class BenchmarkRunner {
             wordList.add("author");
             wordList.add("authors");
             wordList.add("maintainer");
+            wordList.add("Organization");
             wordList.add("Maintainers");
             wordList.add("developer");
             wordList.add("creator");

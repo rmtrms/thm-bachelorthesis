@@ -1,6 +1,6 @@
 \chapter{Benchmark und Modellauswahl}\label{ch:benchmark}
 
-In diesem Kapitel wird erläutert, wie mithilfe eines Benchmarks das für den Anwendungsfall geeignete \gls{llm} bestimmt wurde.
+Die systematische Auswahl eines geeigneten \glspl{llm} erforderte die Entwicklung und Anwendung eines spezifisch auf den Anwendungsfall zugeschnittenen Benchmarks.
 Die Konzeption und Durchführung war ein iterativer Prozess bei dem stetig Erkenntnisse und identifizierte Probleme dazu genutzt wurden, den Benchmark zu verbessern.
 Dieser iterative Prozess hatte zur Folge, dass aufbauend auf Zwischenergebnisse Anpassungen vorgenommen wurden.
 Deshalb wird in den folgenden Unterkapiteln nicht nur auf das finale Ergebnis des Benchmarks, sondern auch auf die Zwischenergebnisse und die daraus abgeleiteten Entscheidungen eingegangen.
@@ -8,7 +8,7 @@ Deshalb wird in den folgenden Unterkapiteln nicht nur auf das finale Ergebnis de
 \section{Auswahl der Sprachmodelle}\label{sec:modelle-benchmark}
 
 Die Auswahl an verfügbaren \glspl{llm} wird einerseits durch die Leistungsfähigkeit der verwendeten Hardware und andererseits durch die Kompatibilität der Software eingeschränkt.
-Erste Experimente ergaben, dass der verwendete Mac Mini M4 Pro mit 64 Gigabyte Arbeitsspeicher \glspl{llm} mit einer Parametergröße von maximal 108 Milliarden ausführen kann, ohne Wärmebedingt die Leistung zu drosseln.
+Erste Experimente ergaben, dass der verwendete Mac Mini M4 Pro mit 64 Gigabyte Arbeitsspeicher \glspl{llm} mit einer Parametergröße von maximal 108 Milliarden ausführen kann, ohne wärmebedingt die Leistung zu drosseln.
 Da die finale Implementierung des Benchmarks softwareseitig mit Ollama4J einen lokal ausgeführten Ollama Server anspricht, konnten nur solche \glspl{llm} ausgewählt werden, die auf Ollama zur Verfügung stehen.
 Die Wahl an \glspl{llm}, die für den Benchmark genutzt werden sollen, beschränkt sich somit auf Modelle die durch Ollama unterstützt werden und bis zu 108 Milliarden Parameter groß sind.
 Es wurden \glspl{llm} von zahlreichen namhaften Providern geprüft, darunter Microsoft (phi4, phi3), Meta (llama4, llama3), Deepseek (deepseek-coder, deepseek-r1), Alibaba (qwen3, qwen2.5, qwen2.5-coder), Google (gemma3, gemma3n) und Mistral (mistral, mathstral, devstral, mistral-small, mistral-nemo).
