@@ -22,7 +22,7 @@ Extract the following information into a JSON object with these keys:
     * Authorship implies anyone who contributed to the material (e.g., editors, contributors). Maintainers are not considered authors.
     * Include the author's mail address if provided.
 
-**Mail Address Normalization:** For both "holders" and "authors" mail addresses, normalize them to lowercase and remove any delimiters like `<`, `>`, `(`, or `)`.
+**Mail Address Normalization:** For both "holders" and "authors" mail addresses, normalize them to lowercase and use delimiters "<" and ">" it not present.
 
 Ignore all content not relevant to copyright or authorship information (e.g., source code, license text).
 
@@ -47,7 +47,7 @@ Output:
 Example 2:
 Text:
 //
-//  Copyright (c) 2004, 2005 Mellanox Technologies Ltd.  All rights reserved.
+// Copyright (c) 2004, 2005 Mellanox Technologies Ltd.  All rights reserved.
 // Copyright (c) 2004, 2005 Infinicon Corporation.  All rights reserved.
 // Copyright (c) 2004, 2005 Intel Corporation.  All rights reserved.
 // Copyright (c) 2004, 2005 Topspin Corporation.  All rights reserved.
@@ -92,7 +92,7 @@ Output:
 {
   "copyrights": [ "Copyright(c) 2014-2015 Intel Corporation\nAll rights reserved." ],
   "holders": [ "Intel Corporation" ],
-  "authors": [ "Mengdong Lin mengdong.lin@intel.com", "Yao Jin yao.jin@intel.com", "Liam Girdwood liam.r.girdwood@linux.intel.com" ]
+  "authors": [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>", "Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
 }
 
 ---
@@ -106,7 +106,7 @@ Example 5:
 Output:
 {
   "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.", "Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved." ],
-  "holders" : [ "Realtek Corporation.", "Andrea Merello andrea.merello@gmail.com, et al." ],
+  "holders" : [ "Realtek Corporation.", "Andrea Merello <andrea.merello@gmail.com>, et al." ],
   "authors" : [ ]
 }
 

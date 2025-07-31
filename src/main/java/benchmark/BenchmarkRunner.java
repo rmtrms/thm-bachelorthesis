@@ -41,9 +41,9 @@ public class BenchmarkRunner {
             .enable(SerializationFeature.INDENT_OUTPUT)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-    static final String PROMPT_TEMPLATE_PATH = "prompts/base_prompt_7.txt";
+    static final String PROMPT_TEMPLATE_PATH = "prompts/ai-prompt_1.txt";
     static final String BASE_DATA_DIR = "data/benchmark";
-    static final String PROCESSED_OUTPUT_ROOT_DIR = "/Users/rtueremis/documents/benchmark_results";
+    static final String PROCESSED_OUTPUT_ROOT_DIR = "data/benchmark_results";
     static final String WARMUP_PROMPT = "Hello, respond with a single word 'Ready'.";
 
     private static final long REQUEST_TIMEOUT_MINUTES = 3; // Change this value as needed
@@ -58,7 +58,7 @@ public class BenchmarkRunner {
             //"qwen2.5:3b",
             //"qwen2.5-coder:3b",
             //"orca-mini:3b",
-            //"phi3:3.8b", --> causes stackoverflow error at executor service
+            //"phi3:3.8b", // --> causes stackoverflow error at executor service
             //"qwen3:4b",
             //"gemma3:4b",
             //"deepseek-coder:6.7b",

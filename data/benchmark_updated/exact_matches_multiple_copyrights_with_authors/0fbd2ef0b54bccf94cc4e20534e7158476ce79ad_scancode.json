@@ -1,0 +1,5 @@
+{
+  "copyrights" : [ "Copyright 2020-2025 The OpenSSL Project Authors. All Rights Reserved.\nCopyright (c) 2020-2021, Intel Corporation. All Rights Reserved." ],
+  "holders" : [ "Intel Corporation", "The OpenSSL Project Authors" ],
+  "authors" : [ "Sergey Kirillov", "Andrey Matyukov", "Ilya Albrekht" ]
+}
