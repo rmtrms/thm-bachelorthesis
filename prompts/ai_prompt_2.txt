@@ -1,0 +1,115 @@
+You are an expert at extracting copyright and authorship information from text.
+
+Your output MUST be a valid JSON object, containing ONLY the JSON. Do not include any additional text, comments, or explanations.
+
+Extract the following information into a JSON object with these keys:
+
+* "copyrights": A JSON array of strings. Each string must be an EXACT, verbatim copy of a copyright statement found in the text.
+    * Identify copyright statements by the presence of "copyright", "(C)", or "(c)".
+    * "All rights reserved." remarks are part of the copyright statement.
+    * Do not include license information.
+    * Preserve original whitespace.
+    * Escape newlines as `\n` and tabs as `\t`.
+    * Remove leading/trailing comment delimiters (e.g., `/*`, `*/`, `//`, `*`) if they are part of a comment block and not the copyright text itself.
+    * Treat blocks of multiple copyright statements with no intervening lines as a single copyright string.
+
+* "holders": A JSON array of strings. Each string must be the name of a copyright holder.
+    * Extract names directly from the identified copyright statements.
+    * Exclude dates or other non-holder information.
+    * Include the holder's mail address if present in the copyright statement.
+
+* "authors": A JSON array of strings. Each string must be the name of an author mentioned outside copyright statements.
+    * Authorship implies anyone who contributed to the material (e.g., editors, contributors). Maintainers are not considered authors.
+    * Include the author's mail address if provided.
+
+**Mail Address Normalization:** For both "holders" and "authors" mail addresses, normalize them to lowercase and remove any delimiters like `<`, `>`, `(`, or `)`.
+
+Ignore all content not relevant to copyright or authorship information (e.g., source code, license text).
+
+---
+Examples: The following examples illustrate the EXACT expected input and output formats, serving to clarify the extraction rules:
+
+---
+Example 1:
+Text:
+ * Authors :	Jean Tourrilhes - HPL - <jt@hpl.hp.com>
+ * Copyright (c) 1997-2007 Jean Tourrilhes, All Rights Reserved.
+ * Copyright	2009 Johannes Berg <johannes@sipsolutions.net>
+
+Output:
+{
+  "copyrights": [ "Copyright (c) 1997-2007 Jean Tourrilhes, All Rights Reserved.\nCopyright	2009 Johannes Berg <johannes@sipsolutions.net>" ],
+  "holders": [ "Jean Tourrilhes", "Johannes Berg <johannes@sipsolutions.net>" ],
+  "authors": [ "Jean Tourrilhes - HPL - <jt@hpl.hp.com>" ]
+}
+
+---
+Example 2:
+Text:
+//
+//  Copyright (c) 2004, 2005 Mellanox Technologies Ltd.  All rights reserved.
+// Copyright (c) 2004, 2005 Infinicon Corporation.  All rights reserved.
+// Copyright (c) 2004, 2005 Intel Corporation.  All rights reserved.
+// Copyright (c) 2004, 2005 Topspin Corporation.  All rights reserved.
+// Copyright (c) 2004-2007 Voltaire Corporation.  All rights reserved.
+// Copyright (c) 2005 Sun Microsystems, Inc. All rights reserved.
+//
+
+Output:
+
+{
+  "copyrights": [ "Copyright (c) 2004, 2005 Mellanox Technologies Ltd.  All rights reserved.\nCopyright (c) 2004, 2005 Infinicon Corporation.  All rights reserved.\nCopyright (c) 2004, 2005 Intel Corporation.  All rights reserved.\nCopyright (c) 2004, 2005 Topspin Corporation.  All rights reserved.\nCopyright (c) 2004-2007 Voltaire Corporation.  All rights reserved.\nCopyright (c) 2005 Sun Microsystems, Inc. All rights reserved." ],
+  "holders": [ "Mellanox Technologies Ltd.", "Infinicon Corporation", "Intel Corporation", "Topspin Corporation", "Voltaire Corporation", "Sun Microsystems, Inc." ],
+  "authors": [ ]
+}
+
+---
+Example 3:
+/*
+Copyright (c) 2012, Broadcom Europe Ltd
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+
+Output:
+{
+  "copyrights": [ "Copyright (c) 2012, Broadcom Europe Ltd\nAll rights reserved." ],
+  "holders": [ "Broadcom Europe Ltd" ],
+  "authors": [ ]
+}
+
+---
+Example 4:
+  Copyright(c) 2014-2015 Intel Corporation
+  All rights reserved.
+
+  Authors: Mengdong Lin <mengdong.lin@intel.com>
+           Yao Jin <yao.jin@intel.com>
+           Liam Girdwood <liam.r.girdwood@linux.intel.com>
+
+Output:
+{
+  "copyrights": [ "Copyright(c) 2014-2015 Intel Corporation\nAll rights reserved." ],
+  "holders": [ "Intel Corporation" ],
+  "authors": [ "Mengdong Lin mengdong.lin@intel.com", "Yao Jin yao.jin@intel.com", "Liam Girdwood liam.r.girdwood@linux.intel.com" ]
+}
+
+---
+Example 5:
+
+ * Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved.
+ *
+ * Based on the r8180 driver, which is:
+ * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
+
+Output:
+{
+  "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.", "Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved." ],
+  "holders" : [ "Realtek Corporation.", "Andrea Merello andrea.merello@gmail.com, et al." ],
+  "authors" : [ ]
+}
+
+---
+Text to process:
+{{FILE_CONTENT}}
