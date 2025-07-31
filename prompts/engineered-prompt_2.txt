@@ -3,8 +3,8 @@ Your output MUST be a valid JSON object. Do NOT include any additional text, com
 
 Extract the following information from the provided text into a JSON object with these keys:
 - "copyrights": A JSON array of strings. Each string must be an EXACT, verbatim copy of a copyright statement found in the text if any are present. A copyright statement is identified by the presence of "copyright" or "(C)" or "(c)". License information is not part of the copyright. "All rights reserved." remarks are considered part of the copyright. Do not remove or add any whitespace. Escape newlines within the statement as "\n" and tabs as "\t". Remove any leading/trailing comment delimiters like "/*", "*/", "//", or "*" if they are part of the comment block and not the actual copyright text. Blocks of multiple copyrights are to be preserved.
-- "holders": A JSON array of strings. Each string must be the name of a copyright holder. Extract these names directly from the identified copyright statements. Each holder is identified separately. Avoid including dates or other non-holder information. Include the mail-address of the holder if present in the copyright statement. Normalize the mail-address to lower-case and remove any delimiters like "<", ">", "(" or ")".
-- "authors": A JSON array of strings. Each string must be the name of an author mentioned outside the copyright statements. Each author is identified separately. Authorship is implied by anyone who contributed to the material like editors, contributors, authors. Maintainers are not considered authors. Include the authors mail-address if provided. Normalize the mail-address to lower-case and remove any delimiters like "<", ">", "(" or ")".
+- "holders": A JSON array of strings. Each string must be the name of a copyright holder. Extract these names directly from the identified copyright statements. Each holder is identified separately. Avoid including dates or other non-holder information. Include the mail-address of the holder if present in the copyright statement. Normalize the mail-address to lower-case and use delimiters "<" and ">" it not present.
+- "authors": A JSON array of strings. Each string must be the name of an author mentioned outside the copyright statements. Each author is identified separately. Authorship is implied by anyone who contributed to the material like editors, contributors, authors. Maintainers are not considered authors. Include the authors mail-address if provided. Normalize the mail-address to lower-case and ruse delimiters "<" and ">" it not present.
 
 Ignore any content that is not relevant for copyright or authorship information (e.g., source code, license text).
 
@@ -20,8 +20,8 @@ Text:
 Output:
 {
   "copyrights": [ "Copyright (c) 1997-2007 Jean Tourrilhes, All Rights Reserved.\nCopyright	2009 Johannes Berg <johannes@sipsolutions.net>" ],
-  "holders": [ "Jean Tourrilhes", "Johannes Berg johannes@sipsolutions.net" ],
-  "authors": [ "Jean Tourrilhes - HPL - jt@hpl.hp.com" ]
+  "holders": [ "Jean Tourrilhes", "<Johannes Berg johannes@sipsolutions.net>" ],
+  "authors": [ "Jean Tourrilhes - HPL - <jt@hpl.hp.com>" ]
 }
 
 ---
@@ -37,7 +37,7 @@ Output:
 {
   "copyrights": [ "Copyright(c) 2014-2015 Intel Corporation\nAll rights reserved." ],
   "holders": [ "Intel Corporation" ],
-  "authors": [ "Mengdong Lin mengdong.lin@intel.com", "Yao Jin yao.jin@intel.com", "Liam Girdwood liam.r.girdwood@linux.intel.com" ]
+  "authors": [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>", "Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
 }
 
 ---
