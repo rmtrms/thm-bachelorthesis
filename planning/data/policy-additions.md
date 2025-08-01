@@ -5,8 +5,12 @@
 - Der ScanCode Service (metaeffekt) fügt die Punkte am Ende eines Copyrights hinzu, die extrahierten Holders enthalten 
 diese dann oft auch.
 - Die Punkte am Ende sollen entfernt werden, falls diese nicht Teil der Bezeichnung des Holders sind.
-- Der Punkt ist Teil der Bezeichnung bei z.B. Kürzeln wie "Inc.", "Ltd." und "Corp.".
+- Der Punkt ist Teil der Bezeichnung bei z.B. Kürzeln wie:
 
+- "Inc."
+- "Ltd."
+- "Corp."
+- "LLC."
 ### Beispiel 1
 
 ```
