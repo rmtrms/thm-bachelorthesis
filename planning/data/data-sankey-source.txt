@@ -1,0 +1,99 @@
+// SankeyMATIC diagram inputs - Saved: 15.7.2025, 17:11:44
+// https://sankeymatic.com/build/
+
+// === Nodes and Flows ===
+
+// Enter Flows between Nodes, like this:
+//         Source [AMOUNT] Target
+
+total dataset [300000] no copyrights\nor holders\nor authors
+total dataset [165000] copyrights\nor holders\nor authors
+
+copyrights\nor holders\nor authors [151000] unique files
+copyrights\nor holders\nor authors [14000] duplicate files
+
+unique files [11000] only authors
+unique files [140000] contains copyrights
+
+contains copyrights [94000] mismatches
+contains copyrights [46000] exact matches
+exact matches [90000] single\ncopyrights
+exact matches [13000] multiple\ncopyrights
+
+single\ncopyrights [20000] single\nwith authors
+single\ncopyrights [70000] single\nwithout authors
+
+multiple\ncopyrights [3000] multiple\nwith authors
+multiple\ncopyrights [10000] multiple\nwithout authors
+
+mismatches [57000] case-insensitive\nmatches
+mismatches [6000] format-insensitive\nmatches
+mismatches [4000] case-and-format-insensitive\nmatches
+mismatches [27000] unresolved mismatches
+
+case-insensitive\nmatches [57000] exact matches
+
+// You can set a Node's color, like this:
+//:Budget #057
+//            ...or a color for a single Flow:
+//Budget [160] Other Necessities #606
+
+// "[*]" means "Use any amount left over":
+//Budget [*] Savings
+
+// Use the controls below to customize
+// your diagram's appearance...
+
+// === Settings ===
+
+size w 988
+  h 600
+margin l 6
+  r 6
+  t 0
+  b 0
+bg color #ffffff
+  transparent N
+node w 10
+  h 11.5
+  spacing 49.5
+  border 0
+  theme a
+  color #888888
+  opacity 1
+flow curvature 0.7
+  inheritfrom outside-in
+  color #999999
+  opacity 0.4
+layout order automatic
+  justifyorigins N
+  justifyends N
+  reversegraph N
+  attachincompletesto nearest
+labels color #000000
+  hide N
+  highlight 0
+  fontface sans-serif
+  linespacing 0.25
+  relativesize 97
+  magnify 100
+labelname appears Y
+  size 12
+  weight 400
+labelvalue appears Y
+  fullprecision Y
+  position below
+  weight 400
+labelposition autoalign 0
+  scheme per_stage
+  first after
+  breakpoint 10
+value format '.,'
+  prefix ''
+  suffix ''
+themeoffset a 6
+  b 0
+  c 0
+  d 0
+meta mentionsankeymatic N
+  listimbalances Y
