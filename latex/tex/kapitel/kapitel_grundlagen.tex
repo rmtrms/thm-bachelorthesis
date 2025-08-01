@@ -5,78 +5,78 @@
 \section{Rechtliche Rahmenbedingungen und Herausforderungen beim Einsatz von Open Source Software}\label{sec:rechtliches}
 
 Die zunehmende Verbreitung von \gls{oss} in Forschung, Wirtschaft und öffentlicher Verwaltung wirft eine Vielzahl rechtlicher Fragen auf, die sich insbesondere auf das Urheberrecht und die Lizenzierungspraxis beziehen.
-Obwohl OSS häufig frei zugänglich ist, unterliegt sie uneingeschränkt dem Schutz des Urheberrechts gemäß dem \gls{urhg}.
+Obwohl OSS häufig frei zugänglich ist, unterliegt sie in Deutschland uneingeschränkt dem Schutz des Urheberrechts gemäß dem \gls{urhg}.
 Die rechtssichere Nutzung, Veränderung und Weiterverbreitung quelloffener Software setzt daher ein grundlegendes Verständnis der urheberrechtlichen Schutzmechanismen, der Einräumung und Durchsetzung von Nutzungsrechten sowie der Einhaltung von Lizenzbedingungen voraus.
 Gerade im Kontext automatisierter Softwareanalysen, etwa durch \glspl{llm}, rücken Fragen der korrekten Attribution, der Wahrung von Lizenzpflichten und der Erkennbarkeit urheberrechtlicher Hinweise im Code in den Fokus.
-Dieses Kapitel beleuchtet die rechtlichen Grundlagen für den Einsatz von \gls{oss}, analysiert spezifische Regelungen des \gls{urhg} im Bereich der Software, zeigt potenzielle Konflikte innerhalb der Software-Lieferkette auf und stellt die Konsequenzen urheberrechtlicher Verstöße systematisch dar.
+Dieses Kapitel beleuchtet die rechtlichen Grundlagen für den Einsatz von \gls{oss}, analysiert spezifische Regelungen des deutschen \gls{urhg} im Bereich der Software, zeigt potenzielle Konflikte innerhalb der Software-Lieferkette auf und stellt die Konsequenzen urheberrechtlicher Verstöße systematisch dar.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{Grundlagen des Urheberrechts}
 
 Das deutsche \acrlong{urhg} schützt die geistigen Schöpfungen von Autoren, Künstlern und anderen Kreativen.
-Ziel des Urheberrechts ist es, sowohl die persönlichen als auch die wirtschaftlichen Interessen des Urhebers zu sichern (§ 11 UrhG).
+Ziel des Urheberrechts ist es, sowohl die persönlichen als auch die wirtschaftlichen Interessen des Urhebers zu sichern (§ 11 \gls{urhg}).
 Die zentrale Voraussetzung für den Schutz ist die sogenannte Schöpfungshöhe, also ein gewisses Maß an Individualität des Werkes.
-Ein urheberrechtlicher Schutz entsteht automatisch mit der Schaffung des Werkes, eine formale Registrierung ist nicht erforderlich.
+Ein urheberrechtlicher Schutz entsteht automatisch mit der Schaffung des Werkes, eine Registrierung ist nicht erforderlich.
 
-Gemäß § 2 Absatz 1 UrhG gehören Computerprogramme ausdrücklich zu den schutzfähigen Werken.
+Gemäß § 2 Absatz 1 \gls{urhg} gehören Computerprogramme ausdrücklich zu den schutzfähigen Werken.
 Sie werden unter Punkt 1 als \enquote{Werke der Literatur} erfasst, unabhängig davon, ob sie künstlerisch anspruchsvoll oder lediglich funktional gestaltet sind.
-Der Urheber im Sinne des UrhG ist die natürliche Person, die das Werk geschaffen hat (§ 7 UrhG).
+Der Urheber im Sinne des \gls{urhg} ist die natürliche Person, die das Werk geschaffen hat (§ 7 \gls{urhg}).
 
 Für das Verständnis von \gls{oss} ist besonders relevant, dass die Schutzwirkung des Urheberrechts unabhängig davon gilt, ob das Werk kommerziell oder unentgeltlich verwendet werden soll.
-Auch öffentlich zugängliche Software unterliegt dem Urheberrecht, und ihre Nutzung bedarf grundsätzlich der Zustimmung des Rechteinhabers (§§ 15 ff. UrhG), es sei denn, eine gesetzliche Schranke oder eine freie Lizenz regelt etwas anderes.
+Auch öffentlich zugängliche Software unterliegt dem Urheberrecht, und ihre Nutzung bedarf grundsätzlich der Zustimmung des Rechteinhabers (§§ 15 ff. \gls{urhg}).
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Computerprogramme als besondere Werkform (§§ 69a–69g UrhG)}
+\subsection{Computerprogramme als besondere Werkform (§§ 69a–69g \gls{urhg})}
 
-Im Jahr 1993 wurden durch die §§ 69a bis 69g UrhG spezielle Regelungen für Computerprogramme in das Gesetz aufgenommen.
+Im Jahr 1993 wurden durch die §§ 69a bis 69g \gls{urhg} spezielle Regelungen für Computerprogramme in das Gesetz aufgenommen.
 Diese Vorschriften basieren auf der EU-Richtlinie 2009/24/EG über den Rechtsschutz von Computerprogrammen.
-Software gilt damit als eine eigenständige Werkart mit besonderen Regelungen, die sich in Teilen von den allgemeinen Bestimmungen des Urheberrechts unterscheiden.
+Software gilt damit als eine eigenständige Werkform mit besonderen Regelungen, die sich in Teilen von den allgemeinen Bestimmungen des Urheberrechts unterscheiden.
 
-Nach § 69a UrhG sind Programme geschützt, wenn sie eine persönliche geistige Schöpfung des Urhebers darstellen.
+Nach § 69a \gls{urhg} sind Programme geschützt, wenn sie eine persönliche geistige Schöpfung des Urhebers darstellen.
 Der Schutz bezieht sich nicht nur auf den Quellcode, sondern auch auf vorbereitende Entwurfsunterlagen, sofern sie unmittelbar zur Entwicklung eines Programms bestimmt sind.
 
-§ 69b UrhG bestimmt, dass der Urheber eines Programms in aller Regel diejenige Person ist, die es entwickelt hat.
-Wird die Software jedoch im Rahmen eines Arbeitsverhältnisses erstellt, gehen die Nutzungsrechte grundsätzlich auf den Arbeitgeber über.
+§ 69b \gls{urhg} bestimmt, dass der Urheber eines Programms in aller Regel diejenige Person ist, die es entwickelt hat.
+Wird die Software jedoch im Rahmen eines Arbeitsverhältnisses erstellt, gehen die uneingeschränkten Nutzungsrechte grundsätzlich auf den Arbeitgeber über.
 Diese Regelung ist vor allem für Unternehmen relevant, die intern entwickelte Software unter Open Source stellen oder externe \gls{oss}-Komponenten nutzen.
 
-Die in § 69c UrhG genannten Rechte des Rechteinhabers umfassen unter anderem das dauerhafte oder vorübergehende Vervielfältigen, Übersetzen, Bearbeiten oder anderweitige Umarbeiten eines Programms sowie dessen öffentliche Wiedergabe.
-§ 69d UrhG regelt die zulässigen Handlungen.
+Die in § 69c \gls{urhg} genannten Rechte des Rechteinhabers umfassen unter anderem das dauerhafte oder vorübergehende Vervielfältigen, Übersetzen, Bearbeiten oder anderweitige Umarbeiten eines Programms sowie dessen öffentliche Wiedergabe.
+§ 69d \gls{urhg} regelt die zulässigen Handlungen.
 Beispielsweise darf ein rechtmäßiger Nutzer ein Programm vervielfältigen oder beobachten, wenn dies für dessen bestimmungsgemäße Nutzung erforderlich ist.
 
-§ 69e UrhG erlaubt unter bestimmten Voraussetzungen die Dekompilierung eines Programms.
+§ 69e \gls{urhg} erlaubt unter bestimmten Voraussetzungen die Dekompilierung eines Programms.
 Ziel dieser Regelung ist insbesondere die Sicherstellung der Interoperabilität mit anderen Programmen.
 Gerade im Open-Source-Kontext kann diese Vorschrift bei der Analyse proprietärer Schnittstellen von Bedeutung sein.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Einräumung von Nutzungsrechten (§§ 31–33 UrhG)}
+\subsection{Einräumung von Nutzungsrechten (§§ 31–33 \gls{urhg})}
 
-Ein zentrales Instrument für die Verbreitung und Nutzung von \gls{oss} ist die Einräumung von Nutzungsrechten.
-Diese ist im Urheberrecht in den §§ 31 bis 33 UrhG geregelt.
-Während das Urheberrecht als solches nicht übertragbar ist (§ 29 Abs. 1 UrhG), können Nutzungsrechte an einem Werk sehr wohl eingeräumt werden.
-Hierbei wird zwischen einfachen und ausschließlichen Nutzungsrechten unterschieden (§ 31 Abs. 2 UrhG).
+Ein zentrales Instrument für die Verbreitung und Nutzung von Software ist die Einräumung von Nutzungsrechten.
+Diese ist im Urheberrecht in den §§ 31 bis 33 \gls{urhg}geregelt.
+Während das Urheberrecht als solches nicht übertragbar ist (§ 29 Abs. 1 \gls{urhg}), können Nutzungsrechte an einem Werk sehr wohl eingeräumt werden.
+Hierbei wird zwischen einfachen und ausschließlichen Nutzungsrechten unterschieden (§ 31 Abs. 2 \gls{urhg}).
 Einfache Nutzungsrechte erlauben die gleichzeitige Nutzung durch mehrere Personen, während ausschließliche Rechte eine exklusive Nutzung vorsehen.
 
-Open-Source-Lizenzen wie die \gls{gpl}\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.de.html}}, die MIT License\footnote{\url{https://opensource.org/license/mit}} oder die Apache
+Software Lizenzen allgemein und insbesondere Open-Source-Lizenzen wie die \gls{gpl}\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.de.html}}, die MIT License\footnote{\url{https://opensource.org/license/mit}} oder die Apache
 License\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}} gewähren typischerweise einfache Nutzungsrechte.
 Diese standardisierten Lizenzverträge werden wirksam, sobald die Software verwendet oder öffentlich verfügbar gemacht wird.
 
-§ 32 UrhG regelt die angemessene Vergütung des Urhebers.
+§ 32 \gls{urhg} regelt die angemessene Vergütung des Urhebers.
 Im Bereich von \gls{oss} kommt dieser Vorschrift meist keine praktische Bedeutung zu, da die Lizenzen oft ausdrücklich auf eine Vergütung verzichten.
 Dennoch ist rechtlich klar, dass die Unentgeltlichkeit der Nutzung nicht automatisch bedeutet, dass der Urheber auf seine Rechte verzichtet.
 
-§ 33 UrhG betrifft die Übertragbarkeit von Rechten.
-Diese Vorschrift kann beispielsweise bei der Weitergabe von Projekten, dem Forking oder der Übernahme von OSS-Komponenten durch Dritte relevant sein.
+§ 33 \gls{urhg} betrifft die Übertragbarkeit von Rechten.
+Diese Vorschrift kann beispielsweise bei der Weitergabe von Projekten, dem Forking oder der Übernahme von \gls{oss}-Komponenten durch Dritte relevant sein.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{Anwendung auf Open Source Software}
 
-\gls{oss} unterliegt dem Urheberrecht unabhängig davon, ob sie frei oder kostenpflichtig zur Verfügung steht.
+\gls{oss} unterliegt dem Urheberrecht oder ähnlichen internationalen Rechten unabhängig davon, ob sie frei oder kostenpflichtig zur Verfügung steht.
 Der entscheidende Unterschied zu proprietärer Software besteht darin, dass die Rechteinhaber ihre Nutzungsrechte bewusst in standardisierten Lizenztexten öffentlich freigeben.
-Diese Freigabe erfolgt meist in Form einfacher Nutzungsrechte im Sinne von § 31 Abs. 2 UrhG.
+Diese Freigabe erfolgt meist in Form einfacher Nutzungsrechte im Sinne von § 31 Abs. 2 \gls{urhg}.
 
 Einige Open-Source-Lizenzen, insbesondere solche mit sogenannten Copyleft-Klauseln wie die \gls{gpl}, verpflichten zur Offenlegung des modifizierten Quellcodes, sofern die Software weiterverbreitet wird.
 Andere Lizenzen wie die MIT oder Apache License erlauben eine freiere Weiterverwendung, auch in proprietären Softwareprodukten.
@@ -90,14 +90,13 @@ Das Urheberrecht bleibt auch dann bestehen, wenn keine kommerziellen Interessen 
 \subsection{Rechtsfolgen bei Urheberrechtsverstößen}
 
 Die Verletzung urheberrechtlicher Vorschriften oder die Nichtbeachtung von Lizenzbedingungen kann weitreichende rechtliche Folgen haben.
-Nach § 97 UrhG hat der Urheber Anspruch auf Unterlassung und Beseitigung der Beeinträchtigung.
+Nach § 97 \gls{urhg} hat der Urheber Anspruch auf Unterlassung und Beseitigung der Beeinträchtigung.
 Darüber hinaus kann ein Anspruch auf Schadensersatz bestehen, der je nach Sachlage entweder auf dem konkreten Schaden, dem Gewinn des Verletzers oder einer fiktiven Lizenzgebühr basiert.
 
-§ 98 UrhG ermöglicht es zudem, rechtswidrig hergestellte oder verbreitete Vervielfältigungsstücke zu vernichten oder vom Markt zu nehmen.
-In besonders schweren Fällen sind sogar strafrechtliche Sanktionen nach § 106 UrhG möglich, etwa bei vorsätzlicher und gewerbsmäßiger Verletzung des Urheberrechts.
-
-wer \gls{oss} einsetzt oder weiterverbreitet, trägt daher die Verantwortung, die jeweiligen Lizenzbedingungen genau zu beachten.
-Wird beispielsweise eine Lizenzbedingung der GPL verletzt, etwa durch Nichtoffenlegung des Quellcodes, kann die Lizenzwirkung entfallen.
+§ 98 \gls{urhg} ermöglicht es zudem, rechtswidrig hergestellte oder verbreitete Vervielfältigungsstücke zu vernichten oder vom Markt zu nehmen.
+In besonders schweren Fällen sind sogar strafrechtliche Sanktionen nach § 106 \gls{urhg} möglich, etwa bei vorsätzlicher und gewerbsmäßiger Verletzung des Urheberrechts.
+Wer \gls{oss} einsetzt oder weiterverbreitet, trägt daher die Verantwortung, die jeweiligen Lizenzbedingungen genau zu beachten.
+Wird beispielsweise eine Lizenzbedingung der \gls{gpl} verletzt, etwa durch Nichtoffenlegung des Quellcodes, kann die Lizenzwirkung entfallen.
 In diesem Fall ist jede weitere Nutzung als unrechtmäßige Verwertung zu bewerten, mit allen sich daraus ergebenden rechtlichen Konsequenzen.
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -107,9 +106,8 @@ In diesem Fall ist jede weitere Nutzung als unrechtmäßige Verwertung zu bewert
 In der Open-Source-Softwareentwicklung ist es üblich, urheberrechtlich relevante Informationen direkt im Quellcode zu vermerken.
 Dazu zählen Copyright-Hinweise, Autorenkennzeichen und Lizenzvermerke.
 Diese Informationen dienen nicht der Entstehung des Urheberrechts, das automatisch mit der Schöpfung eines Werkes entsteht (§ 7 UrhG), erfüllen jedoch eine bedeutende Funktion.
-
 Sie ermöglichen die Zurechnung von Urheberschaft, stellen sicher, dass Lizenzbedingungen bekannt gemacht werden, und unterstützen die Einhaltung der rechtlichen Rahmenbedingungen bei der Weitergabe.
-Durch standardisierte Formate wie SPDX-License-Identifier können solche Informationen zudem maschinell ausgelesen werden.
+Durch standardisierte Angaben wie SPDX-License-Identifier können solche Informationen zudem maschinell ausgelesen werden.
 
 %Insbesondere bei der Nutzung von Large Language Models zur automatisierten Analyse von Software bieten diese Metadaten eine wichtige Grundlage.
 %Durch Extraktion und semantische Analyse können solche Systeme helfen, Lizenzen korrekt zu erkennen, Urheber zu identifizieren und rechtliche Risiken bei der Weiterverwendung von Quellcode zu minimieren.
@@ -122,7 +120,7 @@ Die zunehmende Verwendung von \gls{oss} in komplexen IT-Systemen führt dazu, da
 Daraus ergeben sich rechtlich relevante Abhängigkeiten innerhalb der Software-Lieferkette.
 
 Jede dieser Komponenten unterliegt bestimmten Nutzungsbedingungen, die über die jeweilige Lizenz definiert sind.
-Werden diese Bedingungen nicht eingehalten, etwa durch Nichtbeachtung von Namensnennungspflichten oder die unzulässige Integration in proprietäre Systeme, kann dies dazu führen, dass das Nutzungsrecht erlischt und eine Urheberrechtsverletzung vorliegt (§ 97 UrhG).
+Werden diese Bedingungen nicht eingehalten, etwa durch Nichtbeachtung von Namensnennungspflichten oder durch unzulässige Integration in proprietäre Systeme, kann dies dazu führen, dass das Nutzungsrecht erlischt und eine Urheberrechtsverletzung vorliegt (§ 97 UrhG).
 
 Für Unternehmen und Entwickler bedeutet dies, dass alle eingebundenen Komponenten erfasst, lizenziert und dokumentiert werden müssen.
 Die Anforderungen an die Compliance steigen mit der Komplexität des Produkts.
@@ -142,9 +140,12 @@ Außerdem von Bedeutung ist die \gls{rbü}, die auf das Jahr 1886 zurückgeht un
 Sie garantiert dem Urheber bestimmte Mindestschutzrechte, etwa das Recht auf Urheberschaftsnennung, das Verbot der Werksverfälschung und ein wirtschaftliches Verwertungsrecht für mindestens 50 Jahre nach dem Tod des Urhebers.
 Die \gls{rbü} verpflichtet Vertragsstaaten, diese Rechte in ihren nationalen Rechtsordnungen zu verankern, wobei der Schutz automatisch mit der Schöpfung des Werkes eintritt und keiner Registrierung bedarf \autocite{meckel_definition_nodate-1}.
 
-Die Bundesrepublik Deutschland ist dieser Übereinkunft beigetreten.
+Die Bundesrepublik Deutschland ist dieser Übereinkunft am 1.\ August 1955 beigetreten.
 Ihre Umsetzung ist im nationalen Recht unter anderem durch das Urheberrechtsgesetz erfolgt.
 Die deutsche Version des Vertrags findet sich unter anderem im Bundesgesetzblatt sowie auf der Website des Bundesministeriums der Justiz\footnote{\url{https://www.gesetze-im-internet.de/\_bkbern\_berlinav}}.
+
+Ergänzend hierzu ist das \gls{trips} zu nennen, das im Rahmen der \gls{wto} 1994 abgeschlossen wurde.
+Es verpflichtet alle \gls{wto}-Mitgliedstaaten zur Einhaltung zentraler Bestimmungen der revidierten Berner Übereinkunft (mit Ausnahme der Urheberpersönlichkeitsrechte) und bildet damit einen völkerrechtlichen Mindeststandard auch für Staaten, die der \gls{rbü} oder dem\gls{wua} nicht beigetreten sind \autocite{malbon_standards_2014}.
 
 Diese internationalen Regelungen sind nicht zuletzt deshalb relevant, weil \gls{oss} regelmäßig grenzüberschreitend entwickelt und verbreitet wird.
 Die Kenntnis dieser völkerrechtlichen Rahmenbedingungen ist somit für die rechtssichere Nutzung von Software in internationalen Zusammenhängen entscheidend.
