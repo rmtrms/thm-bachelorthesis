@@ -91,14 +91,13 @@ Output:
 Example 6:
 Text:
 /****************************************************************************
- * Copyright (c) 2011-2016 Synaptics Incorporated                           *
- * Copyright (c) 2011 Unixphere                                             *
- *                                                                          *
+ * Copyright 2020-2022,2024 Thomas E. Dickey                                *
+ * Copyright 2002-2016,2017 Free Software Foundation, Inc.                  *
 
 Output:
 {
-  "copyrights" : [ "Copyright (c) 2011-2016 Synaptics Incorporated\nCopyright (c) 2011 Unixphere" ],
-  "holders" : [ "Synaptics Incorporated", "Unixphere" ],
+  "copyrights" : [ "Copyright 2020-2022,2024 Thomas E. Dickey\nCopyright 2002-2016,2017 Free Software Foundation, Inc." ],
+  "holders" : [ "Thomas E. Dickey", "Free Software Foundation, Inc." ],
   "authors" : [ ]
 }
 
@@ -128,8 +127,6 @@ Output:
 Any Information about the permissions granted or license information are not part of the copyright.
 Two or more copyrights are only considered a block if they are not separated by a line that isn't a copyright.
 Remove any trailing or leading comment syntax or whitespaces before or after a single statement or a block of statements.
-Each newline within a statement needs to be replaced with "\n".
-Information specific material to which the copyright applies like "portions" are part of the copyright statement if they are within the same line.
 
 ---
 Text to process:

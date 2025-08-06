@@ -52,7 +52,7 @@ public class LLMEvaluator {
                 }
             } catch (IOException innerE) {
                 // If parsing as a list also fails
-                logger.error("Failed to parse JSON output as single object or list: {}", innerE.getMessage());
+                logger.warn("Failed to parse JSON output as single object or list: {}", innerE.getMessage());
                 return null;
             }
         } catch (IOException e) {
