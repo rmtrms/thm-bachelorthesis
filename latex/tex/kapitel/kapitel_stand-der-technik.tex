@@ -33,7 +33,7 @@ Ein weiteres Open-Source-Toolkit für License Compliance ist FOSSology\footnote{
 Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
 Außerdem kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
 FOSSology wird seitens der metaeffekt nicht verwendet, da die Lizenzerkennung lediglich auf SDPX-Identifier beruht, während die metaeffekt weitreichendere Mechanismen nutzt.
-Außerdem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich erschwert.
+Außerdem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich eingeschränkt.
 
 % ======================================================================================================================
 
@@ -241,14 +241,14 @@ Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Ja
 
 Eine unzulässige Extraktion, die die Jahreszahlen zusammenfasst, könnte demnach folgend aussehen:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[numbers=none, keepspaces=true, basicstyle=\ttfamily, keywordstyle=, commentstyle=, stringstyle=]
 Copyright (c) 2000-2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
 
 Stattdessen müssen die tatsächlichen Angaben erhalten bleiben:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[numbers=none, keepspaces=true, keepspaces=true]
 Copyright (c) 2000, 2001, 2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
@@ -339,7 +339,7 @@ Dies ermöglicht eine präzise Zuordnung und verhindert eine falsche Darstellung
 {
 "copyrights" : [ "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &
  Editors" ],
-"holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud" ", "Investigative Reporters & Editors" ],
+"holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud", "Investigative Reporters & Editors" ],
 "authors" : [ ]
 }
 \end{lstlisting}
@@ -381,13 +381,13 @@ Bei \textit{authors} muss eindeutig erkennbar sein, dass die URL zu der jeweilig
 
 \section{Analyse bestehender Lösungen und deren Schwächen}\label{sec:analyse-bestehender-losungen}
 
-Die Extraktion von Copyright-Statements mithilfe des ScanCode-Toolkits weist zahlreiche Mängel aus Sicht der Policy auf.
+Die Extraktion von Copyright-Statements mithilfe des ScanCode-Toolkits weist zahlreiche unzureichende Ergebnisse aus Sicht der Policy auf.
 Der ScanCode-Service stellt eine erste Stufe der Annäherung zur Policy dar, indem Punkte am Ende des Statements (\nameref{subsec:cep-01}) und \enquote{All rights reserved} Vermerke (\nameref{subsec:cep-02}) erhalten bleiben.
 Dennoch bleiben schwerwiegende Problematiken bestehen, welche das sind und wie sie sich konkret in den extrahierten Daten widerspiegeln wird nachfolgend mit Bezug auf die Policy und anhand von ScanCode-Testdaten aufgezeigt.
 
 \subsection{Implementierung}
 
-Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul implementierung, welches ca.\ \num{3400} Zeilen Code umfasst.
+Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul Implementierung, welches ca.\ \num{3400} Zeilen Code umfasst.
 Das über \num{10} Jahre gewachsene Code-Konstrukt beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
 Die Implementierung in nur einer Datei verhindert eine klare Trennung der Kernkomponenten und erschwert gezieltes Refactoring sowie die Wiederverwendbarkeit einzelner Module.
 Die Vielzahl an regulären Ausdrücken und Grammatikregeln ist weder systematisch dokumentiert noch modular organisiert.
@@ -455,7 +455,7 @@ Copyright 2008, 2009,
 \subsection{Aufspalten von Blöcken}
 
 Eine Grundlegende Differenz zwischen der Policy und der Implementierung durch ScanCode ist die Handhabung von mehreren Copyright-Statements in einem Block.
-Die \nameref{subsec:cep-03} besagt, dass Blöcke von Statements nicht aufgeteilt oder verändert werden dürfen, das Scancode-Toolkit hingegen interpretiert Copyright-Statements immer als einzelne Ausdrücke ohne Blockstrukturen.
+Die \nameref{subsec:cep-03} besagt, dass Blöcke von Statements nicht aufgeteilt oder verändert werden dürfen, das Scancode-Toolkit in Kombination mit dem ScanCode-Service hingegen interpretiert Copyright-Statements immer als einzelne Ausdrücke ohne Blockstrukturen.
 Dies kann dazu führen, dass Informationen wie \enquote{All rights reserved} Vermerke die dem Block zuzuweisen sind, nur an das letzte Statement des Blocks angehängt werden:
 
 \begin{lstlisting}[numbers=none, keepspaces=true]
@@ -473,10 +473,10 @@ All rights reserved.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Mangelhafte Erkennung von Autoren}
+\subsection{Unzureichende Erkennung von Autoren}
 
-Die Analyse des ScanCode-Toolkits zeigte außerdem, dass es besonders bei der Erkennung von Autoren Mängel aufweist.
-Entsprechend der \nameref{subsec:air-01} müssen alle Personen oder Entitäten, die zum Material beigetragen haben, als Autoren erfasst werden.
+Die Analyse des ScanCode-Toolkits zeigte außerdem, dass es besonders bei der Erkennung von Autoren unzureichende Ergebnisse aufweist.
+Entsprechend der \nameref{subsec:air-01} sind alle Personen oder Entitäten, die zum Material beigetragen haben, Autoren.
 Das nachfolgende Beispiel verdeutlicht die unzureichende Erkennung durch das ScanCode-Toolkit:
 
 \begin{lstlisting}[numbers=none, keepspaces=true]

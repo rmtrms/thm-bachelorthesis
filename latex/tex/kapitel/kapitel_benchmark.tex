@@ -1,7 +1,7 @@
 \chapter{Benchmark und Modellauswahl}\label{ch:benchmark}
 
 Die systematische Auswahl eines geeigneten \glspl{llm} erforderte die Entwicklung und Anwendung eines spezifisch auf den Anwendungsfall zugeschnittenen Benchmarks.
-Die Konzeption und Durchführung war ein iterativer Prozess bei dem stetig Erkenntnisse und identifizierte Probleme dazu genutzt wurden, den Benchmark zu verbessern.
+Die Konzeption und Durchführung war ein iterativer Prozess bei dem stetig Erkenntnisse und identifizierte Probleme dazu genutzt wurden, die Rahmenbedingungen des Benchmarks zu verbessern.
 Dieser iterative Prozess hatte zur Folge, dass aufbauend auf Zwischenergebnisse Anpassungen vorgenommen wurden.
 Deshalb wird in den folgenden Unterkapiteln nicht nur auf das finale Ergebnis des Benchmarks, sondern auch auf die Zwischenergebnisse und die daraus abgeleiteten Entscheidungen eingegangen.
 
@@ -24,10 +24,18 @@ Die finale Durchführung des Benchmarks umfasste 30 \glspl{llm}.
 \section{Konzeption}\label{sec:konzeption-benchmark}
 
 Ziel des Benchmarks ist es, ein geeignetes \gls{llm} zu bestimmen.
-Es wird geprüft, inwiefern das \glspl{llm} Copyright-Informationen extrahieren kann, die Policy-konformen Erwartungshaltungen entsprechen.
-Hierzu wird das \gls{llm} mit einem Prompt dazu aufgefordert, die Copyright-Statements, Urheber und Autoren für eine bestimmte Eingangsdatei zu bestimmen und anschließend wird die generierte Ausgabe mit einer vorher formulierten Erwartungshaltungen abgeglichen.
-Dieser Schritt wird für jede Datei des Datensatzes durchgeführt.
+Es wird geprüft, inwiefern jedes \gls{llm} Copyright-Informationen extrahieren kann, die Policy-konformen Erwartungshaltungen entsprechen.
+Hierzu wird das \gls{llm} mit einem Prompt dazu aufgefordert, die Copyright-Statements, Urheber und Autoren für eine bestimmte Eingangsdatei zu bestimmen und anschließend wird die Antwort des \gls{llm} mit einer vorher formulierten Erwartungshaltung abgeglichen.
+Dieser Schritt wird für jede Datei des Benchmark-Datensatzes durchgeführt.
 Der verwendete Datensatz wird im Abschnitt \nameref{sec:datensatz-benchmark} thematisiert.
+Anschließend werden die Ergebnisse des \gls{llm} anhand mehrerer Metriken ausgewertet und mit den Ergebnissen anderer \glspl{llm} verglichen.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=15cm]{benchmark/prompting}
+    \caption{Ablauf des Benchmarks}
+    \label{fig:prompting_setup}
+\end{figure}
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -46,18 +54,25 @@ Allerdings erfordert die lokale Ausführung der Modelle, dass diese auf der vorh
 
 \section{Implementierung}\label{sec:benchmark-implementierung}
 
+Für die Umsetzung des Benchmarks wurde ein Java-basiertes Backend entwickelt, das über die Bibliothek Ollama4J\footnote{\url{https://github.com/ollama4j/ollama4j}} mit einem lokal ausgeführten\gls{llm} kommuniziert.
+Ollama4J stellt Java-Bindings für Ollama\footnote{\url{https://ollama.com}} bereit, eine leichtgewichtige Laufzeitumgebung für \glspl{llm}, die über eine standardisierte REST-API angesteuert wird.
+Die Verwendung von Ollama ermöglichte eine einfache Modellanbindung sowie ein benutzerfreundliches Modellmanagement.
+Eine Alternative zu Ollama stellt llama.cpp\footnote{\url{https://github.com/ggml-org/llama.cpp}} dar.
+
+% Ollama vs llama.cpp
+% Ollama4J verwendet
 % Nutzung von TextSieve
 % Model Warmup
-% Parsing von JSON durch ChatUtil
-% Ollama4J verwendet
+% Erfassung aller Metriken pro Kategorie/File/Insgesamt
 % Timeout von 5 Minuten mit Single-Thread Executor Service
+% Parsing von JSON durch ChatUtil
 
 % ======================================================================================================================
 
 \section{Zusammenstellung des Datensatzes}\label{sec:datensatz-benchmark}
 
 Die Ergebnisse der Datenaggregation wurden dazu genutzt, einen kuratierten Benchmark-Datensatz zu erstellen.
-Hierzu wurden repräsentative Fälle aus der Datenaggregation identifiziert und ihre Erwartungshaltung anhand der Policy überprüft und, wenn nötig, angepasst.
+Hierzu wurden repräsentative Fälle aus der Datenaggregation identifiziert und ihre Erwartungshaltung anhand der Policy überprüft und wenn nötig, angepasst.
 Der Datensatz umfasst insgesamt $n=200$ Dateien und ihre überprüften Erwartungshaltungen.
 Die \num{200} Dateien sind in acht Kategorien mit jeweils \num{25} Dateien unterteilt:
 
@@ -80,7 +95,7 @@ Somit konnte sichergestellt werden, dass kein Copyright, Urheber oder Autor übe
 Die relativ kleine Anzahl von Dateien wurde dadurch kompensiert, dass mithilfe der Kategorien möglichst unterschiedliche Arten von Statements und Autoren im Benchmark enthalten sind.
 Darüber hinaus ist jede Kategorie mit derselben Anzahl an Dateien vertreten, wodurch eine Bevorzugung bzw.\ Benachteiligung eines Modells anhand ungleichmäßiger Verteilung von Fällen zusätzlich mitigiert wird.
 Die Formulierung der Erwartungshaltungen der ausgewählten Dateien wurde anhand einer reduzierten Policy durchgeführt.
-Die reduzierte Policy enthielt lediglich die \nameref{subsec:cir-01}, sowie die \nameref{subsec:cep-01} und \nameref{subsec:cep-02}, wobei die \nameref{subsec:hir-01} und \nameref{subsec:air-01} implizit umgesetzt wurden, da sie zu diesem Zeitpunkt noch nicht formuliert waren.
+Die reduzierte Policy enthielt lediglich die \nameref{subsec:cir-01}, sowie die \nameref{subsec:cep-01} und \nameref{subsec:cep-02}, wobei die \nameref{subsec:hir-01} und \nameref{subsec:air-01} implizit umgesetzt wurden, da sie zu diesem Zeitpunkt noch nicht ausreichend formuliert waren.
 
 % ======================================================================================================================
 
@@ -117,10 +132,10 @@ Die Formeln für \textit{P}, \textit{R}, und \textit{F1} lauten wie folgt:
  F1 = 2 \times \frac{P \times R}{P + R}
 \]
 
-Außerdem wird ein kombinierter F1-Score aller Elemente einer Eingabe (\enquote{overall F1}) berechnet:
+Außerdem wird ein kombinierter F1-Score aller Elemente einer Eingabe $\mathrm{F1}_{overall}$ berechnet:
 
 \[
- \mathrm{overall F1} = \frac{\mathrm{copyrightF1} + \mathrm{holderF1} + \mathrm{authorF1}}{3}
+ \mathrm{F1}_{overall} = \frac{\mathrm{F1}_{copyrights} + \mathrm{F1}_{holders} + \mathrm{F1}_{authors}}{3}
 \]
 
 In diesem Benchmark wird für jeden Entitätstyp der jeweilige F1-Score berechnet und zusätzlich ein durchschnittlicher F1-Score über alle Typen hinweg erfasst.
