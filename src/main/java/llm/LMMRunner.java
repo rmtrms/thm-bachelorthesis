@@ -82,7 +82,6 @@ public class LMMRunner {
         wordList.add("optimization");
         wordList.add("holder");
         wordList.add("license");
-        wordList.add("permission");
 
         this.sieve = TextSieve.builder()
                 .wordlist(wordList)
@@ -94,11 +93,25 @@ public class LMMRunner {
         executor.shutdown();
     }
 
-    public void extractCopyrights(Path inputDir, Path outputDir) throws IOException, IOException {
-        if (!Files.exists(outputDir)) {
+    public void extractCopyrights(Path inputDir, Path outputDir) throws Exception {
+        // Clean up output directory
+        if (Files.exists(outputDir)) {
+            try (Stream<Path> files = Files.walk(outputDir)) {
+                files.sorted(Comparator.reverseOrder())
+                        .filter(Files::isRegularFile)
+                        .forEach(path -> {
+                            try {
+                                Files.delete(path);
+                            } catch (Exception e) {
+                                logger.warn("Failed to delete file during cleanup: {}", path, e);
+                            }
+                        });
+            }
+        } else {
             Files.createDirectories(outputDir);
         }
 
+        // Process input files
         try (Stream<Path> files = Files.walk(inputDir)) {
             List<Path> inputFiles = files
                     .filter(Files::isRegularFile)
@@ -122,8 +135,6 @@ public class LMMRunner {
             byte[] fileBytes = Files.readAllBytes(inputFile);
             String encoding = detectEncoding(fileBytes);
             charset = (encoding == null) ? StandardCharsets.UTF_8 : Charset.forName(encoding);
-
-            String fileContent = new String(fileBytes, charset);
 
             CharSequence filteredContent = sieve.loadFiltered(
                     inputFile.toFile(),
@@ -149,21 +160,29 @@ public class LMMRunner {
 
             long start = System.currentTimeMillis();
             future = executor.submit(() -> ollamaAPI.chat(request));
-
             OllamaChatResult result = future.get(REQUEST_TIMEOUT_MINUTES, TimeUnit.MINUTES);
             long duration = System.currentTimeMillis() - start;
 
             String rawResponse = result.getResponseModel().getMessage().getContent();
+
             JSONObject extractedJson = ChatUtil.extractJsonObject(rawResponse);
-            String parsedJson = (extractedJson != null) ? extractedJson.toString(2) : "{}";
+            String processedResponse;
+            if (extractedJson != null) {
+                processedResponse = extractedJson.toString(2);
+            } else {
+                processedResponse = "{}";
+                logger.warn("ChatUtil.extractJsonObject could not find a valid JSON object. Raw response: {}", rawResponse);
+            }
 
             Files.copy(inputFile, outputDir.resolve(sha1 + extension), StandardCopyOption.REPLACE_EXISTING);
-            Files.writeString(outputDir.resolve(sha1 + "_llm_response.json"), parsedJson, StandardCharsets.UTF_8);
+            Files.writeString(outputDir.resolve(sha1 + "_llm_response.json"), processedResponse, StandardCharsets.UTF_8);
 
             int tokens = prompt.length() / 4;
-            double tokensPerSec = (tokens > 0 && duration > 0) ? (tokens / (duration / 1000.0)) : 0.0;
+            int outputTokens = processedResponse.length() / 4;
+            double tokensPerSec = (outputTokens > 0 && duration > 0) ? (outputTokens / (duration / 1000.0)) : 0.0;
+            String tokensPerSecStr = String.format("%.2f", tokensPerSec);
 
-            logger.info("Processed [{}] | Tokens: {} | Time: {}ms | Speed: {:.2f} tokens/sec", fileName, tokens, duration, tokensPerSec);
+            logger.info("Processed: {} | Prompt-Tokens: [{}] | Duration: [{}ms] | {} tokens/sec", fileName,  tokens, duration, tokensPerSecStr);
 
         } catch (TimeoutException e) {
             logger.error("Timeout for file [{}] after {} minutes.", fileName, REQUEST_TIMEOUT_MINUTES);
@@ -204,13 +223,12 @@ public class LMMRunner {
         return sb.toString();
     }
 
-    // ✅ MAIN method with example call
     public static void main(String[] args) {
         try {
-            String model = "gemma3:27b";
-            String promptTemplatePath = "prompts/ai-prompt_1.txt";
-            Path inputDir = Paths.get("data/production_input");
-            Path outputDir = Paths.get("data/production_output");
+            String model = "mistral-7b-finetuned-04";
+            String promptTemplatePath = "prompts/fine-tune-prompt.txt";
+            Path inputDir = Paths.get("/Volumes/Data/test/destillation/data");
+            Path outputDir = Paths.get("/Volumes/Data/test/destillation/result");
 
             LMMRunner runner = new LMMRunner(model, promptTemplatePath);
             runner.extractCopyrights(inputDir, outputDir);

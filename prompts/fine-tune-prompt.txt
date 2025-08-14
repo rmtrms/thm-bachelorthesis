@@ -1,0 +1,3 @@
+Extract the copyrights, holders and authors in JSON format from the following file:
+
+{{FILE_CONTENT}}
