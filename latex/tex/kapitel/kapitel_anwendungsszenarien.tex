@@ -1,0 +1,28 @@
+\chapter{Anwendungsszenarien}\label{ch:anwendungsszenarien}
+
+Dieses Kapitel stellt die zentralen Anwendungsszenarien vor, welche die praktische Relevanz und die Zielsetzung dieser Arbeit konkretisieren.
+Anhand dieser Szenarien werden die funktionalen und nicht-funktionalen Anforderungen abgeleitet, die als Grundlage für die Konzeption und Entwicklung des Systems dienen und im nachfolgenden Kapitel \nameref{ch:anforderungen} detailliert beleuchtet werden.
+Die vorgestellten Anwendungsfälle haben dabei eine doppelte Funktion: Zum einen definieren sie als verbindliche Vorgabe den Kernumfang der in dieser Arbeit zu erreichenden Ziele.
+Zum anderen zeigen sie darüber hinausgehendes Potenzial auf und skizzieren mögliche Anknüpfungspunkte für weiterführende Forschung und Entwicklung, die den Rahmen dieser Arbeit übersteigen.
+
+\section{Anwendungsszenario 1 -- Testdatensatz Generierung}\label{sec:anwendungsszenario-1}
+
+Zuerst muss ein Prozess definiert und implementiert werden, der die automatische Generierung hochqualitativer Testdaten zur Extraktion von Copyright-Statements und Autorenkennzeichen ermöglicht.
+Dabei ist darauf zu achten, den Prozess dahingehend zu konzipieren, dass eine Erweiterbarkeit durch zusätzliche Quellen gewährleistet ist.
+Darüber hinaus muss der Datensatz einen Umfang haben, der zur Entwicklung und Validierung einer realitätsnahen Lösung angemessen ist.
+
+\section{Anwendungsszenario 2 -- Interne Inbetriebnahme}\label{sec:anwendungsszenario-2}
+
+Aufbauend auf den generierten Testdatensatz wird eine Lösung entwickelt, die Copyright-Statements und Autorenkennzeichen aus Eingabedateien extrahieren kann.
+Das zweite Anwendungsszenario umfasst die interne Inbetriebnahme dieser Lösung mit der Soft- und Hardware der metaeffekt.
+Hierzu muss die Lösung einerseits auf der vorhandenen Hardware lauffähig und zusätzlich mit der Softwarelandschaft vollständig kompatibel sein.
+Um spätere Lizenzierungskonflikte zu vermeiden, soll eine passende Lizenzierung der verwendeten Tools und Software gewährleistet werden.
+Abschließend ist eine angemessene Laufzeitperformance nötig, um die Lösung nutzbar zu integrieren.
+
+\section{Anwendungsszenario 3 -- Inbetriebnahme beim Kunden}\label{sec:anwendungsszenario-3}
+
+Das dritte Anwendungsszenario konzentriert sich auf die externe Inbetriebnahme in einem Kundenkontext.
+Da davon auszugehen ist, dass die zu verarbeitenden Daten aus Gründen der Vertraulichkeit und des Datenschutzes das Kundennetzwerk nicht verlassen dürfen, muss die Lösung als On-Premises-Anwendung konzipiert sein.
+Dies bedingt, dass die entwickelte Software auf der kundenseitigen Hard- und Softwareinfrastruktur lauffähig sein muss.
+Aus diesem Grund müssen die minimalen Systemanforderungen ermittelt und klar definiert werden, um eine erfolgreiche Implementierung und eine adäquate Laufzeitperformance beim Kunden sicherzustellen.
+Die im Anwendungsszenario 2 beschriebene Lizenzkompatibilität wird in diesem Kontext zum Muss um kundenseitig Lizenzkosten zu minimieren, oder sogar ganz zu vermeiden.

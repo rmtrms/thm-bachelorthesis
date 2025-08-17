@@ -1,6 +1,46 @@
 \chapter{Anforderungen}\label{ch:anforderungen}
 
+Zur Sicherstellung einer zielgerichteten und nachvollziehbaren Entwicklung werden im Folgenden die Anforderungen an das zu entwickelnde System beschrieben.
+Die klare Festlegung dieser Anforderungen ermöglicht eine eindeutige Überprüfung der Zielerreichung und minimiert das Risiko von Missverständnissen im Entwicklungsprozess.
+Dabei werden sowohl funktionale- als auch nicht-funktionale Anforderungen strukturiert aufgeführt.
+Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einheitlichen Schema spezifiziert, das eine eindeutige ID, einen Titel, eine Priorität und eine Beschreibung inklusive der Abnahmekriterien umfasst.
+
 \section{Funktionale Anforderungen}\label{sec:funktionale-anforderungen}
+
+\begin{itemize}
+    \item Genauigkeit -- das System muss bei der Verarbeitung eines anhand der Policy gepflegten Datensatzes mindestens 80\% Exact-Matches erzielen.
+    \item Ergebnisausgabe -- das System muss Ergebnisse in einem strukturierten Format bereitstellen, das für nachgelagerte Verarbeitungsschritte geeignet ist.
+    \item Ergebnisvalidierung -- das System muss die Ergebnisse anhand des strukturierten Formats validieren können.
+    \item Fehlerbehandlung -- das System muss Fehlerfälle erkennen, protokollieren und aussagekräftige Fehlermeldungen bereitstellen.
+    \item Reproduzierbarkeit -- die Ergebnisse des Systems sind reproduzierbar.
+    \item Nachvollziehbarkeit -- das System speichert Zwischenergebnisse um Abläufe und eventuelle Fehler nachvollziehbar zu machen.
+    \item Vorverarbeitung -- Eingaben werden auf relevante Teile reduziert bevor eine LLM-Anfrage erfolgt.
+    \item Batch-Verarbeitung -- das System kann Batches von mindestens 4000 Eingaben sequentiell verarbeiten.
+    \item Zeitüberschreitung -- das System muss Zeitüberschreitungen bei LLM-Anfragen erkennen und die Anfrage stoppen können.
+\end{itemize}
 
 \section{Nicht-funktionale Anforderungen}\label{sec:nicht-funktionale-anforderungen}
 
+\begin{itemize}
+    \item Modellauswahlverfahren -- das eingesetzte Modell muss anhand eines systematischen, nachvollziehbaren und dokumentierten Evaluationsverfahren ausgewählt werden.
+    \item Hardware-Kompatibilität -- das System muss auf der vorhandenen Hardware lauffähig und kompatibel sein.
+    \item Implementierungssprache -- das System muss in Java implementiert sein, die genaue Version ist nicht vorgegeben.
+    \item Lizenzkonformität -- alle verwendeten Tools und Sprachmodelle müssen über eine zum Anwendungsfall passende Lizenz verfügen.
+    \item Policy Abdeckung -- die implementierte Lösung muss alle \enquote{in-scope} definierten Policy Aspekte berücksichtigen.
+    \item Integration -- das System soll in bestehende Prozesse der metaeffekt integrierbar sein.
+\end{itemize}
+
+% Die entwickelte Lösung muss auf der Hardware der metaeffekt lauffähig bzw. kompatibel sein
+% Die verwendeten Tools/Sprachmodelle müssen eine zum Anwendungsfall passende Lizenzierung haben
+% Die entwickelte Lösung soll alle Policy Teile abdecken, die als in-scope definiert sind
+% Die entwickelte Lösung soll ein kleines Kundenprojekt verarbeiten können
+% Die entwickelte Lösung muss mindestens 80% exact-matches bei einem anhand der Policy gepflegten Datensatzes erreichen
+% Das verwendete Modell muss anhand eines systematischen Verfahrens evaluiert und ausgewählt werden
+% Das System soll in den vorhanden Prozess der metaeffekt integrierbar sein
+% Das System muss eine Java implementierung sein
+
+\begin{anforderungsliste}
+    \nfreq{Implementierungssprache}{Hoch}
+        {Der gesamte Quellcode lässt sich fehlerfrei mit einem Java Development Kit der spezifizierten Version (oder höher) kompilieren.}
+        {Die Softwarelösung muss vollständig in der Programmiersprache Java implementiert werden, wobei mindestens die Version 8 als Sprach- und Laufzeitumgebung zu verwenden ist.}
+\end{anforderungsliste}

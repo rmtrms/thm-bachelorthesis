@@ -241,12 +241,15 @@ mincitenames=1                  % Minimale Anzahl von Namen in einem Zitat
 ]{biblatex}      % Literaturverwaltung mit BibLaTeX
 
 
+
 % Trennung von URLs im Literaturverzeichnis (große Werte [> 10000] verhindern die Trennung)
 \defcounter{biburlnumpenalty}{10} % Strafe für Trennung in URL nach Zahl
 \defcounter{biburlucpenalty}{500} % Strafe für Trennung in URL nach Großbuchstaben
 \defcounter{biburllcpenalty}{500} % Strafe für Trennung in URL nach Kleinbuchstaben
 
-
+\DefineBibliographyStrings{german}{
+	andothers = {et\addabbrvspace al\adddot}
+}
 
 % Index erzeugen
 \RequirePackage{imakeidx}%
@@ -503,7 +506,7 @@ intoc=true]%
 
 %Hyperref muss vor DocLicense geladen werden!
 \newcommand{\hsmacc}{by-sa}
-\RequirePackage[type={CC},modifier={\hsmacc},version={4.0}]{doclicense}
+\RequirePackage[type={CC},modifier={by-nc},version={4.0}]{doclicense}
 
 
 % Einstellungen für das Hyperlink-Paket
