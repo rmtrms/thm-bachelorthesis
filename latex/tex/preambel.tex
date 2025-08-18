@@ -31,12 +31,6 @@
 		\label{#1}
 \end{figure}}
 
-
-
-
-							
-
-
 \newcommand{\snowcard}[9]{
 	\begin{table}[ht!]
 		\caption{\hsmasnowcardanforderung\ #1 -- #4}\label{#1}
@@ -64,7 +58,7 @@
 				\ifx&#8&%
 				\else
 				\addlinespace
-				\multicolumn{6}{l}{\textbf{\hsmas														nowcardfitkriterium}} \\
+				\multicolumn{6}{l}{\textbf{\hsmasnowcardfitkriterium}} \\
 				\multicolumn{6}{l}{\parbox[t]{13.5cm}{#8\strut}} \\
 				\fi
 				\ifx&#9&%
@@ -114,3 +108,41 @@
 	\end{table}
 }
 
+% --- Finale Lösung mit erzwungenem Zeilenumbruch ---
+
+% 1. Zähler für die Anforderungen
+\newcounter{funcanforderung}
+\newcounter{nonfuncanforderung}
+
+% 2. Die Haupt-Liste für die Anforderungen
+\newlist{anforderungsliste}{description}{1}
+\setlist[anforderungsliste,1]{
+	leftmargin=1.5em,
+	font=\bfseries
+}
+
+% 3. Befehl für FUNKTIONALE Anforderungen
+\newcommand{\freq}[4]{%
+	\refstepcounter{funcanforderung}%
+	% Das Label enthält die ID und den Titel
+	\item[F\arabic{funcanforderung}: #1]\mbox{}\\* % ERZWUNGENER ZEILENUMBRUCH
+	% Die Detail-Liste für Priorität etc.
+	\begin{description}[style=standard, font=\bfseries, labelwidth=3.2cm, leftmargin=3.5cm, labelsep=0.3cm]
+	\item[Priorität] #2
+	\item[Beschreibung] #3
+	\item[Fit-Kriterium] #4
+	\end{description}
+}
+
+% 4. Befehl für NICHT-FUNKTIONALE Anforderungen
+\newcommand{\nfreq}[4]{%
+	\refstepcounter{nonfuncanforderung}%
+	% Das Label enthält die ID und den Titel
+	\item[NF\arabic{nonfuncanforderung}: #1]\mbox{}\\* % ERZWUNGENER ZEILENUMBRUCH
+	% Die Detail-Liste für Priorität etc.
+	\begin{description}[style=standard, font=\bfseries, labelwidth=3.2cm, leftmargin=3.5cm, labelsep=0.3cm]
+	\item[Priorität] #2
+	\item[Beschreibung] #3
+	\item[Fit-Kriterium] #4
+	\end{description}
+}

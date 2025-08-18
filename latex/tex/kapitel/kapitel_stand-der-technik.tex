@@ -1,16 +1,18 @@
 \chapter{Stand der Technik}\label{ch:stand-der-technik}
 
+% TODO: Einleitung schreiben
+
 % ======================================================================================================================
 
 \section{Das ScanCode-Toolkit}\label{sec:scancode-toolkit}
 
-Das ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit}} ist ein Open-Source Command-Line-Tool, das Softwareprojekte scannt, um automatisch Lizenzen zu erkennen, Copyright-Hinweise zu identifizieren, Autoreninformationen auszulesen und Informationen über Paketabhängigkeiten und Software-Komponenten zu liefern.
+Das ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit}} ist ein Open-Source-Command-Line-Tool, das Softwareprojekte scannt, um automatisch Lizenzen zu erkennen, Copyright-Hinweise zu identifizieren, Autoreninformationen auszulesen und Informationen über Paketabhängigkeiten und Software-Komponenten zu liefern.
 Das Toolkit wurde von nexB Inc.\ entwickelt und ist Teil der AboutCode-Initiative.
 Laut eigenen Angaben wird es als führende Engine der Branche zur Erkennung von Lizenzen und Urheberrechten anerkannt.
-Die Engine des Toolkits wird von den fortschrittlichsten Open-Source und kommerziellen Werkzeugen im Bereich der \gls{sca} eingesetzt.
+Die Engine des Toolkits wird von den fortschrittlichsten Open-Source- und kommerziellen Werkzeugen im Bereich der \gls{sca} eingesetzt.
 Im Kontext dieser Arbeit spielt die Funktion des ScanCode-Toolkits, Copyrights zu erkennen, eine zentrale Rolle.
 Die Erkennung von Copyrights findet mithilfe einer spezialisierten \gls{nlp} Grammatik statt.
-Die anderen Funktionen des ScanCode-Toolkit sind für diese Arbeit nicht weiter relevant und werden deshalb nicht im Detail erläutert\autocite{noauthor_scancode-toolkit-documentation_nodate}.
+Die anderen Funktionen des ScanCode-Toolkits sind für diese Arbeit nicht weiter relevant und werden deshalb nicht im Detail erläutert\autocite{noauthor_scancode-toolkit-documentation_nodate}.
 
 % ======================================================================================================================
 
@@ -20,36 +22,35 @@ Der ScanCode-Service\footnote{\url{https://github.com/org-metaeffekt/metaeffekt-
 Im Gegensatz zum ScanCode-Toolkit nutzt der Service kein \gls{cli}, sondern einen Web-Service der z.B.\ in einem Docker-Container ausgeführt werden kann.
 Neben den integrativen Vorteilen eines Services sind auch inhaltliche Verbesserungen Teil seiner Implementierung.
 
-Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{all rights reserved} aus dem Copyright auszuschließen.
+Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{All Rights Reserved} aus dem Copyright auszuschließen.
 Die Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden, der ScanCode-Service hingegen schließt sie nicht aus.
 Außerdem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Punktsetzung im Extrakt.
-Diese Änderungen dienen dazu, die Policy-Konformität des ScanCode-Toolkit zu verbessern\autocite{noauthor_metaeffekt-scancode-service_2025}.
+Diese Änderungen dienen dazu, die Konformität mit der Policy des ScanCode-Toolkit zu verbessern\autocite{noauthor_metaeffekt-scancode-service_2025}.
 
 % ======================================================================================================================
 
 \section{FOSSology}\label{sec:fossology}
 
-Ein weiteres Open-Source-Toolkit für License Compliance ist FOSSology\footnote{\url{https://github.com/fossology/fossology}}.
+Ein weiteres Open-Source-Toolkit für License-Compliance ist FOSSology\footnote{\url{https://github.com/fossology/fossology}}.
 Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
-Außerdem kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
-FOSSology wird seitens der metaeffekt nicht verwendet, da die Lizenzerkennung lediglich auf SDPX-Identifier beruht, während die metaeffekt weitreichendere Mechanismen nutzt.
-Außerdem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich eingeschränkt.
+Zusätzlich kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
+FOSSology wird seitens der metaeffekt nicht verwendet, da die bereitgestellte Lizenzerkennung nicht ausreichend ist.
+Zudem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich eingeschränkt.
 
 % ======================================================================================================================
 
 \section{Die Policy}\label{sec:policy}
 
 In Kooperation mit einem Kunden der metaeffekt wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
-% TODO: diesen Abschnitt eventuell in eine subsection o.Ä. auslagern bezüglich Kooperationen bei der Arbeit.
-Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements im engen Austausch steht.
+Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements in engen Austausch steht.
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
 Diese Policy stellt die formale und rechtliche Grundlage dieser Arbeit dar, an der sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
 Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfangreich abzubilden.
-Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der \glspl{cep}, die durch die Policy definiert werden, erforderlich.
+Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der \glspl{cep}, die durch die Policy definiert werden, notwendig.
 Anhand dieser Priorisierung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
 Die Policy orientiert sich bei der Klassifikation der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
 \begin{itemize}
-    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
+    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen, die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
     \item Holders (Urheber) sind Individuen oder Entitäten, die Rechte am Material haben.
     \item Authors (Autoren) sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
 \end{itemize}
@@ -57,8 +58,7 @@ Die Policy orientiert sich bei der Klassifikation der extrahierten Informationen
 Die initiale Version der Policy gliederte sich in eine \gls{cir} und sechs \glspl{cep} (01 -- 06).
 Im Laufe dieser Arbeit wurde sie um eine \gls{cir}, eine \gls{air}, eine \gls{hir}, zwei \glspl{aep}, eine \gls{hep}, zwei \glspl{gep} und eine \gls{cep} (07) erweitert.
 
-% TODO: Herausfinden, wie man die Referenz auf den Anhang besser gestaltet.
-Im Folgenden wird die Policy kurz erläutert, die gesamte Fassung der Policy ist im ~\nameref{ch:anhang} zu finden.
+Im Folgenden wird die Policy kurz erläutert, die gesamte Fassung der Policy ist im \nameref{ch:anhang} zu finden.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -80,10 +80,10 @@ Hierzu ein paar Beispiele für Copyright-Statements:
 Eine einfache Nennung eines Urhebers ohne die in \nameref{subsec:cir-01} genannten Markierungen gilt nicht als ausdrückliches Copyright-Statement.
 Es wird nicht impliziert, dass der Urheber eine solche Angabe machen wollte, die genannte Person wird dennoch als Urheber erfasst.
 Befindet sich die Nennung des Urhebers an Stelle im Material, die für ein Copyright-Statement vorgesehen ist, wird die Nennung als Copyright-Statement erkannt.
-Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \enquote{out of scope} für diese Arbeit.
-Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position die für ein Copyright-Statement vorgesehen ist:
+Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
+Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position, die für ein Copyright-Statement vorgesehen ist:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 The Open Code Project
 
 Redistribution and use in source and binary forms, with or without
@@ -120,10 +120,10 @@ Dies wird durch eine exakte Extraktion \enquote{as is} gewährleistet.
 Als technische Einschränkung gelten hier unterschiedliche Zeichensätze und grafische Repräsentationen.
 Das extrahierte Copyright muss versuchen, so weit wie möglich das Original abzubilden.
 Dabei werden Tabulatoren und Zeilenumbrüche innerhalb des Statements erhalten.
-Formatierungen und Zeichen die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Gegebenheiten betrachtet und werden nicht erhalten.
-Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein doppeltes Leerzeichen vor dem zweiten \enquote{All rights reserved.} Vermerk:
+Formatierungen und Zeichen, die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Gegebenheiten betrachtet und werden nicht erhalten.
+Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein doppeltes Leerzeichen vor dem zweiten \enquote{All rights reserved.}-Vermerk:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 /*
  * Copyright 2018-2023 The OpenSSL Project Authors. All Rights Reserved.
  * Copyright (c) 2018-2019, Oracle and/or its affiliates.  All rights reserved.
@@ -131,7 +131,7 @@ Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein
 \end{lstlisting}
 
 Entsprechend der Policy enthält das extrahierte Statement das doppelte Leerzeichen, die Kommentarsyntax hingegen nicht:
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright 2018-2023 The OpenSSL Project Authors. All Rights Reserved.
 Copyright (c) 2018-2019, Oracle and/or its affiliates.  All rights reserved.
 \end{lstlisting}
@@ -148,7 +148,7 @@ Da es sich aber um eine explizite Angabe des Urhebers handelt, wird diese erhalt
 Generell werden alle Vermerke des Urhebers als Teil des Copyrights angesehen.
 Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinformationen:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 /*
     Copyright(c) 2014-2015 Intel Corporation
     All rights reserved.
@@ -160,7 +160,7 @@ Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinfor
 
 Das extrahierte Copyright Statement lautet demnach:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright(c) 2014-2015 Intel Corporation
 All rights reserved.
 \end{lstlisting}
@@ -178,7 +178,7 @@ Der Block bleibt in seiner ursprünglichen Form erhalten, da eine sinnvolle Auft
 Durch das Belassen des Blocks wird vermieden, Annahmen über die Absichten der Urheber oder über die genaue Verteilung der Rechte treffen zu müssen.
 Dieses Beispiel veranschaulicht einerseits einen Block von mehreren Copyright-Statements und andererseits einen einzelnen \enquote{All Rights Reserved} Vermerk:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 /*
 * Copyright 2013-2016 Freescale Semiconductor Inc.
 * Copyright 2016-2018 NXP
@@ -187,9 +187,9 @@ Dieses Beispiel veranschaulicht einerseits einen Block von mehreren Copyright-St
 */
 \end{lstlisting}
 
-Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen, sowie den Vermerk am Ende, enthält:
+Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen, sowie den Vermerk am Ende, beinhaltet:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright 2013-2016 Freescale Semiconductor Inc.
 Copyright 2016-2018 NXP
 Copyright 2020 NXP
@@ -200,13 +200,13 @@ All Rights Reserved
 
 \subsection{CEP-04}\label{subsec:cep-04}
 
-Lizenzen können Copyright-Statements enthalten die sich vom Copyright des Materials, welches unter der Lizenz veröffentlicht ist, unterscheiden.
+Lizenzen können Copyright-Statements enthalten, die sich vom Copyright des Materials, welches unter der Lizenz veröffentlicht ist, unterscheiden.
 Das extrahierte Copyright muss eindeutig dem Material zugewiesen werden.
 Die Copyrights der Lizenz dürfen nicht ignoriert werden, sondern müssen als Copyright der Lizenz erfasst werden.
-Diese Policy gilt anhand der Priorisierung durch den Stakeholder als \enquote{out of scope} für diese Arbeit.
-Der folgende Ausschnitt aus der \gls{gpl} zeigt ein solches Copyright der Lizenz:
+Diese Policy gilt anhand der Priorisierung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
+Der folgende Ausschnitt aus der \gls{gpl} zeigt ein solches Copyright innerhalb der Lizenz:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
                     GNU GENERAL PUBLIC LICENSE
                       Version 3, 29 June 2007
 
@@ -231,7 +231,7 @@ Eine Zusammenführung oder Vereinheitlichung der Copyrights ist nicht zulässig.
 Die Konsolidierung von Zeitangaben und die Vereinheitlichung von Urhebern ist bei einer Extraktion \enquote{as-is} verboten.
 Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Jahreszahlen vermerkt:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 /*
 * Image format
 * Copyright (c) 2000, 2001, 2002 Fabrice Bellard
@@ -241,14 +241,14 @@ Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Ja
 
 Eine unzulässige Extraktion, die die Jahreszahlen zusammenfasst, könnte demnach folgend aussehen:
 
-\begin{lstlisting}[numbers=none, keepspaces=true, basicstyle=\ttfamily, keywordstyle=, commentstyle=, stringstyle=]
+\begin{lstlisting}[keepspaces=true, basicstyle=\ttfamily, keywordstyle=, commentstyle=, stringstyle=]
 Copyright (c) 2000-2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
 
 Stattdessen müssen die tatsächlichen Angaben erhalten bleiben:
 
-\begin{lstlisting}[numbers=none, keepspaces=true, keepspaces=true]
+\begin{lstlisting}[keepspaces=true, keepspaces=true]
 Copyright (c) 2000, 2001, 2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
@@ -260,9 +260,9 @@ Copyright (c) 2004 Michael Niedermayer
 Copyrights werden einzeln erfasst.
 Die Zuordnung zu den jeweils geltenden Lizenzen erfolgt in einem späteren Verarbeitungsschritt.
 Dabei kann ein und dasselbe Copyright-Statement mehrfach vorkommen, jeweils in Verbindung mit unterschiedlichen Lizenzzuordnungen.
-Es genügt, das Copyright einmal gemeinsam mit der zugehörigen Lizenz anzugeben.
+Es ist ausreichend, das Copyright einmal gemeinsam mit der zugehörigen Lizenz anzugeben.
 Mehrfache Nennungen desselben Copyrights mit identischer Lizenz gelten nicht als erforderlich.
-Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \enquote{out of scope} für diese Arbeit.
+Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
 
 % TODO: Beispiel einfügen
 
@@ -270,11 +270,11 @@ Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \enquote{out
 
 \subsection{CEP-07}\label{subsec:cep-07}
 
-URLs die direkt neben oder innerhalb eines Copyright-Statements vorkommen, werden als Teil des Statements betrachtet.
+URLs die direkt neben, oder innerhalb eines Copyright-Statements vorkommen, werden als Teil des Statements betrachtet.
 Dies gilt auch, wenn die URL weiterführende Informationen bietet, auf die Quelle verweist oder als digitaler Identifikator dient.
 Die URL wird vollständig erhalten, um die Integrität der Angabe des Urhebers zu wahren.
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright Echo Digital Audio Corporation (c) 1998 - 2004
 All rights reserved
 www.echoaudio.com
@@ -288,7 +288,7 @@ Die Autoren des Materials werden einzeln erfasst.
 Das Zielformat bei der Extraktion von Autoren ist eine Liste von einzelnen Einträgen zur Identifikation der individuellen Autoren, somit ist das Erhalten eines Blocks hier nicht zielführend.
 Nachfolgend ist ein Beispiel für eine Auflistung mehrerer Autoren zu sehen:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Authors: Mengdong Lin <mengdong.lin@intel.com>
          Yao Jin <yao.jin@intel.com>
          Liam Girdwood <liam.r.girdwood@linux.intel.com>
@@ -296,7 +296,7 @@ Authors: Mengdong Lin <mengdong.lin@intel.com>
 
 Das nach der Policy extrahierte \gls{json} zu dieser Autorenliste entspricht somit:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 {
 "copyrights" : [ ],
 "holders" : [ ],
@@ -314,7 +314,7 @@ Das Vorkommen von Kontaktinformationen wie Namen, Telefonnummern oder E-Mail-Adr
 Solche Angaben dienen häufig ausschließlich der Kommunikation.
 Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpft sind, werden sie nicht als Teil der \textit{author}- oder \textit{holder}-Daten erfasst.
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 * Copyright(c) 2010 Larry Finger. All rights reserved.
 *
 * Contact information:
@@ -331,11 +331,11 @@ Auch wenn mehrere Urheber gemeinsam in einer einzigen Angabe oder einem Block ge
 Es erfolgt keine Zusammenführung oder Gruppierung.
 Dies ermöglicht eine präzise Zuordnung und verhindert eine falsche Darstellung der Urheberschaft.
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 //     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
 \end{lstlisting}
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 {
 "copyrights" : [ "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &
  Editors" ],
@@ -353,11 +353,11 @@ Sie gelten als identifizierende Merkmale und helfen bei der Unterscheidung, insb
 E-Mail-Adressen werden in Kleinbuchstaben normalisiert und durch spitze Klammern gekennzeichnet (z.B.\ <user@example.com>).
 Obfuskierte Adressen (z.B.\ user [at] example [dot] com) werden nicht verändert.
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
 \end{lstlisting}
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 {
 "copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
 "holders" : [ "Andrea Merello <andrea.merello@gmail.com>, et al." ],
@@ -369,11 +369,11 @@ Obfuskierte Adressen (z.B.\ user [at] example [dot] com) werden nicht verändert
 
 \subsection{GEP-02}\label{subsec:gep-02}
 
-URLs, die mit einem \textit{holder} oder \textit{author} in Verbindung stehen (z.B.\ ein GitHub-Profil) können zur eindeutigen Identifizierung der Person oder Organisation beitragen.
+URLs, die mit einem \textit{holder} oder \textit{author} in Verbindung stehen (z.B.\ ein GitHub-Profil), können zur eindeutigen Identifizierung der Person oder Organisation beitragen.
 Bei \textit{holders} muss die URL direkt im Anschluss an den Namen innerhalb des Statements stehen.
 Bei \textit{authors} muss eindeutig erkennbar sein, dass die URL zu der jeweiligen Person gehört.
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 \end{lstlisting}
 
@@ -382,44 +382,44 @@ Bei \textit{authors} muss eindeutig erkennbar sein, dass die URL zu der jeweilig
 \section{Analyse bestehender Lösungen und deren Schwächen}\label{sec:analyse-bestehender-losungen}
 
 Die Extraktion von Copyright-Statements mithilfe des ScanCode-Toolkits weist zahlreiche unzureichende Ergebnisse aus Sicht der Policy auf.
-Der ScanCode-Service stellt eine erste Stufe der Annäherung zur Policy dar, indem Punkte am Ende des Statements (\nameref{subsec:cep-01}) und \enquote{All rights reserved} Vermerke (\nameref{subsec:cep-02}) erhalten bleiben.
-Dennoch bleiben schwerwiegende Problematiken bestehen, welche das sind und wie sie sich konkret in den extrahierten Daten widerspiegeln wird nachfolgend mit Bezug auf die Policy und anhand von ScanCode-Testdaten aufgezeigt.
+Der ScanCode-Service stellt eine erste Stufe der Annäherung zur Policy dar, indem Punkte am Ende des Statements (\nameref{subsec:cep-01}) und \enquote{All rights reserved}-Vermerke (\nameref{subsec:cep-02}) erhalten bleiben.
+Dennoch bleiben schwerwiegende Problematiken bestehen, welche das sind und wie sie sich konkret in den extrahierten Daten widerspiegeln, wird nachfolgend mit Bezug auf die Policy und anhand von ScanCode-Testdaten aufgezeigt.
 
 \subsection{Implementierung}
 
-Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul Implementierung, welches ca.\ \num{3400} Zeilen Code umfasst.
+Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul implementiert, welches ca.\ \num{3400} Zeilen Code umfasst.
 Das über \num{10} Jahre gewachsene Code-Konstrukt beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
 Die Implementierung in nur einer Datei verhindert eine klare Trennung der Kernkomponenten und erschwert gezieltes Refactoring sowie die Wiederverwendbarkeit einzelner Module.
 Die Vielzahl an regulären Ausdrücken und Grammatikregeln ist weder systematisch dokumentiert noch modular organisiert.
 Außerdem können Änderungen an einer Regel unvorhergesehene Nebeneffekte in anderen Erkennungsszenarien auslösen.
 Das Verwenden von \enquote{hard-coded} Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Codes.
 Durch diese Faktoren ist das Debugging enorm erschwert und ein tieferes Verständnis über die Entstehungshistorie nötig, um Anpassungen vorzunehmen und neue Randfälle oder Regeln zu ergänzen.
-Mithilfe von klarer Modularisierung, umfangreicher Dokumentation und Aufarbeitung obsoleter Regeln und konstrukte könnte dazu beigetragen werden, die Implementierung zu verbessern.
+Mithilfe von klarer Modularisierung, umfangreicher Dokumentation und Aufarbeitung obsoleter Regeln und Konstrukte würde dazu beigetragen werden, die Implementierung zu verbessern.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{Normalisierung von Copyright-Statements}
 
-Im Prozess der Copyright-Extraktion des ScanCode-Toolkits werden Normalisierungen anhand zahlreicher Regeln durchgeführt, welche durch das Verändern des Original-Statements einen klaren Verstoß gegen die \nameref{subsec:cep-01} darstellen:
+Im Prozess der Copyright-Extraktion des ScanCode-Toolkits werden Normalisierungen anhand zahlreicher Regeln durchgeführt, die durch das Verändern des Original-Statements einen klaren Verstoß gegen die \nameref{subsec:cep-01} darstellen:
 
 \begin{itemize}
     \item Umwandlung von Copyright-Markierungen in Kleinschrift
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright (C) -> Copyright (c)
 \end{lstlisting}
 
 \begin{itemize}
     \item Entfernen besonderer Strukturen
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 (C)opyright -> Copyright (c)
 \end{lstlisting}
 
 \begin{itemize}
     \item Entfernen und Hinzufügen von Leerzeichen
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright(c) -> Copyright (c)
 Copyright    (c) -> Copyright (c)
 \end{lstlisting}
@@ -427,14 +427,14 @@ Copyright    (c) -> Copyright (c)
 \begin{itemize}
     \item Ersetzen besonderer Zeichen
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true, literate={©}{{\textcopyright}}1]
+\begin{lstlisting}[keepspaces=true, literate={©}{{\textcopyright}}1]
 Copyright © -> Copyright (c)
 \end{lstlisting}
 
 \begin{itemize}
     \item Einfügen von Informationen
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 SPDX-FileCopyrightText: 2023 the original authors
 
 -> Copyright 2023 the original authors
@@ -443,7 +443,7 @@ SPDX-FileCopyrightText: 2023 the original authors
 \begin{itemize}
     \item Entfernen von Zeilenumbrüchen
 \end{itemize}
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright 2008, 2009,
     2010, 2011 the orignal authors
 
@@ -454,11 +454,11 @@ Copyright 2008, 2009,
 
 \subsection{Aufspalten von Blöcken}
 
-Eine Grundlegende Differenz zwischen der Policy und der Implementierung durch ScanCode ist die Handhabung von mehreren Copyright-Statements in einem Block.
+Eine grundlegende Differenz zwischen der Policy und der Implementierung durch ScanCode ist die Handhabung von mehreren Copyright-Statements in einem Block.
 Die \nameref{subsec:cep-03} besagt, dass Blöcke von Statements nicht aufgeteilt oder verändert werden dürfen, das Scancode-Toolkit in Kombination mit dem ScanCode-Service hingegen interpretiert Copyright-Statements immer als einzelne Ausdrücke ohne Blockstrukturen.
-Dies kann dazu führen, dass Informationen wie \enquote{All rights reserved} Vermerke die dem Block zuzuweisen sind, nur an das letzte Statement des Blocks angehängt werden:
+Dies kann dazu führen, dass Informationen wie \enquote{All rights reserved}-Vermerke die dem Block zuzuweisen sind, nur an das letzte Statement des Blocks angehängt werden:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright (c) 2014 - 2018 ProfitBricks GmbH.
 Copyright (c) 2018 - 2019 1&1 IONOS Cloud GmbH.
 Copyright (c) 2019 - 2020 1&1 IONOS SE.
@@ -479,7 +479,7 @@ Die Analyse des ScanCode-Toolkits zeigte außerdem, dass es besonders bei der Er
 Entsprechend der \nameref{subsec:air-01} sind alle Personen oder Entitäten, die zum Material beigetragen haben, Autoren.
 Das nachfolgende Beispiel verdeutlicht die unzureichende Erkennung durch das ScanCode-Toolkit:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Once upon a midnight hour, long ago, in a galaxy, far, far, away, Xlib
 was originally developed by Jim Gettys, of Digital Equipment
 Corporation (now part of HP).
@@ -502,7 +502,7 @@ Gaetan Nadon and Alan Coopersmith.
 
 Die Policy-konforme Extraktion der Autoren ergibt hierbei:
 
-\begin{lstlisting}[numbers=none, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 "authors" : [
     "Jim Getty", "Warren Turkal","Sebastian Marineau", "Holger Veit",
     "Bruno Haible", "Keith Packard", "Bob Scheifler", "Takashi Fujiwara",
@@ -513,13 +513,68 @@ Die Policy-konforme Extraktion der Autoren ergibt hierbei:
 ]
 \end{lstlisting}
 
-Das ScanCode-Toolkit hingegen erkennt nur Jim Gettys und Warren Turkal.
+Das ScanCode-Toolkit hingegen erkennt lediglich:
+
+\begin{lstlisting}[keepspaces=true]
+"authors" : [ "Jim Getty", "Warren Turkal" ]
+\end{lstlisting}
+
 Selbst klare Hinweise auf die Mitarbeit einer Person wie \enquote{Written by:} werden zum Teil nicht korrekt vom ScanCode-Toolkit erkannt.
 Die geringe Wartbarkeit der Implementierung sowie die zahlreichen Abweichungen zur Policy begründen den Bedarf nach einer neuen Lösung, die anhand der Policy konstruiert und evaluiert wird.
+
 % ======================================================================================================================
 
-\section{Vorstellung von Large Language Models und deren Potenzial für die Extraktion unstrukturierter Daten}\label{sec:vorstellung-llm}
+\section{Large Language Models zur Extraktion unstrukturierter Daten}\label{sec:vorstellung-llm}
+
+Die Fähigkeiten von \glspl{llm}, komplexe sprachliche Muster, Kontextbezüge und semantische Feinheiten aus großen Mengen unstrukturierter Daten zu erkennen, können im Kontext der Copyright-Extraktion neue Wege eröffnen.
+Sie eignen sich in besonderem Maße für Aufgaben, bei denen Informationen aus heterogenen oder schwer vorstrukturierten Quellen extrahiert werden müssen wie z.B.\ Quellcode, Kommentaren, Lizenztexten oder gemischten Dateiformaten.
+
+Die Policy definiert klare Regeln zur Extraktion von \textit{Copyrights}, \textit{Holders} und \textit{Authors}, wie dem Erhalt des exakten Copyright-Statements (\nameref{subsec:cep-01}), der Behandlung von „All Rights Reserved“-Vermerken (\nameref{subsec:cep-02}) oder der Blockerhaltung (\nameref{subsec:cep-03}).
+Konventionelle RegEx- und Grammatik-basierte Verfahren (siehe Abschnitt~\ref{sec:analyse-bestehender-losungen}) stoßen hier an Grenzen, da sie bei komplexen, mehrzeiligen Strukturen, nicht-standardisierten Schreibweisen oder kontextabhängigen Aussagen fehleranfällig sind.
+
+\glspl{llm} können diese Limitierungen adressieren, indem sie nicht nur auf starre Muster, sondern auf semantisches Verständnis zurückgreifen.
+Durch Techniken wie \gls{ner} lassen sich relevante Entitäten wie Personennamen, Organisationen, Jahreszahlen, URLs oder E-Mail-Adressen im Kontext erkennen und den in der Policy vorgesehenen Kategorien zuordnen.
+Gleichzeitig können \glspl{llm} bei der Erkennung von komplexen Fällen (z.\,B.\ blockweise Gruppierung von Copyrights) auf semantische Zusammenhänge und Formatmerkmale achten.
+
+Für die Umsetzung der Policy-konformen Extraktion bieten sich verschiedene in Kapitel~\ref{ch:grundlagen} vorgestellte Verfahren an:
+\begin{itemize}
+    \item \textit{In-Context Learning (ICL)}: Die Policy-Regeln können direkt im Prompt als Anweisungen hinterlegt werden, ergänzt durch Beispiele für gewünschte und unerwünschte Extraktionsformen. Dadurch lassen sich \glspl{llm} flexibel auf Änderungen in der Policy anpassen, ohne ein erneutes Training.
+    \item \textit{Prompt-Engineering}: Eine sorgfältige Gestaltung der Eingaben durch z.B.\ klare Trennung zwischen Quelltext und Anweisung, sowie gezielte Few-Shot-Beispiele, erhöhen die Genauigkeit bei der Erkennung und Kategorisierung der Entitäten.
+    \item \textit{Fine-Tuning / LoRA}: Anhand eines qualitativ hochwertigen Datensatzes kann ein \gls{llm} gezielt auf annotierte Beispieldaten trainiert werden, um die Policy-Regeln besonders robust und implizit, ohne genaue Formulierung der zugrundeliegenden Regeln, umzusetzen.
+\end{itemize}
+
+Im Gegensatz zu RegEx-basierten Lösungen sind \glspl{llm} in der Lage, mehrdeutige und kontextabhängige Formulierungen korrekt zu interpretieren.
+So können sie z.\,B.\ entscheiden, ob eine Namensnennung als \textit{Author} oder \textit{Holder} zu erfassen ist, auch wenn die Schreibweise vom Erwarteten abweicht.
+Darüber hinaus ermöglichen \glspl{llm} eine robuste Erkennung nicht-standardisierter Metadaten wie obfuskierter E-Mail-Adressen (\nameref{subsec:gep-01}) oder eingebetteter URLs (\nameref{subsec:cep-07}), die in den vorhandenen Lösungen unvollständig oder fehlerhaft extrahiert werden.
+
+Wie in Abschnitt~\ref{sec:rechtliches} erläutert, ist die korrekte Erkennung und Wiedergabe urheberrechtlich relevanter Angaben nicht nur eine technische, sondern auch eine rechtliche Notwendigkeit.
+Fehlerhafte Extraktion kann zu Lizenzverstößen oder fehlerhafter Attribution führen.
+Durch die Kombination von \glspl{llm} mit den in der Policy definierten Präzisions- und Integritätsanforderungen kann ein System geschaffen werden, das automatisiert, skalierbar und rechtskonform unstrukturierte Daten extrahiert.
 
 % ======================================================================================================================
 
 \section{Verwandte Arbeiten}\label{sec:verwandte-arbeiten}
+
+\citeauthor{breton_empowering_2024} präsentieren in \citetitle{breton_empowering_2024} einen hybriden Ansatz zur Extraktion rechtlicher Entitäten aus französischen Gesetzestexten.
+Ausgangspunkt ist eine erste Extraktion durch \gls{gpt}-4, deren Ergebnisse mittels regelbasierter Filterung verfeinert werden.
+Die so bereinigten Entitäten dienen anschließend als Trainingsdaten für ein auf französische Rechtstexte spezialisiertes \gls{bert}-Modell (CamemBERT). Durch diese Wissensdistillation aus einem \gls{llm} in ein kompakteres Modell konnten die Autoren eine gute Balance zwischen den Stärken von \glspl{llm} und der Effizienz eines kleineren, skalierbaren Systems erreichen, ohne auf umfangreich durch Experten annotierte Datensätze angewiesen zu sein.
+Die Ergebnisse zeigen, dass dieser hybride Ansatz eine deutliche Leistungssteigerung gegenüber einer reinen Prompt-Engineering-Strategie mit \gls{gpt}-4 ermöglicht.
+Dennoch erreicht ein Modell, das auf manuell erstellten Expertendaten trainiert wurde, weiterhin die höchste Präzision bei der Extraktion\autocite{breton_empowering_2024}.
+
+\citeauthor{cheng_novel_2024} stellen in \citetitle{cheng_novel_2024} eine neuartige Prompting-Methode für Few-Shot-\gls{ner} mithilfe von \glspl{llm} vor.
+Der Ansatz zielt darauf ab, die Extraktionsleistung in Szenarien mit nur wenigen annotierten Beispielen zu verbessern.
+Kernidee ist ein zweistufiges Prompting: Zunächst werden aus den Eingabetexten potenzielle Entitäten generiert, die anschließend in einem separaten Schritt kategorisiert werden.
+Durch diese Trennung von Erkennung und Klassifikation wird die Präzision insbesondere bei seltenen Entitätsklassen gesteigert.
+Die Autoren zeigen in Experimenten auf mehreren Benchmarks, dass diese Methode sowohl die Genauigkeit als auch die Robustheit gegenüber variierenden Formulierungen erhöht und dabei weniger von umfangreichen Trainingsdaten abhängig ist.
+Damit bietet der Ansatz eine effiziente Möglichkeit, \glspl{llm} für \gls{ner}-Aufgaben mit begrenzten Ressourcen einzusetzen\autocite{cheng_novel_2024}.
+
+\citeauthor{dunn_structured_2022} beschreiben in \citetitle{dunn_structured_2022} einen Ansatz zur Extraktion strukturierter Informationen aus komplexen wissenschaftlichen Texten.
+Ihr Verfahren kombiniert regelbasierte Verarbeitung mit maschinellen Lernmodellen, um Entitäten und Relationen in domänenspezifischen Inhalten zuverlässig zu identifizieren.
+Zunächst werden die Texte vorverarbeitet und mittels heuristischer Regeln in semantisch relevante Abschnitte segmentiert.
+Darauf folgt ein mehrstufiges Extraktionsverfahren, bei dem trainierte Modelle für \gls{ner} und Relationsextraktion eingesetzt werden.
+Die Autoren evaluieren den Ansatz auf mehreren wissenschaftlichen Korpora und berichten signifikante Verbesserungen bei Präzision und Vollständigkeit gegenüber rein regelbasierten Methoden.
+Eine zentrale Erkenntnis ist, dass die Kombination aus regelgestützten Vorverarbeitungsschritten und statistischen Modellen besonders bei komplex strukturierten und variabel formulierten Texten robuste Ergebnisse liefert.
+Zudem betonen sie die Übertragbarkeit des Ansatzes auf andere wissenschaftliche Domänen, sofern ausreichend angepasste Trainingsdaten verfügbar sind\autocite{dunn_structured_2022}.
+
+Die Arbeiten von \textcite{breton_empowering_2024}, \textcite{cheng_novel_2024} und \textcite{dunn_structured_2022}, sind für diese Forschung relevant, da sie unterschiedliche Wege aufzeigen, wie unstrukturierte oder variabel formatierte Inhalte effizient und präzise verarbeitet werden können.
+Insbesondere die Erkenntnisse zu hybriden Verfahren, domänenspezifischer Modellanpassung und strukturiertem Prompting bieten wertvolle Anknüpfungspunkte für die Umsetzung einer Policy-konformen Extraktion von Copyright-Informationen.
