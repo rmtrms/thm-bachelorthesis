@@ -1,6 +1,163 @@
 \chapter{Anhang}\label{ch:anhang}
 
+
+
+\section{Copyright Statement Detection and Extraction Policy}\label{sec:anhang-copyright-statement-detection-and-extraction-policy}
+
 \includepdf[pages=-        % Alle Seiten des Dokumentes einbinden
 ,scale=.8      % Seiten verkleinern, damit sie zum Layout passen
 ,pagecommand={} % Layout des umgebenden Dokumentes belassen
 ]{pdfs/Copyright Statement Detection and Extraction Policy}
+
+\section{Liste der im initialen Benchmark verwendeten LLMs}\label{sec:ahang-initial-benchmark-llm-liste}
+
+\begin{table}[H]
+    \centering
+    \makebox[\linewidth][c]{
+        \resizebox{1.2\textwidth}{!}{
+            \begin{tabular}{lll}
+                \toprule
+                \textbf{Modell} & \textbf{Parametergröße} & \textbf{Quelle} \\
+                \midrule
+                qwen2.5              & 3b, 7b   & \url{https://ollama.com/library/qwen2.5} \\
+                orca-mini            & 3b   & \url{https://ollama.com/library/orca-mini} \\
+                deepseek-coder     & 6.7b & \url{https://ollama.com/library/deepseek-coder} \\
+                olmo2                & 7b   & \url{https://ollama.com/library/olmo2} \\
+                llava                & 7b   & \url{https://ollama.com/library/llava} \\
+                mistral              & 7b   & \url{https://ollama.com/library/mistral} \\
+                qwen2.5-coder        & 7b   & \url{https://ollama.com/library/qwen2.5-coder} \\
+                llama3               & 8b   & \url{https://ollama.com/library/llama3} \\
+                mistral-nemo       & 12b  & \url{https://ollama.com/library/mistral-nemo} \\
+                phi3                & 14b  & \url{https://ollama.com/library/phi3} \\
+                phi4                & 14b  & \url{https://ollama.com/library/phi4} \\
+                gemma3n            & 4b   & \url{https://ollama.com/library/gemma3n} \\
+                \bottomrule
+            \end{tabular}
+        }
+    }
+    \caption{Übersicht der im initialen Benchmark eingesetzten Modelle}
+    \label{tab:benchmark-models}
+\end{table}
+
+\section{Liste der im initialen Benchmark verwendeten LLMs}\label{sec:ahang-benchmark-llm-liste}
+
+\begin{table}[H]
+    \centering
+    \makebox[\linewidth][c]{
+        \resizebox{1.2\textwidth}{!}{
+            \begin{tabular}{lll}
+                \toprule
+                \textbf{Modell} & \textbf{Parametergröße} & \textbf{Quelle} \\
+                \midrule
+                qwen2.5-coder           & 0.5b, 1.5b, 14B, 32b & \url{https://ollama.com/library/qwen2.5-coder} \\
+                qwen3                   & 4b, 8b    & \url{https://ollama.com/library/qwen3} \\
+                mistral-small           & 24b  & \url{https://ollama.com/library/mistral-small} \\
+                mistral-small3.1        & 24b  & \url{https://ollama.com/library/mistral-small3.1} \\
+                mistral-small3.2        & 24b  & \url{https://ollama.com/library/mistral-small3.2} \\
+                devstral                & 24b  & \url{https://ollama.com/library/devstral} \\
+                mathstral               & 7b   & \url{https://ollama.com/library/mathstral} \\
+                mixtral                 & 8x7b & \url{https://ollama.com/library/mixtral} \\
+                llama4                  & 16x17b & \url{https://ollama.com/library/llama4} \\
+                gemma3                  & 4b   & \url{https://ollama.com/library/gemma3} \\
+                dolphin3                & 8b   & \url{https://ollama.com/library/dolphin3} \\
+                tinyllama               & 1.1b & \url{https://ollama.com/library/tinyllama} \\
+                \bottomrule
+            \end{tabular}
+        }
+    }
+    \caption{Zusätzliche Modelle im finalen Benchmark-Durchlauf}
+    \label{tab:benchmark-models-extended}
+\end{table}
+
+\section{Wirksamkeit des Parsing-Mechanismus}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l r}
+        \toprule
+        \textbf{Modell} & \textbf{Parsing-bedingte Korrekturen} \\
+        \midrule
+        deepsseek-coder:6.7b   & 128 \\
+        devstral:24b           & 3 \\
+        dolphin3:8b            & 113 \\
+        gemma3:4b              & 199 \\
+        gemma3n:e4b            & 200 \\
+        llama3:8b              & 22 \\
+        llama4:16x17b          & 141 \\
+        llava:7b               & 20 \\
+        mathstral:7b           & 5 \\
+        mistral-nemo:12b       & 3 \\
+        mistral-small3.1:24b   & 49 \\
+        mistral-small3.2:24b   & 166 \\
+        mistral-small:24b      & 190 \\
+        mistral:7b             & 4 \\
+        mixtral:8x7b           & 128 \\
+        olmo2:7b               & 68 \\
+        orca-mini:3b           & 88 \\
+        phi3:14b               & 2 \\
+        phi4:14b               & 200 \\
+        qwen2.5-coder:0.5b     & 33 \\
+        qwen2.5-coder:1.5b     & 182 \\
+        qwen2.5-coder:14b      & 28 \\
+        qwen2.5-coder:32b      & 0 \\
+        qwen2.5-coder:3b       & 8 \\
+        qwen2.5-coder:7b       & 21 \\
+        qwen2.5:3b             & 8 \\
+        qwen2.5:7b             & 2 \\
+        qwen3:4b               & 181 \\
+        qwen3:8b               & 138 \\
+        tinyllama:1.1b         & 188 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Anzahl der Modellantworten, die erst durch den Einsatz des Parsing-Mechanismus in gültige JSON-Strukturen überführt werden konnten. Ein Wert von \num{0} bedeutet, dass das Modell durchgängig valide JSONs ohne Nachbearbeitung erzeugte}
+    \label{tab:extraction-beneficial}
+\end{table}
+
+\section{Eingabeprompt Benchmark}\label{sec:anahng-eingabeprompt-benchmark}
+
+\begin{lstlisting}[keepspaces=true]
+You are an expert at extracting copyright information from text.
+Your output MUST be a valid JSON object. Do NOT include any additional text, comments, or explanations outside the JSON.
+
+Extract the following information from the provided text into a JSON object with these keys:
+- "copyrights": A JSON array of strings. Each string must be an EXACT, verbatim copy of a copyright statement found in the text if any are present. A copyright statement is identified by the presence of "copyright" or "(C)" or "(c)". License information is not part of the copyright. "All rights reserved." remarks are considered part of the copyright. Do not remove or add any whitespace. Escape newlines within the statement as "\n" and tabs as "\t". Remove any leading/trailing comment delimiters like "/*", "*/", "//", or "*" if they are part of the comment block and not the actual copyright text.
+- "holders": A JSON array of strings. Each string must be the name of a copyright holder. Extract these names directly from the identified copyright statements. Avoid including dates or other non-holder information.
+- "authors": A JSON array of strings. Each string must be the name of an author mentioned in the context of copyright or authorship. Include the authors mail-address if provided. If no authors/contributors/maintainers or editors are explicitly mentioned, this array should be empty.
+
+Ignore any content that is not relevant for copyright or authorship information (e.g., source code, license text).
+
+Here are examples of expected input and EXACT output formats:
+
+---
+Example 1:
+Text:
+/*
+Copyright (c) 2020 NVIDIA CORPORATION. All rights reserved.
+Permission is hereby granted...
+*/
+
+Output:
+    {
+    "copyrights": [ "Copyright (c) 2020 NVIDIA CORPORATION. All rights reserved." ],
+    "holders": [ "NVIDIA CORPORATION" ],
+    "authors": []
+}
+
+---
+Example 2:
+Text:
+// Copyright 2008, Google Inc.
+// All rights reserved.
+// This software is provided...
+
+Output:
+    {
+    "copyrights": [ "Copyright 2008, Google Inc.\nAll rights reserved." ],
+    "holders": [ "Google Inc." ],
+    "authors": []
+}
+
+---
+Text to process:
+{{FILE_CONTENT}}
+\end{lstlisting}

@@ -4,28 +4,30 @@
 
 % ======================================================================================================================
 
-\section{Das ScanCode-Toolkit}\label{sec:scancode-toolkit}
+\section{ScanCode-Toolkit}\label{sec:scancode-toolkit}
 
-Das ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit}} ist ein Open-Source-Command-Line-Tool, das Softwareprojekte scannt, um automatisch Lizenzen zu erkennen, Copyright-Hinweise zu identifizieren, Autoreninformationen auszulesen und Informationen über Paketabhängigkeiten und Software-Komponenten zu liefern.
+Das ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit}} ist ein Open-Source Command-Line-Tool, das Softwareprojekte scannt, um automatisch Lizenzen zu erkennen, Copyright-Hinweise zu identifizieren, Autoreninformationen auszulesen und Informationen über Paketabhängigkeiten und Software-Komponenten zu liefern.
 Das Toolkit wurde von nexB Inc.\ entwickelt und ist Teil der AboutCode-Initiative.
-Laut eigenen Angaben wird es als führende Engine der Branche zur Erkennung von Lizenzen und Urheberrechten anerkannt.
+Laut Angaben des Herstellers wird es als führende Engine der Branche zur Erkennung von Lizenzen und Urheberrechten anerkannt.
 Die Engine des Toolkits wird von den fortschrittlichsten Open-Source- und kommerziellen Werkzeugen im Bereich der \gls{sca} eingesetzt.
+
 Im Kontext dieser Arbeit spielt die Funktion des ScanCode-Toolkits, Copyrights zu erkennen, eine zentrale Rolle.
-Die Erkennung von Copyrights findet mithilfe einer spezialisierten \gls{nlp} Grammatik statt.
+Die Erkennung von Copyrights findet dabei mithilfe einer spezialisierten \gls{nlp} Grammatik statt.
 Die anderen Funktionen des ScanCode-Toolkits sind für diese Arbeit nicht weiter relevant und werden deshalb nicht im Detail erläutert\autocite{noauthor_scancode-toolkit-documentation_nodate}.
 
 % ======================================================================================================================
 
-\section{Der ScanCode Service}\label{sec:scancode-service}
+\section{ScanCode Service}\label{sec:scancode-service}
 
 Der ScanCode-Service\footnote{\url{https://github.com/org-metaeffekt/metaeffekt-scancode-service}} ist eine Entwicklung der metaeffekt, welche das ScanCode-Toolkit nutzt und erweitert.
 Im Gegensatz zum ScanCode-Toolkit nutzt der Service kein \gls{cli}, sondern einen Web-Service der z.B.\ in einem Docker-Container ausgeführt werden kann.
 Neben den integrativen Vorteilen eines Services sind auch inhaltliche Verbesserungen Teil seiner Implementierung.
 
-Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{All Rights Reserved} aus dem Copyright auszuschließen.
-Die Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden, der ScanCode-Service hingegen schließt sie nicht aus.
-Außerdem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Punktsetzung im Extrakt.
-Diese Änderungen dienen dazu, die Konformität mit der Policy des ScanCode-Toolkit zu verbessern\autocite{noauthor_metaeffekt-scancode-service_2025}.
+Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{All Rights Reserved} zu erkennen.
+Die Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden.
+Der ScanCode-Service hingegen schließt sie nicht aus.
+Zudem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Zeichensetzung im Extrakt\autocite{noauthor_metaeffekt-scancode-service_2025}.
+Diese Änderungen dienen dazu, die Konformität mit der nachfolgend erläuterten Policy des ScanCode-Toolkit zu anzunähern.
 
 % ======================================================================================================================
 
@@ -39,26 +41,25 @@ Zudem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzl
 
 % ======================================================================================================================
 
-\section{Die Policy}\label{sec:policy}
+\section{metaeffekt Copyright Identification and Extraction Policy}\label{sec:policy}
 
 In Kooperation mit einem Kunden der metaeffekt wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
 Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements in engen Austausch steht.
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
 Diese Policy stellt die formale und rechtliche Grundlage dieser Arbeit dar, an der sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
-Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfangreich abzubilden.
-Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, wodurch auch ihr Umfang zunimmt, ist eine Priorisierung der \glspl{cep}, die durch die Policy definiert werden, notwendig.
-Anhand dieser Priorisierung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
+Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfassend abzubilden.
+Da die Policy im Laufe der Arbeit stetig weiterentwickelt wird, ist eine Kennzeichnung der \glspl{cep}, die durch die Policy definiert werden, notwendig.
+Anhand dieser Kennzeichnung werden Anforderungen abgeleitet, weiteres hierzu im Kapitel~\nameref{ch:anforderungen}.
 Die Policy orientiert sich bei der Klassifikation der extrahierten Informationen am ScanCode-Toolkit und unterscheidet nach drei Typen:
 \begin{itemize}
-    \item Copyright-Statements (Copyrights) sind Markierungen der Autoren bzw.\ Urheber, die dazu dienen, die Urheber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
-    \item Holders (Urheber) sind Individuen oder Entitäten, die Rechte am Material haben.
+    \item Copyright-Statements (Copyrights) sind Markierungen, die dazu dienen, die Urheber bzw.\ die Rechteinhaber und den Zeitraum, in dem das Material erstellt wurde, zu kennzeichnen.
+    \item Holders (Rechteinhaber) sind Individuen oder Entitäten, die Rechte am Material haben.
     \item Authors (Autoren) sind Individuen oder Entitäten, die das Material verfasst oder Beiträge dazu geleistet haben.
 \end{itemize}
 
 Die initiale Version der Policy gliederte sich in eine \gls{cir} und sechs \glspl{cep} (01 -- 06).
-Im Laufe dieser Arbeit wurde sie um eine \gls{cir}, eine \gls{air}, eine \gls{hir}, zwei \glspl{aep}, eine \gls{hep}, zwei \glspl{gep} und eine \gls{cep} (07) erweitert.
-
-Im Folgenden wird die Policy kurz erläutert, die gesamte Fassung der Policy ist im \nameref{ch:anhang} zu finden.
+Im Laufe dieser Arbeit wurde sie um weitere Regeln und Extraction Policies ergänzt.
+Im Folgenden wird die Policy kurz erläutert, die gesamte Fassung der Policy ist im Anhang~\ref{sec:anhang-copyright-statement-detection-and-extraction-policy} zu finden.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -80,8 +81,9 @@ Hierzu ein paar Beispiele für Copyright-Statements:
 Eine einfache Nennung eines Urhebers ohne die in \nameref{subsec:cir-01} genannten Markierungen gilt nicht als ausdrückliches Copyright-Statement.
 Es wird nicht impliziert, dass der Urheber eine solche Angabe machen wollte, die genannte Person wird dennoch als Urheber erfasst.
 Befindet sich die Nennung des Urhebers an Stelle im Material, die für ein Copyright-Statement vorgesehen ist, wird die Nennung als Copyright-Statement erkannt.
-Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
-Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position, die für ein Copyright-Statement vorgesehen ist:
+Diese Regel gilt anhand der Kennzeichnung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
+Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position, die für ein Copyright-Statement vorgesehen ist.
+Dabei weist der Disclaimer auf ein vorher genanntes Copyright-Statement welches Allerdings nicht vorhanden ist, stattdessen wird der Urheber \enquote{The Open Code Project} genannt:
 
 \begin{lstlisting}[keepspaces=true]
 The Open Code Project
@@ -101,6 +103,7 @@ Ein \textit{author} ist jede Person oder Organisation, die ausdrücklich als Ver
 Solche Kennzeichnungen umfassen Begriffe wie \enquote{written by}, \enquote{modified by}, \enquote{edited by} oder Rollenbezeichnungen wie \enquote{original author}, \enquote{contributor} oder \enquote{editor}.
 Diese Zuschreibungen müssen klar auf eine Beteiligung an der Erstellung hinweisen.
 Personen mit Bezeichnungen wie \enquote{maintainer} oder ähnlichen Rollen gelten nicht als \textit{authors}, da das Pflegen von Inhalten nicht zwangsläufig Urheberschaft impliziert.
+Die in~\ref{subsec:grundlagen-des-urheberrechts} genannte Schöpfungshöhe wird durch eine solche Pflege allein nicht erreicht.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -388,12 +391,12 @@ Dennoch bleiben schwerwiegende Problematiken bestehen, welche das sind und wie s
 \subsection{Implementierung}
 
 Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul implementiert, welches ca.\ \num{3400} Zeilen Code umfasst.
-Das über \num{10} Jahre gewachsene Code-Konstrukt beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
+Das über \num{10} Jahre gewachsene Codebasis beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
 Die Implementierung in nur einer Datei verhindert eine klare Trennung der Kernkomponenten und erschwert gezieltes Refactoring sowie die Wiederverwendbarkeit einzelner Module.
 Die Vielzahl an regulären Ausdrücken und Grammatikregeln ist weder systematisch dokumentiert noch modular organisiert.
 Außerdem können Änderungen an einer Regel unvorhergesehene Nebeneffekte in anderen Erkennungsszenarien auslösen.
 Das Verwenden von \enquote{hard-coded} Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Codes.
-Durch diese Faktoren ist das Debugging enorm erschwert und ein tieferes Verständnis über die Entstehungshistorie nötig, um Anpassungen vorzunehmen und neue Randfälle oder Regeln zu ergänzen.
+Durch diese Faktoren ist das Debugging erheblich erschwert und ein tieferes Verständnis über die Entstehungshistorie nötig, um Anpassungen vorzunehmen und neue Randfälle oder Regeln zu ergänzen.
 Mithilfe von klarer Modularisierung, umfangreicher Dokumentation und Aufarbeitung obsoleter Regeln und Konstrukte würde dazu beigetragen werden, die Implementierung zu verbessern.
 
 % ----------------------------------------------------------------------------------------------------------------------
