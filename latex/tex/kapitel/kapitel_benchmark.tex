@@ -9,6 +9,7 @@ Zur Nachvollziehbarkeit der Entstehung des Benchmarks wird in den folgenden Unte
 
 \section{Konzeption}\label{sec:konzeption-benchmark}
 
+% TODO: konkret die reduzierte Policy ansprechen
 Ziel des Benchmarks ist es, ein geeignetes \gls{llm} zu bestimmen.
 Es wird geprüft, inwiefern jedes \gls{llm} Copyright-Informationen extrahieren kann, die Policy-konformen Erwartungshaltungen entsprechen.
 Hierzu wird das \gls{llm} mit einem Prompt dazu aufgefordert, die Copyright-Statements, Urheber und Autoren für eine bestimmte Eingangsdatei zu bestimmen und anschließend wird die Antwort des \gls{llm} mit einer vorher formulierten Erwartungshaltung abgeglichen.
@@ -74,6 +75,7 @@ Somit konnte sichergestellt werden, dass kein Copyright, Urheber oder Autor übe
 Die relativ kleine Anzahl von Dateien wurde dadurch kompensiert, dass mithilfe der Kategorien möglichst unterschiedliche Arten von Statements und Autoren im Benchmark enthalten sind.
 Darüber hinaus ist jede Kategorie mit derselben Anzahl an Dateien vertreten, wodurch eine Bevorzugung bzw.\ Benachteiligung eines Modells anhand ungleichmäßiger Verteilung von Fällen zusätzlich mitigiert wird.
 
+% TODO: konkret die reduzierte Policy ansprechen
 Die Formulierung der Erwartungshaltungen der ausgewählten Dateien wurde anhand einer reduzierten Policy durchgeführt.
 Die reduzierte Policy enthielt lediglich die \nameref{subsec:cir-01}, sowie die \nameref{subsec:cep-01} und \nameref{subsec:cep-02}, wobei die \nameref{subsec:hir-01} und \nameref{subsec:air-01} implizit umgesetzt wurden, da sie zu diesem Zeitpunkt noch nicht ausreichend formuliert waren.
 
@@ -283,6 +285,7 @@ Auf dieser Basis generiert das Modell eine strukturierte Ausgabe im JSON-Format,
 
 \subsection{Eingabeprompt}\label{subsec:eingabeprompt}
 
+% TODO: konkret die reduzierte Policy ansprechen
 Der im Benchmark verwendete Eingabeprompt wurde mit dem Ziel entwickelt, die Modelle eindeutig und zuverlässig zur Extraktion von urheberrechtsrelevanten Informationen aus Texten anzuleiten.
 Seine Struktur, sein Inhalt und seine Formatierung sind das Ergebnis iterativer Untersuchungen im Rahmen des \textit{Prompt-Engineering}, die in Kapitel~\ref{ch:prompt-engineering} detaillierter beschrieben werden.
 Der vollständige Prompt ist im Anhang \ref{sec:anahng-eingabeprompt-benchmark} zu finden.

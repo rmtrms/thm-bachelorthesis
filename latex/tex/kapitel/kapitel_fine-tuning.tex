@@ -1,2 +1,82 @@
 \chapter{Fine-Tuning}\label{ch:fine-tuning}
 
+Aufbauend auf den Ergebnissen des Prompt-Engineerings wird in diesem Kapitel das Training eines \gls{llm} für die Extraktion von Copyright-Statements untersucht.
+Da das vollständige Fine-Tuning von \glspl{llm} mit erheblichem Ressourcenaufwand verbunden ist, wird stattdessen ein Ansatz mit \gls{lora} gewählt.
+Um den Speicherbedarf weiter zu reduzieren und die Effizienz zu erhöhen, wird das Training mit quantisierten \glspl{llm} durchgeführt (QLoRA).
+
+Ziel dieser Untersuchung ist es herauszufinden, ob ein Modell durch Fine-Tuning in der Lage ist, die Anforderungen einer Policy implizit aus umfangreichen Beispieldaten zu lernen, wodurch auf explizite Instruktionen, wie sie beim Prompt-Engineering erforderlich waren, verzichtet werden kann.
+
+\section{Durchführung}
+
+Für die Umsetzung des Fine-Tunings wird das Framework MLX\footnote{\url{https://github.com/ml-explore/mlx}} von Apple eingesetzt, das speziell für Apple-Silicon-Prozessoren optimiert ist.
+Die Experimente wurden auf derselben Hardware durchgeführt wie die vorangegangenen Untersuchungen (Mac Mini M4 Pro).
+
+Die Vorgehensweise orientierte sich maßgeblich an den Referenzimplementierungen aus dem MLX-Examples-Repository\footnote{\url{https://github.com/ml-explore/mlx-examples}}.
+Voraussetzung für das Training ist ein Datensatz im JSONL-Format, der in die drei Kategorien \textit{train}, \textit{test} und \textit{valid} gegliedert wird.
+
+\begin{itemize}
+    \item \textit{train} enthält die Daten, mit denen das Modell tatsächlich trainiert wird. Nach Empfehlung von MLX sollten etwa \num{80}\% der Gesamtdaten in diesem Teil enthalten sein.
+    \item \textit{test} dient der Evaluierung der Trainingsleistung auf bislang ungesehenen Daten und sollte rund \num{10}\% des Datensatzes umfassen.
+    \item \textit{valid} wird für die fortlaufende Validierung während des Trainings genutzt. In regelmäßigen Abständen wird so überprüft, ob das Modell die gewünschten Lernfortschritte macht.
+\end{itemize}
+Jede Zeile des Datensatzes enthält einen Eingabeprompt sowie die dazugehörige erwartete Ausgabe.
+Das Training erfolgt, indem das Modell lernt, aus der Eingabe die gewünschte Ausgabe korrekt zu generieren.
+Im Gegensatz zur Prompt-Engineering-Lösung wird hierbei keine ausführliche Aufgabenbeschreibung vorgegeben, sondern lediglich eine allgemeine Instruktion.
+Diese Instruktion kann bei der Inferenz genutzt werden, um das erlernte Verhalten zuverlässig abzurufen.
+
+MLX stellt verschiedene Parameter zur Steuerung des Trainings bereit.
+Von besonderer Bedeutung waren:
+
+\begin{itemize}
+    \item \textit{LoRA-Layers}: legt die Anzahl der trainierbaren LoRA-Schichten fest und bestimmt damit die Menge der anzupassenden Gewichte.
+    \item \textit{iterations}: gibt an, wie viele Trainingszyklen durchgeführt werden. Pro Iteration wird jeweils ein Batch an Trainingsdaten verarbeitet.
+    \item \textit{learning-rate}: bestimmt die Geschwindigkeit, mit der die Modellgewichte angepasst werden.
+\end{itemize}
+
+Alle weiteren Parameter wurden unverändert auf den Standardwerten belassen, da eine umfassende Analyse und Optimierung dieser Einstellungen den Rahmen der Arbeit überschritten hätte.
+
+\subsection{Durchführung mit kuratierten Daten}
+
+Für den ersten Fine-Tuning-Durchlauf wurde ein Datensatz verwendet, der ausschließlich aus manuell kuratierten Beispielen der Kategorie \textit{manually checked} bestand.
+Der Datensatz umfasste 500 qualitativ hochwertige Einträge, die ein breites Spektrum der in der Policy definierten Regeln abdeckten.
+
+Als Basis für das Fine-Tuning wurde das Modell \texttt{mistral-7B-Instruct-v0.3}\footnote{\url{https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3}} ausgewählt.
+Dieses Modell weist eine enge Verwandtschaft zu \texttt{mistral-small:24b} auf, das im Benchmark besonders gute Ergebnisse erzielt hatte.
+Darüber hinaus handelt es sich um eine Instruct-Variante, die für Aufgaben wie \gls{ner} optimiert ist und daher eine geeignete Ausgangsbasis für die vorliegende Untersuchung darstellt.
+
+Das initiale Training erfolgte mit den Standardparametern von MLX.
+Es wurde eine Lernrate von $2 \times 10^{-5}$ bei insgesamt \num{800} Iterationen verwendet.
+Obwohl die von MLX bereitgestellten Trainings- und Evaluationsmetriken auf einen erfolgreichen Verlauf hindeuteten, zeigten die praktischen Ausgaben des Modells deutliche Defizite.
+Die generierten Ergebnisse bestanden überwiegend aus zusammenhangslosen und unstrukturierten Textfragmenten, die häufig Code-Anteile enthielten und nicht den erwarteten Extraktionen entsprachen.
+Auch die anschließende Manipulation der Lernrate, Lora-Schichten und Iterationen bewirkte keine Verbesserung.
+
+\subsection{Durchführung mit generierten Daten}
+
+Die Beobachtungen der ersten Durchführung deuten darauf hin, dass die Größe des verwendeten Datensatzes nicht ausreichte, um ein erfolgreiches Fine-Tuning durchzuführen.
+Für die zweite Durchführung wurde daher ein erweiterter Datensatz erstellt.
+Zunächst wurden 2000 Dateien der Kategorie \textit{single copyrights without authors} sowie 2000 Dateien der Kategorie \textit{single copyrights with authors} zufällig ausgewählt.
+Anschließend wurde die im Kapitel~\ref{ch:prompt-engineering} entwickelte Lösung eingesetzt, um für diese insgesamt 4000 Dateien die Copyright-Informationen zu extrahieren.
+
+Die Eignung dieses Ansatzes basiert auf den zuvor erzielten Ergebnissen, die gezeigt haben, dass die Prompt-Engineering-Lösung bei ungesehenen Daten in der Kategorie \textit{single copyrights} eine Extraktionsgenauigkeit von \num{99}\% an \textit{Exact Matches} erreichen konnte.
+Es ist daher davon auszugehen, dass die generierten Trainingsdaten eine hinreichend hohe Qualität aufwiesen, um für ein Fine-Tuning geeignet zu sein.
+
+Der so erstellte Datensatz wurde für das Fine-Tuning des Modells \texttt{mistral-7B-Instruct-v0.3} verwendet.
+Das Training erfolgte mit 16 LoRA-Schichten, einer Lernrate von $2 \times 10^{-5}$ und \num{1600} Iterationen, während alle übrigen Parameter unverändert auf den Standardwerten belassen wurden.
+Das Modell reagierte nach Abschluss des Trainings korrekt auf die in den Trainingsdaten vorgegebene Instruktion und erzeugte sämtliche Ausgaben konsistent im JSON-Format, ohne zusätzliche Inhalte vor oder nach den extrahierten Daten.
+Die genauen Ergebnisse werden im Abschnitt~\ref{sec:lora-ergebnisse} aufgezeigt.
+
+Da das Fine-Tuning mit einem Modell der Größe von sieben Milliarden Parametern bereits vielversprechende Ergebnisse lieferte, wurde im Anschluss untersucht, ob sich ähnliche Resultate auch mit einem deutlich kleineren Modell erzielen lassen.
+Hierfür wurde das Instruct-Modell \texttt{Qwen2.5-1.5B-Instruct}\footnote{\url{https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct}} ausgewählt.
+Das Training erfolgte unter identischen Bedingungen wie zuvor, mit dem Unterschied, dass 28 LoRA-Schichten trainiert wurden, was der maximal möglichen Anzahl bei \texttt{Qwen2.5-1.5B-Instruct} entspricht.
+Auch dieses Modell war nach Abschluss des Trainings imstande, das korrekte Ausgabeformat zuverlässig zu erzeugen.
+
+Die Ergebnisse der trainierten Modelle werden im folgenden Abschnitt mit den Resultaten der Prompt-Engineering-Lösung verglichen.
+
+\section{Ergebnisse}\label{sec:lora-ergebnisse}
+
+
+
+
+
+
+
