@@ -9,11 +9,9 @@ USE_MANUAL_DATA = True  # Set to False to load from CSV
 if USE_MANUAL_DATA:
     # Manually define the data
     data = [
-        {"modelName": "ModelA", "averageTokensPerSecondSuccessful": 120, "percentageExactMatchesOverall": 85},
-        {"modelName": "ModelB", "averageTokensPerSecondSuccessful": 200, "percentageExactMatchesOverall": 78},
-        {"modelName": "ModelC", "averageTokensPerSecondSuccessful": 95, "percentageExactMatchesOverall": 90},
-        {"modelName": "ModelD", "averageTokensPerSecondSuccessful": 300, "percentageExactMatchesOverall": 70},
-        {"modelName": "ModelE", "averageTokensPerSecondSuccessful": 150, "percentageExactMatchesOverall": 88},
+        {"modelName": "mistral-small:24b", "averageTokensPerSecondSuccessful": 6.022319323591854, "percentageExactMatchesOverall": 99.0},
+        {"modelName": "mistral:7b-instruct-v0.3-fine-tuned", "averageTokensPerSecondSuccessful": 20.92550744207152, "percentageExactMatchesOverall": 99.0},
+        {"modelName": "qwen2.5-1.5b-instruct-fine-tuned", "averageTokensPerSecondSuccessful": 71.53003974853131, "percentageExactMatchesOverall": 91.5},
     ]
     df = pd.DataFrame(data)
 else:
@@ -36,7 +34,7 @@ for _, row in df.iterrows():
 adjust_text(texts, arrowprops=dict(arrowstyle="-", color='gray', lw=0.5))
 
 # --- AXIS LIMITS ---
-plt.ylim(0, 100)
+plt.ylim(90, 100)
 plt.xlim(left=0)
 
 # Customize the plot
@@ -47,7 +45,7 @@ plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 plt.tight_layout()
 
 # Save the plot to a file
-output_file = "../plots/exact_matches_vs_tokens_per_sec.png"
+output_file = "/Users/rtueremis/Metaeffekt/Repositories/thm-bachelorthesis/latex/tex/bilder/fine-tuning/exact_matches_vs_tokens_per_sec-fine-tuned.png"
 plt.savefig(output_file, format='png', dpi=300, bbox_inches='tight')
 plt.close()
 
