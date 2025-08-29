@@ -1,6 +1,9 @@
 \chapter{Stand der Technik}\label{ch:stand-der-technik}
 
-% TODO: Einleitung schreiben
+Dieses Kapitel beleuchtet den aktuellen Stand der Technik zur automatisierten Extraktion von Copyright-Informationen und schafft damit die Grundlage für die nachfolgende Entwicklung eines \gls{llm}-basierten Ansatzes.
+Zunächst werden etablierte Werkzeuge wie das ScanCode-Toolkit vorgestellt und deren Funktionsweise im Kontext der in dieser Arbeit maßgeblichen metaeffekt Copyright Extraction Policy analysiert.
+Darauf aufbauend werden die methodischen Schwächen dieser regelbasierten Systeme aufgezeigt.
+Abschließend wird das Potenzial von Large Language Models als alternative Lösung erörtert und durch die Vorstellung verwandter wissenschaftlicher Arbeiten kontextualisiert.
 
 % ======================================================================================================================
 
@@ -38,6 +41,16 @@ Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
 Zusätzlich kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
 FOSSology wird seitens der metaeffekt nicht verwendet, da die bereitgestellte Lizenzerkennung nicht ausreichend ist.
 Zudem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich eingeschränkt.
+
+Ein weiteres Open-Source-Toolkit für License-Compliance ist FOSSology\footnote{\url{https://github.com/fossology/fossology}}.
+Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
+Zusätzlich kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
+
+FOSSology wird seitens der metaeffekt aus mehreren Gründen nicht verwendet.
+Zum einen wird die bereitgestellte Lizenzerkennung als nicht ausreichend bewertet.
+Zum anderen war der Community-Support des Projekts zwischenzeitlich rückläufig, was die langfristige Wartbarkeit und Weiterentwicklung unsicher machte.
+Ein weiterer entscheidender Grund ist, dass die mit FOSSology erhobenen Daten nicht die Informationen beinhalten, die für weiterführende Anwendungsfälle der metaeffekt, wie die Erstellung des Annex-Dokuments, benötigt werden.
+Außerdem ist das Toolkit unter der \gls{gpl} lizenziert, was die kommerzielle Nutzung und Integration im Vergleich zu permissiveren Lizenzen zusätzlich einschränkt.
 
 % ======================================================================================================================
 
@@ -147,7 +160,6 @@ Der Vermerk \enquote{All Rights Reserved} wird nicht als Teil der Lizenz betrach
 
 Der Vermerk ist im Allgemeinen nicht erforderlich, da das Urheberrecht in den beteiligten Ländern gesetzlich geregelt ist.
 Da es sich aber um eine explizite Angabe des Urhebers handelt, wird diese erhalten.
-% TODO: Klären was genau hiermit gemeint ist.
 Generell werden alle Vermerke des Urhebers als Teil des Copyrights angesehen.
 Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinformationen:
 
@@ -315,7 +327,7 @@ Das nach der Policy extrahierte \gls{json} zu dieser Autorenliste entspricht som
 
 Das Vorkommen von Kontaktinformationen wie Namen, Telefonnummern oder E-Mail-Adressen weist allein nicht auf Urheberschaft oder Eigentum hin.
 Solche Angaben dienen häufig ausschließlich der Kommunikation.
-Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpft sind, werden sie nicht als Teil der \textit{author}- oder \textit{holder}-Daten erfasst.
+Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpft sind, werden sie nicht als Teil der \textit{author}- oder \textit{holder}-Daten erfasst:
 
 \begin{lstlisting}[keepspaces=true]
 * Copyright(c) 2010 Larry Finger. All rights reserved.
@@ -323,6 +335,16 @@ Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpf
 * Contact information:
 * WLAN FAE <wlanfae@realtek.com>
 * Larry Finger <Larry.Finger@lwfinger.net>
+\end{lstlisting}
+
+Die korrekte Extraktion entspricht demnach:
+
+\begin{lstlisting}[keepspaces=true]
+{
+"copyrights" : [ "Copyright(c) 2010 Larry Finger. All rights reserved."],
+"holders" : [ "Larry Finger" ],
+"authors" : [ ]
+}
 \end{lstlisting}
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -335,14 +357,15 @@ Es erfolgt keine Zusammenführung oder Gruppierung.
 Dies ermöglicht eine präzise Zuordnung und verhindert eine falsche Darstellung der Urheberschaft.
 
 \begin{lstlisting}[keepspaces=true]
-//     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters & Editors
+//     (c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud
 \end{lstlisting}
 
 \begin{lstlisting}[keepspaces=true]
 {
-"copyrights" : [ "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud and Investigative Reporters &
- Editors" ],
-"holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud", "Investigative Reporters & Editors" ],
+"copyrights" : [
+    "(c) 2009-2021 Jeremy Ashkenas, Julian Gonggrijp, and DocumentCloud"
+],
+"holders" : [ "Jeremy Ashkenas", "Julian Gonggrijp", "DocumentCloud" ],
 "authors" : [ ]
 }
 \end{lstlisting}
@@ -362,7 +385,9 @@ Obfuskierte Adressen (z.B.\ user [at] example [dot] com) werden nicht verändert
 
 \begin{lstlisting}[keepspaces=true]
 {
-"copyrights" : [ "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al." ],
+"copyrights" : [
+    "Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al."
+],
 "holders" : [ "Andrea Merello <andrea.merello@gmail.com>, et al." ],
     "authors" : [ ]
 }
@@ -380,6 +405,16 @@ Bei \textit{authors} muss eindeutig erkennbar sein, dass die URL zu der jeweilig
 "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
 \end{lstlisting}
 
+Aus dem Beispiel ergeben sich die folgenden Autoreninformationen:
+
+\begin{lstlisting}[keepspaces=true]
+{
+"copyrights" : [ ],
+"holders" : [ ],
+"authors" : [ "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)" ]
+}
+\end{lstlisting}
+
 % ======================================================================================================================
 
 \section{Analyse bestehender Lösungen und deren Schwächen}\label{sec:analyse-bestehender-losungen}
@@ -395,15 +430,15 @@ Das über \num{10} Jahre gewachsene Codebasis beinhaltet etwa \num{1500} Zeilen 
 Die Implementierung in nur einer Datei verhindert eine klare Trennung der Kernkomponenten und erschwert gezieltes Refactoring sowie die Wiederverwendbarkeit einzelner Module.
 Die Vielzahl an regulären Ausdrücken und Grammatikregeln ist weder systematisch dokumentiert noch modular organisiert.
 Außerdem können Änderungen an einer Regel unvorhergesehene Nebeneffekte in anderen Erkennungsszenarien auslösen.
-Das Verwenden von \enquote{hard-coded} Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Codes.
+Das Nutzen von starr definierten Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Codes.
 Durch diese Faktoren ist das Debugging erheblich erschwert und ein tieferes Verständnis über die Entstehungshistorie nötig, um Anpassungen vorzunehmen und neue Randfälle oder Regeln zu ergänzen.
-Mithilfe von klarer Modularisierung, umfangreicher Dokumentation und Aufarbeitung obsoleter Regeln und Konstrukte würde dazu beigetragen werden, die Implementierung zu verbessern.
+Durch eine klare Modularisierung, umfangreiche Dokumentation und Aufarbeitung obsoleter Regeln und Konstrukte kann dazu beigetragen werden, die genannten Problematiken der Implementierung zu adressieren.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{Normalisierung von Copyright-Statements}
 
-Im Prozess der Copyright-Extraktion des ScanCode-Toolkits werden Normalisierungen anhand zahlreicher Regeln durchgeführt, die durch das Verändern des Original-Statements einen klaren Verstoß gegen die \nameref{subsec:cep-01} darstellen:
+Im Prozess der Copyright-Extraktion des ScanCode-Toolkits werden Normalisierungen anhand zahlreicher Regeln durchgeführt, die durch das Verändern des Original-Statements eine klare Abweichung von der \nameref{subsec:cep-01} darstellen:
 
 \begin{itemize}
     \item Umwandlung von Copyright-Markierungen in Kleinschrift
@@ -458,7 +493,8 @@ Copyright 2008, 2009,
 \subsection{Aufspalten von Blöcken}
 
 Eine grundlegende Differenz zwischen der Policy und der Implementierung durch ScanCode ist die Handhabung von mehreren Copyright-Statements in einem Block.
-Die \nameref{subsec:cep-03} besagt, dass Blöcke von Statements nicht aufgeteilt oder verändert werden dürfen, das Scancode-Toolkit in Kombination mit dem ScanCode-Service hingegen interpretiert Copyright-Statements immer als einzelne Ausdrücke ohne Blockstrukturen.
+Die \nameref{subsec:cep-03} besagt, dass Blöcke von Statements nicht aufgeteilt oder verändert werden dürfen.
+Das Scancode-Toolkit in Kombination mit dem ScanCode-Service hingegen interpretiert Copyright-Statements immer als einzelne Ausdrücke ohne Blockstrukturen.
 Dies kann dazu führen, dass Informationen wie \enquote{All rights reserved}-Vermerke die dem Block zuzuweisen sind, nur an das letzte Statement des Blocks angehängt werden:
 
 \begin{lstlisting}[keepspaces=true]
@@ -523,6 +559,7 @@ Das ScanCode-Toolkit hingegen erkennt lediglich:
 \end{lstlisting}
 
 Selbst klare Hinweise auf die Mitarbeit einer Person wie \enquote{Written by:} werden zum Teil nicht korrekt vom ScanCode-Toolkit erkannt.
+
 Die geringe Wartbarkeit der Implementierung sowie die zahlreichen Abweichungen zur Policy begründen den Bedarf nach einer neuen Lösung, die anhand der Policy konstruiert und evaluiert wird.
 
 % ======================================================================================================================
@@ -530,7 +567,7 @@ Die geringe Wartbarkeit der Implementierung sowie die zahlreichen Abweichungen z
 \section{Large Language Models zur Extraktion unstrukturierter Daten}\label{sec:vorstellung-llm}
 
 Die Fähigkeiten von \glspl{llm}, komplexe sprachliche Muster, Kontextbezüge und semantische Feinheiten aus großen Mengen unstrukturierter Daten zu erkennen, können im Kontext der Copyright-Extraktion neue Wege eröffnen.
-Sie eignen sich in besonderem Maße für Aufgaben, bei denen Informationen aus heterogenen oder schwer vorstrukturierten Quellen extrahiert werden müssen wie z.B.\ Quellcode, Kommentaren, Lizenztexten oder gemischten Dateiformaten.
+Sie eignen sich in besonderem Maße für Aufgaben, bei denen Informationen aus heterogenen oder nur gering vorstrukturierten Quellen extrahiert werden müssen wie z.B.\ Quellcode, Kommentaren, Lizenztexten oder gemischten Dateiformaten.
 
 Die Policy definiert klare Regeln zur Extraktion von \textit{Copyrights}, \textit{Holders} und \textit{Authors}, wie dem Erhalt des exakten Copyright-Statements (\nameref{subsec:cep-01}), der Behandlung von „All Rights Reserved“-Vermerken (\nameref{subsec:cep-02}) oder der Blockerhaltung (\nameref{subsec:cep-03}).
 Konventionelle RegEx- und Grammatik-basierte Verfahren (siehe Abschnitt~\ref{sec:analyse-bestehender-losungen}) stoßen hier an Grenzen, da sie bei komplexen, mehrzeiligen Strukturen, nicht-standardisierten Schreibweisen oder kontextabhängigen Aussagen fehleranfällig sind.
@@ -558,20 +595,20 @@ Durch die Kombination von \glspl{llm} mit den in der Policy definierten Präzisi
 
 \section{Verwandte Arbeiten}\label{sec:verwandte-arbeiten}
 
-\citeauthor{breton_empowering_2024} präsentieren in \citetitle{breton_empowering_2024} einen hybriden Ansatz zur Extraktion rechtlicher Entitäten aus französischen Gesetzestexten.
+\citeauthor{breton_empowering_2024}\autocite{breton_empowering_2024} präsentieren einen hybriden Ansatz zur Extraktion rechtlicher Entitäten aus französischen Gesetzestexten.
 Ausgangspunkt ist eine erste Extraktion durch \gls{gpt}-4, deren Ergebnisse mittels regelbasierter Filterung verfeinert werden.
 Die so bereinigten Entitäten dienen anschließend als Trainingsdaten für ein auf französische Rechtstexte spezialisiertes \gls{bert}-Modell (CamemBERT). Durch diese Wissensdistillation aus einem \gls{llm} in ein kompakteres Modell konnten die Autoren eine gute Balance zwischen den Stärken von \glspl{llm} und der Effizienz eines kleineren, skalierbaren Systems erreichen, ohne auf umfangreich durch Experten annotierte Datensätze angewiesen zu sein.
 Die Ergebnisse zeigen, dass dieser hybride Ansatz eine deutliche Leistungssteigerung gegenüber einer reinen Prompt-Engineering-Strategie mit \gls{gpt}-4 ermöglicht.
 Dennoch erreicht ein Modell, das auf manuell erstellten Expertendaten trainiert wurde, weiterhin die höchste Präzision bei der Extraktion\autocite{breton_empowering_2024}.
 
-\citeauthor{cheng_novel_2024} stellen in \citetitle{cheng_novel_2024} eine neuartige Prompting-Methode für Few-Shot-\gls{ner} mithilfe von \glspl{llm} vor.
+\citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024} stellen eine neuartige Prompting-Methode für Few-Shot-\gls{ner} mithilfe von \glspl{llm} vor.
 Der Ansatz zielt darauf ab, die Extraktionsleistung in Szenarien mit nur wenigen annotierten Beispielen zu verbessern.
 Kernidee ist ein zweistufiges Prompting: Zunächst werden aus den Eingabetexten potenzielle Entitäten generiert, die anschließend in einem separaten Schritt kategorisiert werden.
 Durch diese Trennung von Erkennung und Klassifikation wird die Präzision insbesondere bei seltenen Entitätsklassen gesteigert.
 Die Autoren zeigen in Experimenten auf mehreren Benchmarks, dass diese Methode sowohl die Genauigkeit als auch die Robustheit gegenüber variierenden Formulierungen erhöht und dabei weniger von umfangreichen Trainingsdaten abhängig ist.
 Damit bietet der Ansatz eine effiziente Möglichkeit, \glspl{llm} für \gls{ner}-Aufgaben mit begrenzten Ressourcen einzusetzen\autocite{cheng_novel_2024}.
 
-\citeauthor{dunn_structured_2022} beschreiben in \citetitle{dunn_structured_2022} einen Ansatz zur Extraktion strukturierter Informationen aus komplexen wissenschaftlichen Texten.
+\citeauthor{dunn_structured_2022}\autocite{dunn_structured_2022} entwickeln in ihrer Studie einen Ansatz zur Extraktion strukturierter Informationen aus komplexen wissenschaftlichen Texten.
 Ihr Verfahren kombiniert regelbasierte Verarbeitung mit maschinellen Lernmodellen, um Entitäten und Relationen in domänenspezifischen Inhalten zuverlässig zu identifizieren.
 Zunächst werden die Texte vorverarbeitet und mittels heuristischer Regeln in semantisch relevante Abschnitte segmentiert.
 Darauf folgt ein mehrstufiges Extraktionsverfahren, bei dem trainierte Modelle für \gls{ner} und Relationsextraktion eingesetzt werden.
@@ -579,5 +616,5 @@ Die Autoren evaluieren den Ansatz auf mehreren wissenschaftlichen Korpora und be
 Eine zentrale Erkenntnis ist, dass die Kombination aus regelgestützten Vorverarbeitungsschritten und statistischen Modellen besonders bei komplex strukturierten und variabel formulierten Texten robuste Ergebnisse liefert.
 Zudem betonen sie die Übertragbarkeit des Ansatzes auf andere wissenschaftliche Domänen, sofern ausreichend angepasste Trainingsdaten verfügbar sind\autocite{dunn_structured_2022}.
 
-Die Arbeiten von \textcite{breton_empowering_2024}, \textcite{cheng_novel_2024} und \textcite{dunn_structured_2022}, sind für diese Forschung relevant, da sie unterschiedliche Wege aufzeigen, wie unstrukturierte oder variabel formatierte Inhalte effizient und präzise verarbeitet werden können.
+Die Arbeiten von \textcite{breton_empowering_2024}\autocite{breton_empowering_2024}, \textcite{cheng_novel_2024}\autocite{cheng_novel_2024} und \textcite{dunn_structured_2022}\autocite{dunn_structured_2022}, sind für diese Forschung relevant, da sie unterschiedliche Wege aufzeigen, wie unstrukturierte oder variabel formatierte Inhalte effizient und präzise verarbeitet werden können.
 Insbesondere die Erkenntnisse zu hybriden Verfahren, domänenspezifischer Modellanpassung und strukturiertem Prompting bieten wertvolle Anknüpfungspunkte für die Umsetzung einer Policy-konformen Extraktion von Copyright-Informationen.

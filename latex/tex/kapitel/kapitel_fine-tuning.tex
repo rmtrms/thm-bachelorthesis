@@ -64,15 +64,88 @@ Der so erstellte Datensatz wurde für das Fine-Tuning des Modells \texttt{mistra
 Das Training erfolgte mit 16 LoRA-Schichten, einer Lernrate von $2 \times 10^{-5}$ und \num{1600} Iterationen, während alle übrigen Parameter unverändert auf den Standardwerten belassen wurden.
 Das Modell reagierte nach Abschluss des Trainings korrekt auf die in den Trainingsdaten vorgegebene Instruktion und erzeugte sämtliche Ausgaben konsistent im JSON-Format, ohne zusätzliche Inhalte vor oder nach den extrahierten Daten.
 Die genauen Ergebnisse werden im Abschnitt~\ref{sec:lora-ergebnisse} aufgezeigt.
+Der aus dem Training resultierende LoRA-Adapter wurde auf der Plattform Hugging Face\footnote{\url{https://huggingface.co}} veröffentlicht und steht dort zum Download zur Verfügung\footnote{\url{https://huggingface.co/metaeffekt/copyright-scanner-mistral-7b-instruct-v0.3}}.
 
 Da das Fine-Tuning mit einem Modell der Größe von sieben Milliarden Parametern bereits vielversprechende Ergebnisse lieferte, wurde im Anschluss untersucht, ob sich ähnliche Resultate auch mit einem deutlich kleineren Modell erzielen lassen.
 Hierfür wurde das Instruct-Modell \texttt{Qwen2.5-1.5B-Instruct}\footnote{\url{https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct}} ausgewählt.
 Das Training erfolgte unter identischen Bedingungen wie zuvor, mit dem Unterschied, dass 28 LoRA-Schichten trainiert wurden, was der maximal möglichen Anzahl bei \texttt{Qwen2.5-1.5B-Instruct} entspricht.
+Die Erhöhung der LoRA-Schichten wurde vorgenommen, da das verhältnismäßig kleine \gls{llm} weniger Arbeitsspeicher beim Training beansprucht, was die Möglichkeit eröffnete, die volle Anzahl der verfügbaren Schichten zu verwenden.
 Auch dieses Modell war nach Abschluss des Trainings imstande, das korrekte Ausgabeformat zuverlässig zu erzeugen.
+Der entsprechende Adapter für dieses Modell wurde ebenfalls auf Hugging Face veröffentlicht\footnote{\url{https://huggingface.co/metaeffekt/copyright-scanner-qwen2.5-1.5b-instruct}}.
 
 Die Ergebnisse der trainierten Modelle werden im folgenden Abschnitt mit den Resultaten der Prompt-Engineering-Lösung verglichen.
 
 \section{Ergebnisse}\label{sec:lora-ergebnisse}
+
+Für die abschließende Bewertung und den Vergleich der Modelle wird der kuratierte Datensatz herangezogen, der aus \num{200} Dateien der Kategorie \textit{exact matches without authors} besteht.
+Dieser Datensatz wurde bereits im Kapitel~\ref{ch:benchmark} verwendet, um die Generalisierbarkeit der Prompt-Engineering-Lösung auf ungesehenen Daten zu analysieren.
+Dadurch wird eine direkte Vergleichbarkeit der Ergebnisse sichergestellt.
+
+Zur Bewertung der Leistung werden die beiden fine-tuned \glspl{llm} mit der Prompt-Engineering-Lösung aus dem vorherigen Kapitel verglichen.
+Die zentralen Metriken sind dabei die Qualität der Extraktion, gemessen am prozentualen Anteil der\textit{Exact Matches}, und die Verarbeitungsgeschwindigkeit in \textit{Tokens/sec}.
+Tabelle~\ref{tab:modellvergleich} fasst die Ergebnisse zusammen.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{l c c}
+        \hline
+        \textbf{Modell} & \textbf{Exact Matches (\%)} & \textbf{Tokens/sec} \\
+        \hline
+        \texttt{mistral-small:24b} & 99,0 & 6,02 \\
+        \texttt{mistral:7b-instruct-v0.3-fine-tuned} & 99,0 & 20,93 \\
+        \texttt{qwen2.5-1.5b-instruct-fine-tuned} & 91,5 & 71,53 \\
+        \hline
+    \end{tabular}
+    \caption{Vergleich der fine-tuned Modelle mit der Prompt-Engineering-Lösung hinsichtlich Genauigkeit und Geschwindigkeit.}
+    \label{tab:modellvergleich}
+\end{table}
+
+Wie die Ergebnisse zeigen, erbringt das Modell \texttt{mistral:7b-instruct-v0.3-fine-tuned} eine herausragende Leistung.
+Mit einem Anteil von \num{99}\% an \textit{Exact Matches} erreicht es exakt dieselbe Genauigkeit wie das deutlich größere \texttt{mistral-small:24b}.
+Gleichzeitig ist die Verarbeitungsgeschwindigkeit mit rund \num{21} \textit{Tokens/sec} mehr als dreimal so hoch wie bei der Prompt-Engineering-Lösung mit ca. \num{6} \textit{Tokens/sec}.
+Dieses Ergebnis belegt, dass das Modell die impliziten Regeln der Policy erfolgreich aus den Trainingsdaten erlernen konnte und dabei eine signifikante Effizienzsteigerung erzielt.
+
+Das deutlich kleinere Modell \texttt{qwen2.5-1.5b-instruct-fine-tuned} stellt einen Kompromiss zwischen Genauigkeit und Geschwindigkeit dar.
+Die Genauigkeit der Extraktionen sinkt auf \num{91,5}\%, was eine merkliche Reduzierung im Vergleich zu den beiden Mistral-Modellen darstellt.
+Im Gegenzug erreicht es mit über \num{71} \textit{Tokens/sec} eine deutlich höhere Verarbeitungsgeschwindigkeit.
+Es ist damit mehr als elfmal so schnell wie die ursprüngliche Prompt-Engineering-Lösung.
+
+Ein wesentlicher Vorteil der fine-tuned Modelle liegt in der Vereinfachung der Inferenz.
+Statt eines komplexen Prompts von rund 1660 Tokens, wie er für die Prompt-Engineering-Lösung erforderlich war, genügt nun die einfache Anweisung: \enquote{Extract the copyrights, holders and authors in JSON format from the following file} (ca. 20 Tokens).
+Zudem erzeugen die Modelle konsistent gültige JSON-Ausgaben, wodurch eine nachgelagerte Korrektur durch Parsing-Mechanismen entfällt.
+
+Zusammenfassend lässt sich festhalten, dass das Fine-Tuning erfolgreich war.
+\texttt{Mistral-7B-Instruct-v0.3} stellt die optimale Lösung dar, da es die hohe Genauigkeit der Prompt-Engineering-Lösung mit einer erheblich gesteigerten Effizienz kombiniert.
+\texttt{Qwen2.5-1.5B-Instruct} zeigt mit seiner überlegenen Geschwindigkeit großes Potenzial.
+Sollte es durch einen umfangreicheren Trainingsdatensatz und eine Optimierung der Trainingsparameter gelingen, dessen Extraktionsgenauigkeit zu steigern, könnte es sich als deutlich performantere Alternative etablieren.
+
+\section{Ausblick und nächste Schritte}
+
+Die initialen Experimente zeigen das Potenzial des Fine-Tunings.
+Sie werfen jedoch auch Fragen auf, die in weiterführenden Untersuchungen adressiert werden sollten.
+Die durchgeführten Tests beschränkten sich auf die Extraktion von einzelnen Copyright-Statements.
+Komplexere Fälle sowie weitere Aspekte der Policy wurden noch nicht berücksichtigt.
+
+Um die Policy vollständig abzubilden, ist die Erstellung eines umfangreichen, kuratierten Datensatzes erforderlich.
+Dieser sollte insbesondere komplexe Konstellationen mit mehreren Copyright-Statements (\textit{multiple copyrights}) sowie gezielte False-Negative- und False-Positive-Fälle abdecken.
+Ein solcher Datensatz würde es ermöglichen, das Modell auch auf die anspruchsvollsten Extraktionsfälle zu trainieren und die Generalisierungsfähigkeit zu verbessern.
+Der im Kapitel~\ref{ch:daten} erzeugte Datensatz stellt zwar eine Grundlage dafür dar, bietet aber gerade in Hinsicht auf Blöcke von Copyright-Statements keine verlässliche Datenquelle ohne die Implementierung weiterer Mechanismen zur Validierung.
+
+Eine systematische Untersuchung der Trainingsparameter und der Grenzen von Modellgrößen ist ein weiterer wichtiger Schritt.
+Insbesondere die Optimierung kleinerer Modelle könnte es ermöglichen, eine hohe Extraktionsqualität bei gleichzeitig maximaler Geschwindigkeit zu erzielen.
+Dies würde die Praxistauglichkeit der Lösung erheblich steigern.
+
+\section{Potenzial und Nutzen des Fine-Tunings}
+
+Der Ansatz, ein spezialisiertes Modell durch Fine-Tuning zu entwickeln, bietet gegenüber dem reinen Prompt-Engineering mehrere strategische Vorteile für den praktischen Einsatz.
+Ein wesentlicher Vorteil liegt im impliziten Erlernen komplexer Regeln, da das Modell Anforderungen aus Tausenden von Beispielen verinnerlichen kann.
+Dies ist besonders vorteilhaft für Regeln, deren explizite Formalisierung in einem Prompt zu umfangreich wäre oder die Grenzen des Few-Shot-Fensters überschreiten würde.
+Ein weiterer Nutzen ist die vereinfachte Bereitstellung und Anwendung, da das Ergebnis des Fine-Tunings ein einzelnes, spezialisiertes Modell-File ist, das mit minimalem Setup in bestehende Prozesse integriert werden kann.
+Damit geht auch eine hohe Effizienz und lokale Ausführbarkeit einher.
+Wie die Experimente mit \texttt{qwen2.5-1.5b-instruct} andeuten, können auch sehr kleine Modelle spezialisiert werden, was den Einsatz auf Hardware mit begrenzten Ressourcen ermöglicht.
+Zuletzt kann durch einen vielfältigen Trainingsdatensatz eine implizite Sprachunterstützung erreicht werden, sodass das Modell Copyright-Informationen in verschiedenen Sprachen korrekt extrahieren kann, ohne dass für jede Sprache ein eigener Prompt entwickelt werden muss.
+
+
 
 
 

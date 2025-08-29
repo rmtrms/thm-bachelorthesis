@@ -1,4 +1,4 @@
-package llm;
+package scanner;
 
 
 import benchmark.ChatUtil;
@@ -19,8 +19,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.io.File;
-import java.io.IOException;
 import java.nio.charset.*;
 import java.nio.file.*;
 import java.util.*;
@@ -28,9 +26,9 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class LMMRunner {
+public class CopyrightScanner {
 
-    private static final Logger logger = LoggerFactory.getLogger(LMMRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(CopyrightScanner.class);
     private static final ObjectMapper objectMapper = new ObjectMapper()
             .enable(SerializationFeature.INDENT_OUTPUT)
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
@@ -43,7 +41,7 @@ public class LMMRunner {
 
     private static final long REQUEST_TIMEOUT_MINUTES = 3;
 
-    public LMMRunner(String modelName, String promptTemplatePath) throws Exception {
+    public CopyrightScanner(String modelName, String promptTemplatePath) throws Exception {
         this.modelName = modelName;
         this.promptTemplate = Files.readString(Paths.get(promptTemplatePath));
 
@@ -53,7 +51,6 @@ public class LMMRunner {
 
         this.executor = Executors.newSingleThreadExecutor();
 
-        // Wordlist as in BenchmarkRunner
         ArrayList<String> wordList = new ArrayList<>();
         wordList.add("copyright");
         wordList.add("(c)");
@@ -230,7 +227,7 @@ public class LMMRunner {
             Path inputDir = Paths.get("/Volumes/Data/test/destillation/data");
             Path outputDir = Paths.get("/Volumes/Data/test/destillation/result");
 
-            LMMRunner runner = new LMMRunner(model, promptTemplatePath);
+            CopyrightScanner runner = new CopyrightScanner(model, promptTemplatePath);
             runner.extractCopyrights(inputDir, outputDir);
             runner.shutdown();
 

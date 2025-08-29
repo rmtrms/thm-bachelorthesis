@@ -2,9 +2,9 @@
 \chapter{Prompt-Engineering}\label{ch:prompt-engineering}
 
 Im vorherigen Kapitel wurden mehrere \glspl{llm} anhand des entwickelten Benchmarks und einer reduzierten Version der Policy miteinander verglichen.
-Auf Grundlage dieser Evaluation wurde \texttt{mistral-small:24b} als Modell für die weitere Forschung ausgewählt.
-In diesem Kapitel rückt die vollständige Policy in den Mittelpunkt, die zunächst auf Ebene des Datensatzes abgebildet wird, sodass die Erwartungshaltungen den vollständigen Anforderungen der Policy entsprechen.
-Während im Benchmark ausschließlich die reduzierte Policy mit den Anforderungen \nameref{subsec:cir-01}, \nameref{subsec:cep-01} und \nameref{subsec:cep-02} zur Extraktion verwendet wurde und die Erwartungshaltungen dementsprechend auf diese Teilmenge beschränkt waren, werden in dieser Untersuchung die Erwartungshaltungen so erweitert, dass alle Aspekte berücksichtigt werden, die nicht ausdrücklich als \enquote{out of scope} gekennzeichnet sind.
+Auf Grundlage dieser Evaluation wurde \texttt{mistral-small:24b} als Modell zur weiteren Untersuchung und Vertiefung der Forschung ausgewählt.
+Die Untersuchung wird in diesem Kapitel auf die vollständige Policy ausgeweitet.
+Während im Benchmark ausschließlich die reduzierte Policy mit den Anforderungen \nameref{subsec:cir-01}, \nameref{subsec:cep-01} und \nameref{subsec:cep-02} zur Extraktion verwendet wurde und die Erwartungshaltungen dementsprechend auf diese Teilmenge beschränkt waren, werden im weiteren Verlauf dieser Untersuchung die Erwartungshaltungen so erweitert, dass alle Aspekte berücksichtigt werden, mit Ausnahme der mit \enquote{out of scope} (\nameref{subsec:cir-02}, \nameref{subsec:cep-04}, \nameref{subsec:cep-06}) gekennzeichneten Regeln.
 Darauf aufbauend wird durch systematisches Prompt-Engineering eine Optimierung der Extraktionsleistung angestrebt.
 Ziel ist es, die Extraktion auf Grundlage der gesamten Policy in einer möglichst hohen Qualität zu ermöglichen.
 Die Struktur des Prompts, die Formulierung der Entitätsdefinitionen sowie die Gestaltung der Few-Shot-Beispiele werden dabei schrittweise verfeinert, um die Genauigkeit der Extraktion sukzessive zu erhöhen.
@@ -13,28 +13,27 @@ Die Struktur des Prompts, die Formulierung der Entitätsdefinitionen sowie die G
 
 \section{Methodisches Vorgehen}\label{sec:methodisches-vorgehen}
 
-Einen methodischen Bezugspunkt bildet die Arbeit von \citeauthor{cheng_novel_2024}, in der ein neuartiges Prompting-Verfahren für Few-Shot \gls{ner} vorgestellt wird.
+Einen methodischen Bezugspunkt bildet die Arbeit von \citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024}, in der ein neuartiges Prompting-Verfahren für Few-Shot \gls{ner} vorgestellt wird.
 Das Vorgehen der Autoren basiert auf einer klar strukturierten Gestaltung des Prompts, die mehrere aufeinander abgestimmte Bestandteile umfasst.
 Zunächst wird eine Aufgabenbeschreibung formuliert, die das \gls{llm} explizit in die Rolle eines Entity-Recognition-Systems versetzt und die Aufgabe eindeutig umreißt.
 Darauf folgt eine präzise Definition der Entitätskategorien, die jeweils mit kurzen Erklärungen versehen werden, um semantische Abgrenzungen zwischen den Klassen deutlich zu machen.
 Im nächsten Schritt werden Few-Shot-Beispiele integriert, die als Input-Output-Paare gestaltet sind und sowohl die Extraktion selbst als auch das gewünschte Ausgabeformat illustrieren.
 Dieses Ausgabeformat wird zusätzlich separat spezifiziert, sodass das Modell konsistente und strukturierte Ergebnisse erzeugt.
-Ergänzend sehen \citeauthor{cheng_novel_2024} die Möglichkeit vor, zusätzliche Instruktionen in den Prompt einzufügen, die wiederkehrende Fehlerquellen adressieren und dadurch die Zuverlässigkeit der Ergebnisse erhöhen\autocite{cheng_novel_2024}.
+Ergänzend sehen \citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024} die Möglichkeit vor, zusätzliche Instruktionen in den Prompt einzufügen, die wiederkehrende Fehlerquellen adressieren und dadurch die Zuverlässigkeit der Ergebnisse erhöhen\autocite{cheng_novel_2024}.
 
 Zur Optimierung dieses Setups führen die Autoren eine Feedback-Schleife ein.
 Das \gls{llm} wird mit dem initialen Prompt auf Trainingsdaten angewandt, die Extraktionen durch das \gls{llm} werden mit den Erwartungshaltungen verglichen und anhand des F1-Scores bewertet.
 Anschließend werden die am besten verarbeiteten Beispiele identifiziert und als Demonstrationen in den Prompt übernommen.
 Auf diese Weise wird der Prompt iterativ verbessert und stärker auf die spezifischen Anforderungen des Tasks zugeschnitten\autocite{cheng_novel_2024}.
 
-Das Vorgehen in dieser Arbeit orientiert sich in seiner Grundstruktur an der Methodik von \citeauthor{cheng_novel_2024}.
+Das Vorgehen in dieser Arbeit orientiert sich in seiner Grundstruktur an der Methodik von \citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024}.
 Der Prompt ist ebenfalls in mehrere Komponenten gegliedert, bestehend aus einer Aufgabenbeschreibung, präzisen Entitätsdefinitionen, Beispielen, zusätzlichen Instruktionen sowie einem festgelegten Ausgabeformat.
 Die Optimierung wurde iterativ durchgeführt, indem die Definitionen schrittweise angepasst und Beispiele ergänzt wurden, die in vorherigen Versionen zu Fehlern bei der Extraktion geführt hatten.
 
-Ein wesentlicher Unterschied zum Vorgehen von \citeauthor{cheng_novel_2024} besteht darin, dass die Auswahl der Beispiele nicht automatisiert über eine Selektion der besten Beispiele anhand von F1-Scores erfolgte, sondern manuell vorgenommen wurde.
+Ein wesentlicher Unterschied zum Vorgehen von \citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024} besteht darin, dass die Auswahl der Beispiele nicht automatisiert über eine Selektion der besten Beispiele anhand von F1-Scores erfolgte, sondern manuell vorgenommen wurde.
 Grundlage dieser Anpassungen war eine gezielte Analyse typischer Fehlerkonstellationen, die sich im Benchmark gezeigt haben.
 Diese Vorgehensweise wurde gewählt, da zunächst die Optimierung der Ergebnisse innerhalb des entwickelten Benchmarks im Vordergrund steht, um auf dieser Grundlage die Generalisierbarkeit des Modells auf bislang nicht gesehene Daten zu unterstützen.
-Durch die gezielte Integration fehleranfälliger Situationen in die Demonstrationen konnte die Extraktion unmittelbar an den Anforderungen des Benchmarks ausgerichtet und die Qualität der Ergebnisse in diesem klar abgegrenzten Evaluationskontext gesteigert werden.
-Ein vergleichbares Vorgehen wurde bereits bei der Erstellung des Benchmark-Prompts angewendet, das nach einer Reihe explorativer Prompt-Experimente manuell angepasst und verfeinert wurde, um die Anforderungen der reduzierten Policy adäquat abzubilden.
+Ein vergleichbares Vorgehen kam bereits bei der Erstellung des Benchmark-Prompts zur Anwendung, welcher ebenfalls nach einer Reihe explorativer Experimente manuell angepasst und verfeinert wurde, um die Anforderungen der reduzierten Policy abzubilden.
 
 % ======================================================================================================================
 
@@ -59,7 +58,7 @@ In den Versionen \texttt{P1} bis \texttt{P9} wurden die Entitätsdefinitionen su
 In \texttt{P1} wurden zunächst Erklärungen aufgenommen, die den Anforderungen \nameref{subsec:cep-03}, \nameref{subsec:gep-01} und \nameref{subsec:air-01} entsprechen.
 Mit \texttt{P2} kamen Definitionen für die \nameref{subsec:aep-01} und die \nameref{subsec:hep-01} hinzu.
 Zusätzlich wurden Beispiele konstruiert, die \textit{Authors} und \textit{Holders} mit E-Mail-Adressen beinhalten und damit \nameref{subsec:gep-01} abbilden, sowie Beispiele, die Blöcke von Copyright-Statements enthalten und damit \nameref{subsec:cep-03} berücksichtigen.
-Dabei wurde sichergestellt, dass die Beispiele keine Inhalte enthalten, die Teil des Benchmarks sind, um Überschneidungen zwischen Trainings- und Testdaten zu vermeiden.
+Dabei wurde sichergestellt, dass die Beispiele keine Inhalte umfassen, die Teil des Benchmarks sind, um Überschneidungen zwischen Trainings- und Testdaten zu vermeiden.
 
 In \texttt{P3} wurden weitere Beispiele ergänzt.
 Da das \gls{llm} Schwierigkeiten bei der korrekten Erkennung von Blockstrukturen mit mehreren Copyrights zeigte, wurde in \texttt{P4} die Definition dieser Struktur präzisiert.
@@ -68,7 +67,7 @@ Mit \texttt{P5} wurde ein Beispiel für einen umfangreichen Block mit sechs Copy
 Die Versionen \texttt{P7} bis \texttt{P9} wurden vor allem durch zusätzliche Beispiele erweitert.
 Während der Anteil an \textit{Exact Matches} in \texttt{P7} den höchsten Wert dieser Serie erreichte, sank er in den nachfolgenden Versionen wieder leicht ab.
 Daher wurde die Version \texttt{P7} erneut aufgegriffen und als Grundlage für weitere Optimierungen genutzt.
-Diese Erweiterungen erfolgten durch zusätzliche Instruktionen nach den Few-Shot-Beispielen, wie sie auch von \citeauthor{cheng_novel_2024} empfohlen werden\autocite{cheng_novel_2024}.
+Diese Erweiterungen erfolgten durch zusätzliche Instruktionen nach den Few-Shot-Beispielen, wie sie auch von \citeauthor{cheng_novel_2024}\ empfohlen werden\autocite{cheng_novel_2024}.
 
 In den Versionen \texttt{P7.1} und \texttt{P7.2} wurden ergänzende Erklärungen integriert, die klarstellen, dass Lizenzinformationen nicht Teil der Copyrights sind und dass Kommentarsyntax vor und nach den Statements zu vermeiden ist.
 Außerdem wurde ein weiteres Beispiel aufgenommen, das die korrekte Extraktion von Statements in Ascii-Art verdeutlicht.
@@ -76,7 +75,7 @@ Die Version \texttt{P7.2} enthält insgesamt sieben Few-Shot-Beispiele und wird 
 Der vollständige Prompt ist im Anhang~\ref{sec:anahng-prompt-p7.2} aufgeführt.
 
 % TODO: Prompt und Ergebnis des LLMs korrekt in Anhang aufzeigen
-Im Anschluss wurde ein Experiment mit ChatGPT5 \footnote{\url{https://openai.com/index/introducing-gpt-5/}} durchgeführt, bei dem das Modell aufgefordert wurde, den Prompt \texttt{P7.2} zu optimieren.
+Im Anschluss wurde ein Experiment mit GPT-5 \footnote{\url{https://openai.com/index/introducing-gpt-5/}} durchgeführt, bei dem das Modell aufgefordert wurde, den Prompt \texttt{P7.2} zu optimieren.
 Der resultierende Prompt ist als \texttt{P7.2-AI} in den Ergebnissen gekennzeichnet und im Anhang~\ref{sec:anahng-prompt-p7.2-ai} hinterlegt.
 Die wesentliche Änderung bestand darin, dass die Beschreibungen der Entitäten in eine stichpunktartige Struktur umgewandelt und sprachlich leicht angepasst wurden.
 Die Ergebnisse zeigen jedoch, dass diese Anpassung einen geringeren Anteil an \textit{Exact Matches} von \num{91.86}\% zur Folge hatte.
@@ -133,4 +132,5 @@ Die \gls{llm}-Lösung extrahierte hierbei folgende Informationen:
 \end{lstlisting}
 
 Dies ist Anzeichen dafür, dass es eventuell weitere Strukturen von Copyright-Statements gibt, die das ScanCode Toolkit derzeit nicht erkennt, welche aber durch das semantische Verständnis des \gls{llm} korrekt identifiziert werden können.
-Eine tiefgreifendere Analyse der False-Positives könnte weitere solcher Fälle aufzeigen.
+Eine tiefgreifendere Analyse der False-Positives könnte weitere solcher Fälle aufzeigen und zur Erweiterung des Testdatensatzes besonders relevant sein.
+Wieterhin könnte dieser Ansatz der gegenläufigen Prüfung auch bei anderen Daten Kategorien zur Identifikation besonderer Fälle und zur weiteren Schärfung der Policy genutzt werden.
