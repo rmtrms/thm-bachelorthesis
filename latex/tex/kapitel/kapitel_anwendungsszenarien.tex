@@ -5,19 +5,27 @@ Anhand dieser Szenarien werden die funktionalen und nicht-funktionalen Anforderu
 Die vorgestellten Anwendungsfälle haben dabei eine doppelte Funktion: Zum einen definieren sie als verbindliche Vorgabe den Kernumfang der in dieser Arbeit zu erreichenden Ziele.
 Zum anderen zeigen sie darüber hinausgehendes Potenzial auf und skizzieren mögliche Anknüpfungspunkte für weiterführende Forschung und Entwicklung, die den Rahmen dieser Arbeit übersteigen.
 
+% ======================================================================================================================
+
 \section{Anwendungsszenario 1 -- Testdatensatz Generierung}\label{sec:anwendungsszenario-1}
 
-Zuerst muss ein Prozess definiert und implementiert werden, der die automatische Generierung hochqualitativer Testdaten zur Extraktion von Copyright-Statements und Autorenkennzeichen ermöglicht.
-Dabei ist darauf zu achten, den Prozess dahingehend zu konzipieren, dass eine Erweiterbarkeit durch zusätzliche Quellen gewährleistet ist.
-Darüber hinaus muss der Datensatz einen Umfang haben, der zur Entwicklung und Validierung einer realitätsnahen Lösung angemessen ist.
+Ein zentrales und unabhängiges Ziel dieser Arbeit ist die Konzeption und Umsetzung eines Prozesses zur automatisierten Generierung eines hochqualitativen Datensatzes, der sowohl für Tests als auch für die Evaluation der Extraktionsleistung von Copyright-Statements und Autorenkennzeichen dient.
+Dieser Prozess muss so konzipiert sein, dass eine Erweiterbarkeit durch zusätzliche Datenquellen gewährleistet ist.
+Das konkrete Ergebnis ist ein umfangreicher und reproduzierbarer Evaluationsdatensatz, der als realitätsnahe Grundlage für die Entwicklung und Validierung der in dieser Arbeit vorgestellten Lösung dient und darüber hinaus für zukünftige Entwicklungen und Forschungsarbeiten genutzt werden kann.
+
+% ======================================================================================================================
 
 \section{Anwendungsszenario 2 -- Interne Inbetriebnahme}\label{sec:anwendungsszenario-2}
 
-Aufbauend auf den generierten Testdatensatz wird eine Lösung entwickelt, die Copyright-Statements und Autorenkennzeichen aus Eingabedateien extrahieren kann.
+Aufbauend auf dem generierten Testdatensatz wird eine Lösung entwickelt, die Copyright-Statements und Autorenkennzeichen aus Eingabedateien extrahieren kann.
 Das zweite Anwendungsszenario umfasst die interne Inbetriebnahme dieser Lösung mit der Soft- und Hardware der metaeffekt.
-Hierzu muss die Lösung einerseits auf der vorhandenen Hardware lauffähig und zusätzlich mit der Softwarelandschaft vollständig kompatibel sein.
-Um spätere Lizenzierungskonflikte zu vermeiden, soll eine passende Lizenzierung der verwendeten Tools und Software gewährleistet werden.
+Ein wesentlicher Aspekt dieses Szenarios ist die iterative Qualitätssteigerung.
+Hierzu sollen zur Erhöhung der Qualität im internen Betrieb auch ausgewählte Kundenprojekte analysiert werden, um die Extraktionsgenauigkeit unter realen Bedingungen zu validieren und kontinuierlich zu verbessern.
+Ferner muss die Lösung auf der vorhandenen Hardware lauffähig und mit der Softwarelandschaft vollständig kompatibel sein.
+Um spätere Lizenzierungskonflikte zu vermeiden, wird eine passende Lizenzierung der verwendeten Tools und Software gewährleistet.
 Abschließend ist eine angemessene Laufzeitperformance nötig, um die Lösung nutzbar zu integrieren.
+
+% ======================================================================================================================
 
 \section{Anwendungsszenario 3 -- Inbetriebnahme beim Kunden}\label{sec:anwendungsszenario-3}
 
@@ -25,4 +33,4 @@ Das dritte Anwendungsszenario konzentriert sich auf die externe Inbetriebnahme i
 Da davon auszugehen ist, dass die zu verarbeitenden Daten aus Gründen der Vertraulichkeit und des Datenschutzes das Kundennetzwerk nicht verlassen dürfen, muss die Lösung als On-Premise-Anwendung konzipiert sein.
 Dies bedingt, dass die entwickelte Software auf der kundenseitigen Hard- und Softwareinfrastruktur lauffähig sein muss.
 Aus diesem Grund müssen die minimalen Systemanforderungen ermittelt und klar definiert werden, um eine erfolgreiche Implementierung und eine adäquate Laufzeitperformance beim Kunden sicherzustellen.
-Die im Anwendungsszenario 2 beschriebene Lizenzkompatibilität wird in diesem Kontext zum Muss um kundenseitig Lizenzkosten zu minimieren, oder sogar ganz zu vermeiden.
+Die im Anwendungsszenario 2 beschriebene Lizenzkompatibilität wird in diesem Kontext zum Muss, um kundenseitig Lizenzkosten zu minimieren, oder ganz zu vermeiden.

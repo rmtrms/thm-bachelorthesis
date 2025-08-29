@@ -1,10 +1,53 @@
 \chapter{Diskussion}\label{ch:diskussion}
 
+Dieses Kapitel dient der Einordnung, Interpretation und kritischen Reflexion der in dieser Arbeit erzielten Ergebnisse.
+Es werden die Resultate in den Kontext der ursprünglichen Problemstellung und der definierten Anforderungen gestellt.
+Darüber hinaus werden die Herausforderungen und Limitationen der Untersuchung beleuchtet und die Vorgehensweise im Hinblick auf Erfolge sowie Versäumnisse kritisch gewürdigt.
+
+% ======================================================================================================================
+
 \section{Interpretation der Ergebnisse im Kontext der ursprünglichen Problemstellung}
 
-\section{Reflexion über Herausforderungen und Limitationen bei der Umsetzung und Evaluierung}
+Die vorliegende Arbeit adressierte die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen.
+Die erzielten Ergebnisse demonstrieren eindrücklich, dass der entwickelte, auf \glspl{llm} basierende Ansatz eine leistungsfähige Alternative darstellt.
+Durch gezieltes Prompt-Engineering konnte mit dem Modell \texttt{mistral-small:24b} eine Extraktionsgenauigkeit von \num{96,3}\% \textit{Exact Matches} erreicht werden.
+Damit wurde die funktionale Anforderung einer Extraktionsgenauigkeit von \num{95}\% (NF1) nicht nur erfüllt, sondern übertroffen.
 
-\section{Betrachtung der Integrationsfähigkeit der entwickelten Lösungen in bestehende Abläufe und Kundenlandschaften}
+Diese hohe Präzision, kombiniert mit der Fähigkeit, Ergebnisse in einem zum ScanCode-Toolkit kompatiblen JSON-Format auszugeben (F1, NF11), bestätigt die praktische Relevanz des Prototyps für die in den Anwendungsszenarien beschriebene interne Inbetriebnahme (AS2) sowie die potenzielle Inbetriebnahme in einem Kundenkontext (AS3).
+Die erfolgreichen Fine-Tuning-Experimente, bei denen ein kleineres Modell bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit erzielte, unterstreichen zudem das Potenzial, die nicht-funktionalen Anforderungen an die Laufzeitperformance in einem produktiven Umfeld zu erfüllen.
+Der entwickelte Prototyp belegt somit die grundsätzliche Eignung von \glspl{llm}, die Genauigkeit und Effizienz im Lizenz-Compliance-Management erheblich zu verbessern.
+
+% ======================================================================================================================
+
+% TODO: Eventuell ergänzen, dass Prompt-Engineering Lösung im Rahmen des Benchmarks optimiert wurde anstatt mit einem ganzheitlichen Ansatz
+
+\section{Herausforderungen und Limitationen bei der Umsetzung und Evaluierung}
+
+Die Durchführung der Arbeit war mit verschiedenen Herausforderungen und Limitationen verbunden.
+Die verwendete Hardware ermöglichte zwar die Ausführung größerer \glspl{llm}, brachte jedoch auch zeitliche Beschränkungen mit sich.
+Insbesondere aufwendige Durchläufe wie der Benchmark oder das Fine-Tuning nahmen teilweise mehrere Stunden in Anspruch, was die Anzahl möglicher Iterationen und Experimente begrenzte.
+
+Eine wesentliche Limitation der Arbeit liegt in der Erstellung des Evaluations- und Trainingsdatensatzes.
+Aus zeitlichen und personellen Gründen konnte keine umfassende Annotation von Daten durch externe Experten erfolgen.
+Die manuelle Pflege und Validierung der Datensätze basierte daher primär auf der Einschätzung des Autors, was eine potenzielle Subjektivität und Fehlerquelle darstellt.
+
+% ======================================================================================================================
 
 \section{Kritische Würdigung der Vorgehensweise in Hinsicht auf Erfolge und Versäumnisse}
 
+Im Rückblick lassen sich einige Versäumnisse in der Vorgehensweise identifizieren.
+Der durchgeführte Benchmark basierte auf einem Datensatz von lediglich \num{200} Dateien.
+Für ein statistisch aussagekräftigeres und generalisierbareres Ergebnis wäre ein umfangreicherer Benchmarkdatensatz notwendig gewesen.
+Auch die zur Vorverarbeitung der Eingabedateien genutzte Wortliste wurde manuell durch Beobachtung und iterative Verbesserung erstellt.
+Eine zuverlässige Produktivlösung würde hier einen automatisierten Ansatz zur Generierung erfordern.
+Ebenso erfolgte das Prompt-Engineering manuell, während ein automatisierter Prozess, der wirkungsvolle Beispiele und Instruktionsvarianten systematisch kombiniert, perspektivisch eine bessere Lösung darstellt.
+Ein weiteres Defizit zeigt sich bei der Erzeugung von Testdaten für das Fine-Tuning, da hier ein expliziter Validierungsschritt fehlte und stattdessen nur die vorherige Analyse ungesehener Daten als Gütekriterium herangzeogen wurde.
+Insbesondere bei komplexen Blöcken von Copyright-Statements, bei denen die optimierte Lösung unzureichende Ergebnisse erzielte, wäre eine anschließende Validierung notwendig gewesen um diesen Eingabetyp auch im Fine-Tuning zu unterstützen.
+Schließlich wurde das Fine-Tuning nur durch initiale Experimente als Option analysiert, eine tiefgehende Untersuchung mit verschiedenen Trainingsparametern fand nicht statt.
+
+Diesen Versäumnissen stehen jedoch bedeutende Erfolge gegenüber.
+So gelang es trotz des engen zeitlichen Rahmens, eine vollständige \gls{llm}-Entwicklungspipeline von der Datenaggregation über den Benchmark und das Prompt-Engineering bis hin zum Fine-Tuning mittels Knowledge-Distillation erfolgreich zu konzipieren und durchzuführen.
+Der Benchmark selbst erwies sich als aussagekräftig, da die weite Streuung der Ergebnisse seine grundsätzliche Lösbarkeit und Eignung zur Modelldifferenzierung belegte.
+Das systematische Prompt-Engineering führte zu hohen Präzisionsergebnissen.
+Auch die initialen Experimente zum Fine-Tuning waren erfolgreich, indem ein kleineres, spezialisiertes Modell eine vergleichbare Genauigkeit bei signifikant höherer Effizienz erreichte.
+Schließlich stellt die im Rahmen der Arbeit formulierte und verfeinerte Policy eine wertvolle Grundlage für die metaeffekt GmbH und ihre Kunden für zukünftige Arbeiten dar.

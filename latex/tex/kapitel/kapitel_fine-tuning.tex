@@ -38,11 +38,13 @@ Alle weiteren Parameter wurden unverändert auf den Standardwerten belassen, da 
 \subsection{Durchführung mit kuratierten Daten}
 
 Für den ersten Fine-Tuning-Durchlauf wurde ein Datensatz verwendet, der ausschließlich aus manuell kuratierten Beispielen der Kategorie \textit{manually checked} bestand.
-Der Datensatz umfasste 500 qualitativ hochwertige Einträge, die ein breites Spektrum der in der Policy definierten Regeln abdeckten.
+Der Datensatz umfasst \num{500} qualitativ hochwertige Einträge, die ein breites Spektrum der in der Policy definierten Regeln abdeckten.
 
 Als Basis für das Fine-Tuning wurde das Modell \texttt{mistral-7B-Instruct-v0.3}\footnote{\url{https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3}} ausgewählt.
-Dieses Modell weist eine enge Verwandtschaft zu \texttt{mistral-small:24b} auf, das im Benchmark besonders gute Ergebnisse erzielt hatte.
-Darüber hinaus handelt es sich um eine Instruct-Variante, die für Aufgaben wie \gls{ner} optimiert ist und daher eine geeignete Ausgangsbasis für die vorliegende Untersuchung darstellt.
+Dieses Modell weist eine enge Verwandtschaft zu \texttt{mistral-small:24b} auf, das im Benchmark besonders gute Ergebnisse erzielt hat.
+Darüber hinaus handelt es sich um eine Instruct-Variante.
+Im Gegensatz zu reinen Basismodellen, die primär auf die Fortsetzung von Text trainiert sind, werden Instruct-Modelle zusätzlich darauf optimiert, Anweisungen präzise zu befolgen und strukturierte Ausgaben zu erzeugen.
+Diese Fähigkeit macht sie besonders für Aufgaben wie \gls{ner} geeignet und stellt daher eine geeignete Ausgangsbasis für die vorliegende Untersuchung dar.
 
 Das initiale Training erfolgte mit den Standardparametern von MLX.
 Es wurde eine Lernrate von $2 \times 10^{-5}$ bei insgesamt \num{800} Iterationen verwendet.
@@ -52,7 +54,7 @@ Auch die anschließende Manipulation der Lernrate, Lora-Schichten und Iteratione
 
 \subsection{Durchführung mit generierten Daten}
 
-Die Beobachtungen der ersten Durchführung deuten darauf hin, dass die Größe des verwendeten Datensatzes nicht ausreichte, um ein erfolgreiches Fine-Tuning durchzuführen.
+Die Beobachtungen der ersten Durchführung deuten darauf hin, dass die Größe des verwendeten Datensatzes nicht ausreicht, um ein erfolgreiches Fine-Tuning durchzuführen.
 Für die zweite Durchführung wurde daher ein erweiterter Datensatz erstellt.
 Zunächst wurden 2000 Dateien der Kategorie \textit{single copyrights without authors} sowie 2000 Dateien der Kategorie \textit{single copyrights with authors} zufällig ausgewählt.
 Anschließend wurde die im Kapitel~\ref{ch:prompt-engineering} entwickelte Lösung eingesetzt, um für diese insgesamt 4000 Dateien die Copyright-Informationen zu extrahieren.
@@ -62,7 +64,7 @@ Es ist daher davon auszugehen, dass die generierten Trainingsdaten eine hinreich
 
 Der so erstellte Datensatz wurde für das Fine-Tuning des Modells \texttt{mistral-7B-Instruct-v0.3} verwendet.
 Das Training erfolgte mit 16 LoRA-Schichten, einer Lernrate von $2 \times 10^{-5}$ und \num{1600} Iterationen, während alle übrigen Parameter unverändert auf den Standardwerten belassen wurden.
-Das Modell reagierte nach Abschluss des Trainings korrekt auf die in den Trainingsdaten vorgegebene Instruktion und erzeugte sämtliche Ausgaben konsistent im JSON-Format, ohne zusätzliche Inhalte vor oder nach den extrahierten Daten.
+Das Modell reagierte nach Abschluss des Trainings korrekt auf die in den Trainingsdaten vorgegebene Instruktion und erzeugte sämtliche Ausgaben konsistent im JSON-Format, ohne Abweichung in der Repräsentation des Formats zu erzeugen.
 Die genauen Ergebnisse werden im Abschnitt~\ref{sec:lora-ergebnisse} aufgezeigt.
 Der aus dem Training resultierende LoRA-Adapter wurde auf der Plattform Hugging Face\footnote{\url{https://huggingface.co}} veröffentlicht und steht dort zum Download zur Verfügung\footnote{\url{https://huggingface.co/metaeffekt/copyright-scanner-mistral-7b-instruct-v0.3}}.
 
@@ -77,9 +79,9 @@ Die Ergebnisse der trainierten Modelle werden im folgenden Abschnitt mit den Res
 
 \section{Ergebnisse}\label{sec:lora-ergebnisse}
 
-Für die abschließende Bewertung und den Vergleich der Modelle wird der kuratierte Datensatz herangezogen, der aus \num{200} Dateien der Kategorie \textit{exact matches without authors} besteht.
+Für die abschließende Bewertung und den Vergleich der Modelle wurde der kuratierte Datensatz herangezogen, der aus \num{200} Dateien der Kategorie \textit{exact matches without authors} besteht.
 Dieser Datensatz wurde bereits im Kapitel~\ref{ch:benchmark} verwendet, um die Generalisierbarkeit der Prompt-Engineering-Lösung auf ungesehenen Daten zu analysieren.
-Dadurch wird eine direkte Vergleichbarkeit der Ergebnisse sichergestellt.
+Dadurch wurde eine direkte Vergleichbarkeit der Ergebnisse sichergestellt.
 
 Zur Bewertung der Leistung werden die beiden fine-tuned \glspl{llm} mit der Prompt-Engineering-Lösung aus dem vorherigen Kapitel verglichen.
 Die zentralen Metriken sind dabei die Qualität der Extraktion, gemessen am prozentualen Anteil der\textit{Exact Matches}, und die Verarbeitungsgeschwindigkeit in \textit{Tokens/sec}.

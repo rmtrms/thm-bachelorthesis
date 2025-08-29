@@ -33,7 +33,7 @@ Die erfolgreich extrahierten und validierten Informationen werden abschließend 
 
 \section{Beschreiben der Schnittstellen und Integration in bestehende Systeme}
 
-Die Integration des entwickelten Copyright-Scanners in bestehende Prozessketten stellt eine zentrale Anforderung dar, die maßgeblich durch die Gestaltung seiner Schnittstellen bestimmt wird.
+Die Integration des entwickelten Copyright-Scanners in bestehende Prozessketten stellt eine zentrale Anforderung dar, die maßgeblich durch die Gestaltung der Schnittstellen bestimmt wird.
 Die primäre Schnittstelle des Systems ist für die Entgegennahme von Eingabedateien und die Bereitstellung der extrahierten Ergebnisse konzipiert.
 Intern kommuniziert der Scanner, wie in Abbildung~\ref{fig:copyright-scanner} dargestellt, über die Ollama4J-Bibliothek, die eine REST-API-Schnittstelle zum lokal ausgeführten Ollama-Dienst kapselt.
 Diese Architektur ermöglicht eine flexible Bereitstellung, bei der das Sprachmodell unabhängig von der verarbeitenden Anwendung auf derselben oder einer anderen Maschine im Netzwerk betrieben werden kann, was dem im Anwendungsszenario geforderten On-Premise-Betrieb entgegenkommt.
@@ -46,3 +46,5 @@ Allerdings stellt die Ausführung des Systems höhere Anforderungen an die Hardw
 Die Inferenz eines \glspl{llm} ist rechen- und speicherintensiv.
 Wie die Untersuchungen in Kapitel~\ref{ch:benchmark} gezeigt haben, ist für eine performante lokale Ausführung leistungsfähige Hardware erforderlich, beispielsweise ein System mit ausreichend Arbeitsspeicher und einer leistungsstarken GPU wie der im Benchmark verwendete Mac Mini.
 Unternehmen, die eine Integration in Erwägung ziehen, müssen diesen Aspekt berücksichtigen, da die Notwendigkeit spezieller Hardware eine Hürde für die Implementierung darstellen kann.
+
+Das perspektivische Ziel der Entwicklung ist der produktive Einsatz des Scanners bei internen Scans für zeitlich unkritische Kundenprojekte.

@@ -3,44 +3,82 @@
 Zur Sicherstellung einer zielgerichteten und nachvollziehbaren Entwicklung werden im Folgenden die Anforderungen an das zu entwickelnde System beschrieben.
 Die klare Festlegung dieser Anforderungen ermöglicht eine eindeutige Überprüfung der Zielerreichung und minimiert das Risiko von Missverständnissen im Entwicklungsprozess.
 Dabei werden sowohl funktionale- als auch nicht-funktionale Anforderungen strukturiert aufgeführt.
-Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einheitlichen Schema spezifiziert, das eine eindeutige ID, einen Titel, eine Priorität und eine Beschreibung inklusive der Abnahmekriterien umfasst.
+Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einheitlichen Schema spezifiziert, das eine eindeutige Id, einen Titel, eine Priorität und eine Beschreibung inklusive der Abnahmekriterien umfasst.
+
+% ======================================================================================================================
+
+% TODO: Eventuell On-Premise-betrieb als Anforderung hinzufügen sowie Separation of Concerns (Docker mit LLM) zur Kommunikation im Netzwerk oder so
 
 \section{Funktionale Anforderungen}\label{sec:funktionale-anforderungen}
 
-\begin{itemize}
-    \item Genauigkeit -- das System muss bei der Verarbeitung eines anhand der Policy gepflegten Datensatzes mindestens 80\% Exact-Matches erzielen.
-    \item Ergebnisausgabe -- das System muss Ergebnisse in einem strukturierten Format bereitstellen, das für nachgelagerte Verarbeitungsschritte geeignet ist.
-    \item Ergebnisvalidierung -- das System muss die Ergebnisse anhand des strukturierten Formats validieren können.
-    \item Fehlerbehandlung -- das System muss Fehlerfälle erkennen, protokollieren und aussagekräftige Fehlermeldungen bereitstellen.
-    \item Reproduzierbarkeit -- die Ergebnisse des Systems sind reproduzierbar.
-    \item Nachvollziehbarkeit -- das System speichert Zwischenergebnisse um Abläufe und eventuelle Fehler nachvollziehbar zu machen.
-    \item Vorverarbeitung -- Eingaben werden auf relevante Teile reduziert bevor eine LLM-Anfrage erfolgt.
-    \item Batch-Verarbeitung -- das System kann Batches von mindestens 4000 Eingaben sequentiell verarbeiten.
-    \item Zeitüberschreitung -- das System muss Zeitüberschreitungen bei LLM-Anfragen erkennen und die Anfrage stoppen können.
-\end{itemize}
+\begin{anforderungsliste}
+    \freq{Strukturierte Ergebnisausgabe}{Hoch}
+        {Das System muss die extrahierten Copyright-Informationen in einem maschinenlesbaren, strukturierten Format ausgeben, um eine automatisierte Weiterverarbeitung zu ermöglichen.}
+        {Die Ausgabe muss als valides JSON-Objekt erfolgen, dessen Schema mit dem des ScanCode-Toolkits kompatibel ist. Dies stellt die Interoperabilität mit bestehenden Prozessen sicher.}
+
+    \freq{Ergebnisvalidierung}{Hoch}
+        {Das System muss sicherstellen, dass die generierte Ausgabe eine valide und syntaktisch korrekte Struktur aufweist, bevor sie an nachgelagerte Prozesse übergeben wird.}
+        {Die vom System generierte Ausgabe muss erfolgreich gegen das definierte JSON-Schema validiert werden können. Eventuelle Formatierungsfehler oder zusätzliche, nicht zum JSON gehörende Textartefakte in der LLM-Antwort müssen erkannt und nach Möglichkeit korrigiert werden, um ein valides Ergebnis zu gewährleisten.}
+
+    \freq{Umgang mit fehlerhaften Modellausgaben}{Hoch}
+        {Das System muss in der Lage sein, ungültige oder nicht dem erwarteten Format entsprechende Antworten des Sprachmodells zu erkennen und zu behandeln.}
+        {Wenn die Ausgabe des LLM nicht dem geforderten JSON-Schema entspricht, muss dies als Fehlerfall erkannt werden. Der Vorfall wird protokolliert, die fehlerhafte Originalausgabe für eine spätere Analyse gespeichert und die Verarbeitung der betroffenen Datei als fehlgeschlagen markiert.}
+
+    \freq{Datenvorverarbeitung}{Hoch}
+        {Um die Effizienz zu steigern und die Verarbeitungsqualität bei großen Eingabedateien zu verbessern, müssen diese vor der Anfrage an das LLM auf potenziell relevante Abschnitte reduziert werden.}
+        {Das System muss eine Funktion implementieren, die den Inhalt einer Eingabedatei so reduziert, dass primär die urheberrechtlich relevanten Textabschnitte für die weitere Verarbeitung erhalten bleiben.}
+
+    \freq{Policy-Abdeckung}{Hoch}
+        {Die Softwarelösung muss die in der Policy definierten Regeln für die Extraktion von Copyrights, Holders und Authors korrekt umsetzen.}
+        {Die Extraktionsergebnisse des Systems müssen allen als \enquote{in-scope} definierten Regeln der Policy entsprechen.}
+\end{anforderungsliste}
+
+% ======================================================================================================================
 
 \section{Nicht-funktionale Anforderungen}\label{sec:nicht-funktionale-anforderungen}
 
-\begin{itemize}
-    \item Modellauswahlverfahren -- das eingesetzte Modell muss anhand eines systematischen, nachvollziehbaren und dokumentierten Evaluationsverfahren ausgewählt werden.
-    \item Hardware-Kompatibilität -- das System muss auf der vorhandenen Hardware lauffähig und kompatibel sein.
-    \item Implementierungssprache -- das System muss in Java implementiert sein, die genaue Version ist nicht vorgegeben.
-    \item Lizenzkonformität -- alle verwendeten Tools und Sprachmodelle müssen über eine zum Anwendungsfall passende Lizenz verfügen.
-    \item Policy Abdeckung -- die implementierte Lösung muss alle \enquote{in-scope} definierten Policy Aspekte berücksichtigen.
-    \item Integration -- das System soll in bestehende Prozesse der metaeffekt integrierbar sein.
-\end{itemize}
-
-% Die entwickelte Lösung muss auf der Hardware der metaeffekt lauffähig bzw. kompatibel sein
-% Die verwendeten Tools/Sprachmodelle müssen eine zum Anwendungsfall passende Lizenzierung haben
-% Die entwickelte Lösung soll alle Policy Teile abdecken, die als in-scope definiert sind
-% Die entwickelte Lösung soll ein kleines Kundenprojekt verarbeiten können
-% Die entwickelte Lösung muss mindestens 80% exact-matches bei einem anhand der Policy gepflegten Datensatzes erreichen
-% Das verwendete Modell muss anhand eines systematischen Verfahrens evaluiert und ausgewählt werden
-% Das System soll in den vorhanden Prozess der metaeffekt integrierbar sein
-% Das System muss eine Java implementierung sein
-
 \begin{anforderungsliste}
+    \nfreq{Extraktionsgenauigkeit}{Hoch}
+        {Die Genauigkeit des Systems wird an seiner Fähigkeit gemessen, Copyright-Informationen exakt und konform zur definierten Policy zu extrahieren.}
+        {Das System muss bei der Verarbeitung eines anhand der Policy gepflegten Datensatzes 95\% Exact-Matches erzielen.}
+
+    \nfreq{Technische Fehlerbehandlung}{Hoch}
+        {Das System muss robust auf technische Fehler reagieren, die während der Verarbeitung auftreten können (z.B. Netzwerk- oder Dateizugriffsfehler), um einen stabilen Betrieb zu gewährleisten.}
+        {Technische Fehlerfälle, wie Lese-/Schreibfehler oder Zeitüberschreitungen bei der LLM-Anfrage, müssen abgefangen werden. Der Fehler wird mit einer aussagekräftigen Meldung protokolliert und der betroffene Verarbeitungsschritt kontrolliert beendet, ohne den Gesamtprozess (z.B. eine Batch-Processing) abzubrechen.}
+
+    \nfreq{Reproduzierbarkeit}{Hoch}
+        {Das System muss deterministische Ergebnisse liefern, um die Nachvollziehbarkeit, Testbarkeit und Verlässlichkeit der Extraktion zu gewährleisten.}
+        {Bei wiederholter Ausführung mit identischer Eingabedatei, identischem Prompt und identischer Modellversion (inklusive Konfiguration wie z.B. einer Temperatur von 0.0) muss das System eine exakt identische, zeichengenaue Ausgabe erzeugen.}
+
+    \nfreq{Nachvollziehbarkeit}{Hoch}
+        {Um die Analyse von Ergebnissen und die Fehlersuche zu erleichtern, muss der gesamte Verarbeitungsprozess für jede einzelne Eingabedatei nachvollziehbar sein.}
+        {Das System muss für jede Eingabe die wesentlichen Zwischenschritte des Extraktionsprozesses speichern. Dies muss ausreichen, um den genauen Ablauf von der Eingabe bis zur Ausgabe manuell rekonstruieren zu können.}
+
+    \nfreq{Batch-Verarbeitung}{Hoch}
+        {Das System muss in der Lage sein, eine große Menge von Eingabedateien in einem einzigen Durchlauf automatisiert zu verarbeiten, ohne dass eine manuelle Interaktion erforderlich ist.}
+        {Das System muss die sequentielle Verarbeitung von Batches mit mehreren tausend Eingabedateien unterstützen. Der Prozess muss auch bei auftretenden Einzelfehlern stabil weiterlaufen (siehe Anforderung zur Fehlerbehandlung).}
+
+    \nfreq{Anfrage-Zeitüberschreitung}{Hoch}
+        {Um zu verhindern, dass das System durch nicht terminierende LLM-Anfragen blockiert wird, muss ein Mechanismus zur Zeitüberschreitung implementiert werden.}
+        {Jede an das LLM gesendete Anfrage muss nach Überschreiten eines vordefinierten, konfigurierbaren Zeitlimits automatisch abgebrochen werden. Der Abbruch wird als Fehlerfall behandelt und entsprechend protokolliert.}
+
+    \nfreq{Modellauswahlverfahren}{Hoch}
+        {Die Auswahl des zu integrierenden Sprachmodells darf nicht willkürlich erfolgen, sondern muss auf einem objektiven und transparenten Prozess basieren, um die bestmögliche Eignung für den Anwendungsfall sicherzustellen.}
+        {Das finale Sprachmodell muss durch ein dokumentiertes Evaluationsverfahren (Benchmark) ausgewählt werden. Dieses Verfahren muss auf vordefinierten Metriken basieren und einen systematischen Vergleich mehrerer Kandidatenmodelle ermöglichen, sodass die finale Entscheidung nachvollziehbar begründet ist.}
+
+    \nfreq{Hardware-Kompatibilität}{Hoch}
+        {Die entwickelte Softwarelösung muss auf der für die Entwicklung und den internen Betrieb vorgesehenen Hardware lauffähig sein, um die praktische Umsetzbarkeit des Projekts zu gewährleisten.}
+        {Alle Komponenten des Systems, einschließlich des LLM-Servers und der Java-Anwendung, lassen sich auf der definierten Zielhardware (Mac Mini M4 Pro) erfolgreich installieren und ausführen. Das System muss den Benchmark-Prozess auf dieser Hardware ohne hardwarebedingte Fehler oder Abstürze vollständig durchführen können.}
+
     \nfreq{Implementierungssprache}{Hoch}
-        {Der gesamte Quellcode lässt sich fehlerfrei mit einem Java Development Kit der spezifizierten Version (oder höher) kompilieren.}
-        {Die Softwarelösung muss vollständig in der Programmiersprache Java implementiert werden, wobei mindestens die Version 8 als Sprach- und Laufzeitumgebung zu verwenden ist.}
+        {Um die Integration in die bestehende Systemlandschaft der metaeffekt zu gewährleisten und die Wartbarkeit zu sichern, muss die Softwarelösung in der Programmiersprache Java entwickelt werden.}
+        {Die Softwarelösung muss vollständig in der Programmiersprache Java implementiert werden, wobei mindestens die Version 8 als Sprach- und Laufzeitumgebung zu verwenden ist. Der gesamte Quellcode lässt sich fehlerfrei mit einem Java Development Kit der spezifizierten Version (oder höher) kompilieren.}
+
+    \nfreq{Lizenzkonformität}{Hoch}
+        {Um rechtliche Risiken und unvorhergesehene Lizenzkosten zu vermeiden, müssen alle eingesetzten Softwarekomponenten, Werkzeuge und Sprachmodelle unter Lizenzen stehen, die den geplanten internen und kommerziellen Einsatz erlauben.}
+        {Für jede eingesetzte Drittanbieter-Komponente (inkl. Bibliotheken und LLMs) muss eine Lizenzanalyse durchgeführt und dokumentiert werden. Die Lizenzen müssen die kommerzielle Nutzung explizit gestatten und dürfen keine viralen Klauseln (Copyleft) enthalten, die die Lizenzierung des Gesamtsystems beeinträchtigen würden.}
+
+    \nfreq{Systemintegration}{Hoch}
+        {Die entwickelte Lösung muss so gestaltet sein, dass sie sich nahtlos in die bestehenden Analyse- und Compliance-Prozesse der metaeffekt einfügen lässt, um bestehende Arbeitsabläufe störungsfrei zu ergänzen.}
+        {Das System muss als Komponente in der bestehenden Verarbeitungskette agieren können. Dies wird gewährleistet, indem es Ergebnisse in einem Format (JSON-Schema) bereitstellt, das mit dem des ScanCode-Toolkits kompatibel ist, sodass nachgelagerte Verarbeitungsschritte keine Anpassungen erfordern.}
 \end{anforderungsliste}

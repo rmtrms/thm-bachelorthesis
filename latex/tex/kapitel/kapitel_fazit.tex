@@ -1,9 +1,81 @@
 \chapter{Fazit}\label{ch:fazit}
 
+Dieses abschließende Kapitel fasst die zentralen Resultate der Arbeit zusammen und bewertet diese im Kontext der praktischen Anwendbarkeit.
+Darauf aufbauend wird ein Ausblick auf weiterführende Forschung und mögliche Optimierungen gegeben.
+
+% ======================================================================================================================
+
 \section{Zusammenfassung der wichtigsten Erkenntnisse und Ergebnisse der Arbeit}
+
+Die vorliegende Arbeit demonstriert, dass auf \glspl{llm} basierende Ansätze eine hochpräzise und effiziente Alternative zu etablierten, regelbasierten Systemen für die Extraktion von Copyright-Informationen darstellen.
+
+Ein zentrales Ergebnis ist die Entwicklung einer formalen Policy, die als normative Grundlage für die Extraktion diente und in zukünftigen Projekten der metaeffekt GmbH als wertvolle Referenz verwendet werden kann.
+
+Zur empirischen Fundierung wurde ein umfangreicher Datensatz mit rund \num{467000} Dateien aus einem Alpine-Linux-Container aggregiert, der für weiterführende Untersuchungen und Modelltrainings zur Verfügung steht.
+Damit konnte das Anwendungsszenario 1 zur Generierung eines Testdatensatzes weitgehend erfüllt werden, wobei die zuverlässige Erkennung komplexer Blöcke von Copyright-Statements einen noch fehlenden Validierungsmechanismus erfordert.
+
+Ein systematischer Benchmark, der 30 Open-Source-\glspl{llm} umfasste, identifizierte das Modell \texttt{mistral-small:24b} als die am besten geeignete Basis für den Anwendungsfall.
+Die iterative Entwicklung dieses Benchmarks trug maßgeblich zur Implementierung des finalen Prototyps bei.
+
+Durch gezieltes Prompt-Engineering wurde die Extraktionsleistung optimiert, um eine vollständige Abdeckung der Policy zu erreichen, was zu einer Genauigkeit von \num{96,3}\% \textit{Exact Matches} führte.
+Eine anschließende Validierung mit ungesehenen Daten bestätigte die hohe Qualität der Lösung für einzelne Copyright-Vermerke, zeigte jedoch zugleich noch Schwächen bei der Verarbeitung von zusammenhängenden Blöcken auf.
+
+Die Experimente zum Fine-Tuning belegen, dass ein spezialisiertes, deutlich kleineres Modell (\texttt{mistral-7b-instruct-v0.3}) bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit im Vergleich zur Prompt-Engineering-Lösung erzielen kann.
+Diese Ergebnisse zeigen, dass ein Modell die komplexen Anforderungen der Policy durch implizites Lernen aus Daten verinnerlichen kann, ohne dass detaillierte Anweisungen im Prompt notwendig sind.
+Zudem wurde das Potenzial für eine erhebliche Geschwindigkeitssteigerung durch den Einsatz eines noch kleineren Modells (\texttt{qwen2.5-1.5b-instruct}) aufgezeigt, auch wenn dies mit einer spürbaren Reduktion der Genauigkeit verbunden war.
+Diese Erkenntnisse schaffen eine wichtige Grundlage für die in den Anwendungsszenarien 2 und 3 geforderte Praxistauglichkeit.
+
+Der entwickelte Prototyp fasst diese Ergebnisse in einer beispielhaften Implementierung zusammen und kann als Ausgangspunkt für die Entwicklung einer Produktivlösung herangezogen werden.
+
+% ======================================================================================================================
 
 \section{Bewertung des entwickelten Prototyps hinsichtlich seines Potenzials für den
 praktischen Einsatz}
 
-\section{Ausblick auf mögliche Weiterentwicklungen, Optimierungen und
-Forschungsperspektiven im Bereich der automatisierten Lizenz-Compliance}
+Der im Rahmen dieser Arbeit entwickelte Prototyp demonstriert ein erhebliches Potenzial für den praktischen Einsatz im Lizenz-Compliance-Management und erfüllt wesentliche funktionale sowie nicht-funktionale Anforderungen.
+Seine Eignung ergibt sich aus einer Kombination von hoher Extraktionsgenauigkeit, technischer Flexibilität und einer klaren Perspektive für den performanten Betrieb.
+
+Ein entscheidender Vorteil für die Praxistauglichkeit ist die ermittelte Extraktionsqualität.
+Mit einer Genauigkeit von \num{96,3}\% \textit{Exact Matches} übertrifft der Prototyp die Leistung etablierter regelbasierter Werkzeuge und erfüllt die definierte Anforderung von \num{95}\% (NF1).
+Diese hohe Präzision hat das Potenzial, den manuellen Nachbesserungsaufwand erheblich zu reduzieren und die Rechtskonformität in der Software-Lieferkette zu verbessern.
+Die Gestaltung des Ausgabeformats (F1), das bewusst an das JSON-Schema des ScanCode-Toolkits angelehnt ist, gewährleistet zudem eine nahtlose Systemintegration (NF11).
+Bestehende Prozessketten der metaeffekt GmbH können die generierten Ergebnisse ohne wesentliche Anpassungen weiterverarbeiten, was eine reibungslose Einführung als ergänzende oder ersetzende Komponente ermöglicht.
+
+Die durchgeführten Fine-Tuning-Experimente unterstreichen das Potenzial für einen effizienten, produktiven Einsatz.
+Es wurde gezeigt, dass ein spezialisiertes, kleineres Modell bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit erreichen kann.
+Dies adressiert Bedenken hinsichtlich der Laufzeitperformance und belegt, dass eine hohe Präzision nicht zwangsläufig mit inakzeptablen Latenzzeiten verbunden ist.
+
+Die Architektur des Systems, die auf einem lokal via Docker betriebenen \gls{llm} basiert, erfüllt zudem die kritische Anforderung des On-Premise-Betriebs.
+Dadurch können auch Kundenprojekte bearbeitet werden, bei denen sensible Daten das Unternehmensnetzwerk nicht verlassen dürfen.
+Die Verwendung von Modellen unter der Apache-2.0-Lizenz sichert darüber hinaus die notwendige Lizenzkonformität für einen kommerziellen Einsatz (NF10).
+
+Trotz des vielversprechenden Potenzials bestehen für den praktischen Einsatz klare Limitationen und Voraussetzungen.
+Die größte Hürde stellen die im Vergleich zu traditionellen Werkzeugen deutlich höheren Hardware-Anforderungen dar.
+Die Notwendigkeit leistungsfähiger Systeme mit ausreichend Arbeitsspeicher und GPU-Unterstützung könnte eine Investitionshürde für die Implementierung bei Kunden oder intern darstellen.
+Weiterhin zeigten die Validierungen, dass der Prototyp zwar bei einfachen Fällen exzellente Ergebnisse liefert, die Erkennung komplexer Blöcke von Copyright-Statements jedoch noch unzureichend ist.
+Vor diesem Hintergrund erscheint ein gestufter Ansatz für die Integration sinnvoll.
+Zunächst eignet sich der Scanner für den internen Einsatz bei zeitlich unkritischen Kundenprojekten, um von seiner hohen Genauigkeit zu profitieren, bevor durch weitere Optimierungen ein breiterer Einsatz möglich wird.
+
+% ======================================================================================================================
+
+\section{Ausblick auf mögliche Weiterentwicklungen, Optimierungen und Forschungsperspektiven}
+
+Die in dieser Arbeit erzielten Ergebnisse legen eine solide Grundlage für zukünftige Forschung und Entwicklung im Bereich der automatisierten Lizenz-Compliance.
+Die identifizierten Potenziale eröffnen vielversprechende Wege, um die hier vorgestellte Lösung zur Produktreife zu führen und die Grenzen bestehender Systeme zu überwinden.
+
+Eine zentrale Weiterentwicklungsperspektive liegt in der Skalierung der Datengrundlage.
+Durch die Kombination der leistungsfähigen Prompt-Engineering-Lösung mit einer nachgelagerten, regelbasierten Validierung der Modellausgaben ließe sich ein Datensatz erzeugen, der Hunderttausende hochqualitative Beispiele umfasst.
+Ein solcher Datensatz könnte genutzt werden, um ein performantes Instruct-\gls{llm} zu trainieren, das eine hochqualitative Extraktion über alle Aspekte der Policy hinweg ermöglicht.
+Durch weiterführende Optimierungen des Trainingsprozesses wäre es denkbar, selbst sehr kleine und ressourcenschonende Modelle zu zufriedenstellenden Ergebnissen zu führen, was die Praxistauglichkeit erheblich steigern würde.
+
+Zukünftige Arbeiten sollten zudem die Ergänzung weiterer Datenquellen in Betracht ziehen.
+Auf diese Weise könnten weitreichendere und vielfältigere Beispiele für Copyright-Angaben identifiziert werden, was eine kontinuierliche Schärfung und Erweiterung der Policy ermöglichen würde.
+Ein besonderes Potenzial liegt hierbei in der gezielten Integration von mehrsprachigen Quellen.
+Dies könnte die Entwicklung eines Systems ermöglichen, das Copyright-Informationen über Sprachgrenzen hinweg zuverlässig extrahiert.
+Dies würde eine Fähigkeit darstellen, die derzeit von keinem etablierten Werkzeug angeboten wird und einen erheblichen Mehrwert darstellt.
+
+Darüber hinaus könnte eine breitere Datenbasis die Untersuchung alternativer, gradienten-basierter Machine-Learning-Lösungen ermöglichen, die langfristig eine weniger ressourcenintensive Alternative zur \gls{llm}-Bereitstellung darstellen könnten.
+
+Das Erreichen einer Extraktionsgenauigkeit von über \num{95}\% \textit{Exact Matches} über alle Kategorien hinweg, kombiniert mit einem performanten und effizienten Modell, würde schließlich den Weg für den produktiven Einsatz des Systems ebnen.
+Nicht nur intern, sondern auch direkt im Kundenkontext.
+Die konsequente Verfolgung dieser Forschungs- und Entwicklungsperspektiven birgt das Potenzial, die automatisierte Lizenz-Compliance nachhaltig zu verbessern und einen neuen Standard an Genauigkeit und Effizienz in diesem wichtigen Feld zu etablieren.
