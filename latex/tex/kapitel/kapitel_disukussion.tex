@@ -9,14 +9,30 @@ Darüber hinaus werden die Herausforderungen und Limitationen der Untersuchung b
 
 \section{Interpretation der Ergebnisse im Kontext der ursprünglichen Problemstellung}
 
-Die vorliegende Arbeit adressiert die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen.
-Die erzielten Ergebnisse demonstrieren eindrücklich, dass der entwickelte, auf \glspl{llm} basierende Ansatz eine leistungsfähige Alternative darstellt.
-Durch gezieltes Prompt-Engineering konnte mit dem Modell \texttt{mistral-small:24b} eine Extraktionsgenauigkeit von \num{96,3}\% \textit{Exact Matches} erreicht werden.
-Damit wurde die funktionale Anforderung einer Extraktionsgenauigkeit von mindestens \num{95}\% (NF1) nicht nur erfüllt, sondern übertroffen.
+Die vorliegende Arbeit adressiert die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen und demonstriert, dass der entwickelte, auf \glspl{llm} basierende Ansatz eine leistungsfähige Alternative darstellt.
+Die Auswahl des finalen Sprachmodells erfolgte nicht willkürlich, sondern basierte auf einem dokumentierten Evaluationsverfahren, das einen systematischen Vergleich mehrerer Kandidaten ermöglichte, womit das Modellauswahlverfahren nachvollziehbar begründet ist (NF7).
+Durch gezieltes Prompt-Engineering konnte mit dem Modell \texttt{mistral-small:24b} eine Extraktionsgenauigkeit von \num{96,3} \% \textit{Exact Matches} erreicht werden.
+Damit wurde die Anforderung einer Extraktionsgenauigkeit von mindestens \num{95} \% nicht nur erfüllt, sondern übertroffen (NF1).
 
-Diese hohe Präzision, kombiniert mit der Fähigkeit, Ergebnisse in einem zum ScanCode-Toolkit kompatiblen JSON-Format auszugeben (F1, NF11), bestätigt die praktische Relevanz des Prototyps für die in den Anwendungsszenarien beschriebene interne Inbetriebnahme (AS2) sowie die potenzielle Inbetriebnahme in einem Kundenkontext (AS3).
-Die erfolgreichen Fine-Tuning-Experimente, bei denen ein kleineres Modell bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit erzielte, unterstreichen zudem das Potenzial, die nicht-funktionalen Anforderungen an die Laufzeitperformance in einem produktiven Umfeld zu erfüllen.
-Der entwickelte Prototyp belegt somit die grundsätzliche Eignung von \glspl{llm}, die Genauigkeit und Effizienz im Lizenz-Compliance-Management erheblich zu verbessern.
+Die gesamte Entwicklung wurde auf der dedizierten Hardware der metaeffekt GmbH durchgeführt, wodurch die Hardware-Kompatibilität sichergestellt werden konnte (NF8).
+Sowohl die Software zur Datenaggregation als auch der Benchmark und der finale Scanner wurden vollständig in Java implementiert, was der geforderten Implementierungssprache entspricht (NF9).
+Um die deterministische Natur der Ergebnisse zu gewährleisten, wurden feste Modellversionen mit einer Temperatur von \num{0.0} lokal ausgeführt, sodass die Reproduzierbarkeit der Extraktion gegeben ist (NF3).
+Der Verarbeitungsprozess ist zudem durch die Speicherung aller relevanten Zwischenschritte von der Eingabe bis zur finalen Ausgabe für jede Datei vollständig nachvollziehbar (NF4).
+
+Die Softwarelösung ist robust gegenüber technischen Fehlern konzipiert und protokolliert diese, ohne die gesamte Verarbeitungskette zu unterbrechen (NF2).
+Um Blockaden durch nicht terminierende Anfragen zu verhindern, stellt ein Mechanismus zur Zeitüberschreitung sicher, dass jede Anfrage nach einem definierten Limit kontrolliert beendet wird (NF6).
+Die erfolgreiche Erzeugung von \num{4000} Trainingsdateien in einem Durchlauf demonstrierte, dass die Lösung eine Batch-Verarbeitung von mehreren tausend Eingabedateien unterstützt (NF5).
+Eine Datenvorverarbeitung reduziert die Eingabedateien auf relevante Abschnitte und spart somit Rechenressourcen (F4).
+Die extrahierten Informationen werden in einem strukturierten und zum ScanCode-Toolkit kompatiblen JSON-Format ausgegeben (F1).
+Die Modellantworten werden auf ein valides JSON-Format überprüft und bei Bedarf korrigiert, was die Ergebnisvalidierung sicherstellt (F2).
+Sollte eine Antwort auch nach der Korrektur ungültig bleiben, wird dies als Fehlerfall dokumentiert und die Verarbeitung entsprechend fortgesetzt (F3).
+
+Alle eingesetzten Modelle und Werkzeuge stehen unter der Apache-2.0-Lizenz, was eine lizenzkonforme Nutzung im kommerziellen Kontext erlaubt (NF10).
+Die Kompatibilität des Ausgabeformats mit bestehenden Werkzeugen der metaeffekt GmbH schafft die Grundlage für eine nahtlose Systemintegration (NF11).
+Die Prompt-Engineering-Lösung setzt alle als \enquote{in-scope} gekennzeichneten Regeln der Policy um und gewährleistet somit die erforderliche Policy-Abdeckung (F5).
+
+Das erste Anwendungsszenario zur Generierung eines Testdatensatzes wurde weitgehend umgesetzt und der erstellte Datensatz kann als wertvolle Basis für zukünftige Arbeiten dienen, auch wenn eine automatische Validierung von Copyright-Blöcken noch aussteht (AS1).
+Für die Anwendungsszenarien der internen und kundenseitigen Inbetriebnahme wurden entscheidende Grundlagen geschaffen (AS2, AS3).
 
 % ======================================================================================================================
 
@@ -51,4 +67,4 @@ So gelang es trotz des engen zeitlichen Rahmens, eine vollständige \gls{llm}-En
 Der Benchmark selbst erwies sich als aussagekräftig, da die weite Streuung der Ergebnisse seine grundsätzliche Lösbarkeit und Eignung zur Modelldifferenzierung belegte.
 Das systematische Prompt-Engineering führte zu hohen Präzisionsergebnissen.
 Auch die initialen Experimente zum Fine-Tuning waren erfolgreich, indem ein kleineres, spezialisiertes Modell eine vergleichbare Genauigkeit bei signifikant höherer Effizienz erreichte.
-Schließlich stellt die im Rahmen der Arbeit formulierte und verfeinerte Policy eine wertvolle Grundlage für die metaeffekt GmbH und ihre Kunden für zukünftige Arbeiten dar.
+Schließlich stellt die im Rahmen der Arbeit weiter ausformulierte und verfeinerte Policy eine wertvolle Grundlage für die metaeffekt GmbH und ihre Kunden für zukünftige Arbeiten dar.

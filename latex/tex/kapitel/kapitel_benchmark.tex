@@ -34,7 +34,7 @@ Außerdem fallen für die Nutzung der \gls{api} dieser Modelle Kosten an, weshal
 Die Auswahl an verfügbaren \glspl{llm} wird einerseits durch die Leistungsfähigkeit der verwendeten Hardware und andererseits durch die Kompatibilität der Software eingeschränkt.
 Erste Experimente ergaben, dass der verwendete Mac Mini M4 Pro mit 64 Gigabyte Arbeitsspeicher \glspl{llm} mit einer Parametergröße von maximal 108 Milliarden ausführen kann, ohne wärmebedingt die Leistung zu drosseln.
 Da die finale Implementierung des Benchmarks softwareseitig mit Ollama4J einen lokal ausgeführten Ollama Server anspricht, konnten nur solche \glspl{llm} ausgewählt werden, die auf Ollama zur Verfügung stehen.
-Die Wahl an \glspl{llm}, die für den Benchmark genutzt werden sollen, beschränkt sich somit auf Modelle die durch Ollama unterstützt werden und bis zu 108 Milliarden Parameter groß sind.
+Die Wahl an \glspl{llm}, die für den Benchmark genutzt werden sollen, beschränkt sich somit auf Modelle, die durch Ollama unterstützt werden und bis zu 108 Milliarden Parameter groß sind.
 
 Es wurden \glspl{llm} von zahlreichen namhaften Providern geprüft, darunter Microsoft (phi4, phi3), Meta (llama4, llama3), Deepseek (deepseek-coder, deepseek-r1), Alibaba (qwen3, qwen2.5, qwen2.5-coder), Google (gemma3, gemma3n) und Mistral (mistral, mathstral, devstral, mistral-small, mistral-nemo).
 Zusätzlich zu etablierten Modellen wurden auch gezielt exotischere und weniger verbreitete Modelle ausgewählt (llava, olmo2, orca-mini, dolphin).
@@ -255,7 +255,7 @@ Auf diese Weise wird vermieden, dass größere Unterschiede als korrekt gezählt
 
 \subsection{Tokens/sec}
 Zur zeitlichen Messung der Modellleistungen werden die \textit{Tokens/sec} berechnet.
-Da Ollama4J keine Abfrage der tatsächlichen Token pro Sekunde eines Modells unterstützt muss eine Alternative herangezogen werden.
+Da Ollama4J keine Abfrage der tatsächlichen Token pro Sekunde eines Modells unterstützt muss eine Alternative herangezogen Metrik werden.
 Um die Leistung der unterschiedlichen Modelle zu bestimmen, wird berechnet wie groß der Eingabe-Prompt ist und wie viel Zeit das Modell zur Bearbeitung benötigt.
 Die Größe eines Prompts wird in Tokens gemessen, da die Modelle aber intern unterschiedliche Prozesse zur Tokenisierung eines Prompts verwenden, wird eine Annäherung verwendet.
 Eine grobe Umrechnung von Eingabetext zu Tokens ist $1\;\text{Token}\approx 4\;\text{Buchstaben}$\autocite{noauthor_what_nodate}.
@@ -510,9 +510,9 @@ Die Ergebnisse bilden klare Cluster entlang der Parametergrößen:
 
 Besonders auffällig sind die Reasoning-Modelle \texttt{qwen3:4b} und \texttt{qwen3:8b}, die trotz ihrer geringen Parametergröße extrem langsam waren (\num{0.24} bzw. \num{0.19} Tokens/sec) und gleichzeitig unzureichende Genauigkeitswerte erreichten (\num{13.58}\% bzw. \num{7.69}\%). Dies deckt sich mit den besonders häufigen Timeouts dieser Modelle.
 Ein gegenteiliger Fall ist \texttt{llama4:16x17b}, das zwar zu den langsamsten Modellen zählt, aber dennoch \num{88}\% \textit{Exact Matches} erreichte.
-Im Gegensatz zu den Reasoning-Modellen ist \texttt{llama4:16x17b} mit 109 Milliarden Parametern das mit Abstand größte Modell des Benchmarks, erzielte aber dennoch geringere Leistungswerte als alle \texttt{mistral}-Varianten mit nur 24 Milliarden Parametern.
+Im Gegensatz zu den Reasoning-Modellen ist \texttt{llama4:16x17b} mit 109 Milliarden Parametern das mit Abstand größte Modell des Benchmarks, erzielt aber dennoch geringere Leistungswerte als alle \texttt{mistral}-Varianten mit nur 24 Milliarden Parametern.
 
-Innerhalb der Mistral-Familie zeigt sich eine deutliche Entwicklung: während \texttt{mistral:7b} im ersten Durchlauf mit \num{80.69}\% noch das beste Ergebnis erzielte, steigerten die Varianten mit 24 Milliarden Parametern die Genauigkeit bis auf \num{94}\%.
+Innerhalb der Mistral-Familie zeigt sich eine deutliche Entwicklung: Während \texttt{mistral:7b} im ersten Durchlauf mit \num{80.69}\% noch das beste Ergebnis erzielte, steigerten die Varianten mit 24 Milliarden Parametern die Genauigkeit bis auf \num{94}\%.
 Bei den Varianten von \texttt{qwen2.5-coder} zeigt sich, dass die kleineren Modelle (0.5B, 1.5B, 3B) erwartungsgemäß zwar deutlich schneller, jedoch weniger präzise arbeiteten als ihre größeren Pendants.
 Auffällig ist jedoch, dass die \texttt{qwen2.5-coder:7b}-Variante mit \num{74,68}\% den höchsten Wert an \textit{Exact Matches} erreichte.
 Entgegen der Erwartungen erzielte die 14b-Variante lediglich \num{69,53}\%, während die 32b-Variante sogar auf \num{50,21}\% zurückfiel.
