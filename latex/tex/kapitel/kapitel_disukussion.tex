@@ -2,16 +2,17 @@
 
 Dieses Kapitel dient der Einordnung, Interpretation und kritischen Reflexion der in dieser Arbeit erzielten Ergebnisse.
 Es werden die Resultate in den Kontext der ursprünglichen Problemstellung und der definierten Anforderungen gestellt.
+Hierzu werden die Anwendungsszenarien (AS) aus~\ref{ch:anwendungsszenarien} sowie die funktionalen (F) und nicht-funktionalen (NF) Anforderungen herangezogen.
 Darüber hinaus werden die Herausforderungen und Limitationen der Untersuchung beleuchtet und die Vorgehensweise im Hinblick auf Erfolge sowie Versäumnisse kritisch gewürdigt.
 
 % ======================================================================================================================
 
 \section{Interpretation der Ergebnisse im Kontext der ursprünglichen Problemstellung}
 
-Die vorliegende Arbeit adressierte die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen.
+Die vorliegende Arbeit adressiert die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen.
 Die erzielten Ergebnisse demonstrieren eindrücklich, dass der entwickelte, auf \glspl{llm} basierende Ansatz eine leistungsfähige Alternative darstellt.
 Durch gezieltes Prompt-Engineering konnte mit dem Modell \texttt{mistral-small:24b} eine Extraktionsgenauigkeit von \num{96,3}\% \textit{Exact Matches} erreicht werden.
-Damit wurde die funktionale Anforderung einer Extraktionsgenauigkeit von \num{95}\% (NF1) nicht nur erfüllt, sondern übertroffen.
+Damit wurde die funktionale Anforderung einer Extraktionsgenauigkeit von mindestens \num{95}\% (NF1) nicht nur erfüllt, sondern übertroffen.
 
 Diese hohe Präzision, kombiniert mit der Fähigkeit, Ergebnisse in einem zum ScanCode-Toolkit kompatiblen JSON-Format auszugeben (F1, NF11), bestätigt die praktische Relevanz des Prototyps für die in den Anwendungsszenarien beschriebene interne Inbetriebnahme (AS2) sowie die potenzielle Inbetriebnahme in einem Kundenkontext (AS3).
 Die erfolgreichen Fine-Tuning-Experimente, bei denen ein kleineres Modell bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit erzielte, unterstreichen zudem das Potenzial, die nicht-funktionalen Anforderungen an die Laufzeitperformance in einem produktiven Umfeld zu erfüllen.

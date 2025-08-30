@@ -2,8 +2,9 @@
 
 Zur Sicherstellung einer zielgerichteten und nachvollziehbaren Entwicklung werden im Folgenden die Anforderungen an das zu entwickelnde System beschrieben.
 Die klare Festlegung dieser Anforderungen ermöglicht eine eindeutige Überprüfung der Zielerreichung und minimiert das Risiko von Missverständnissen im Entwicklungsprozess.
-Dabei werden sowohl funktionale- als auch nicht-funktionale Anforderungen strukturiert aufgeführt.
+Dabei werden sowohl funktionale als auch nicht-funktionale Anforderungen strukturiert aufgeführt.
 Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einheitlichen Schema spezifiziert, das eine eindeutige Id, einen Titel, eine Priorität und eine Beschreibung inklusive der Abnahmekriterien umfasst.
+
 
 % ======================================================================================================================
 
@@ -40,7 +41,7 @@ Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einh
 \begin{anforderungsliste}
     \nfreq{Extraktionsgenauigkeit}{Hoch}
         {Die Genauigkeit des Systems wird an seiner Fähigkeit gemessen, Copyright-Informationen exakt und konform zur definierten Policy zu extrahieren.}
-        {Das System muss bei der Verarbeitung eines anhand der Policy gepflegten Datensatzes 95\% Exact-Matches erzielen.}
+        {Das System muss bei der Verarbeitung eines anhand der Policy gepflegten Datensatzes mindestens 95\% Exact-Matches erzielen.}
 
     \nfreq{Technische Fehlerbehandlung}{Hoch}
         {Das System muss robust auf technische Fehler reagieren, die während der Verarbeitung auftreten können (z.B. Netzwerk- oder Dateizugriffsfehler), um einen stabilen Betrieb zu gewährleisten.}
@@ -70,7 +71,7 @@ Zur Gewährleistung der Nachverfolgbarkeit wird jede Anforderung nach einem einh
         {Die entwickelte Softwarelösung muss auf der für die Entwicklung und den internen Betrieb vorgesehenen Hardware lauffähig sein, um die praktische Umsetzbarkeit des Projekts zu gewährleisten.}
         {Alle Komponenten des Systems, einschließlich des LLM-Servers und der Java-Anwendung, lassen sich auf der definierten Zielhardware (Mac Mini M4 Pro) erfolgreich installieren und ausführen. Das System muss den Benchmark-Prozess auf dieser Hardware ohne hardwarebedingte Fehler oder Abstürze vollständig durchführen können.}
 
-    \nfreq{Implementierungssprache}{Hoch}
+    \nfreq{Implementierungssprache}{Mittel}
         {Um die Integration in die bestehende Systemlandschaft der metaeffekt zu gewährleisten und die Wartbarkeit zu sichern, muss die Softwarelösung in der Programmiersprache Java entwickelt werden.}
         {Die Softwarelösung muss vollständig in der Programmiersprache Java implementiert werden, wobei mindestens die Version 8 als Sprach- und Laufzeitumgebung zu verwenden ist. Der gesamte Quellcode lässt sich fehlerfrei mit einem Java Development Kit der spezifizierten Version (oder höher) kompilieren.}
 
