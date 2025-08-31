@@ -56,8 +56,8 @@ Auch die anschließende Manipulation der Lernrate, Lora-Schichten und Iteratione
 
 Die Beobachtungen der ersten Durchführung deuten darauf hin, dass die Größe des verwendeten Datensatzes nicht ausreicht, um ein erfolgreiches Fine-Tuning durchzuführen.
 Für die zweite Durchführung wurde daher ein erweiterter Datensatz erstellt.
-Zunächst wurden 2000 Dateien der Kategorie \textit{single copyrights without authors} sowie 2000 Dateien der Kategorie \textit{single copyrights with authors} zufällig ausgewählt.
-Anschließend wurde die im Kapitel~\ref{ch:prompt-engineering} entwickelte Lösung eingesetzt, um für diese insgesamt 4000 Dateien die Copyright-Informationen zu extrahieren.
+Zunächst wurden \num{2000} Dateien der Kategorie \textit{single copyrights without authors} sowie \num{2000} Dateien der Kategorie \textit{single copyrights with authors} zufällig ausgewählt.
+Anschließend wurde die im Kapitel~\ref{ch:prompt-engineering} entwickelte Lösung eingesetzt, um für diese insgesamt \num{4000} Dateien die Copyright-Informationen zu extrahieren.
 
 Die Eignung dieses Ansatzes basiert auf den zuvor erzielten Ergebnissen, die gezeigt haben, dass die Prompt-Engineering-Lösung bei ungesehenen Daten in der Kategorie \textit{single copyrights} eine Extraktionsgenauigkeit von \num{99} \% an \textit{Exact Matches} erreichen konnte.
 Es ist daher davon auszugehen, dass die generierten Trainingsdaten eine hinreichend hohe Qualität aufwiesen, um für ein Fine-Tuning geeignet zu sein.

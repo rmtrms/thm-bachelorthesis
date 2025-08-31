@@ -2,7 +2,7 @@
 
 Dieses Kapitel erläutert die wesentlichen Grundlagen, auf denen diese Arbeit aufbaut.
 Zunächst werden die rechtlichen Rahmenbedingungen des Urheberrechts untersucht, insbesondere im Hinblick auf Software und die Besonderheiten der Open-Source-Lizenzierung.
-Darauf aufbauend werden die technischen Konzepte von \glspl{llm} vorgestellt, welche die technologische Basis für die in dieser Arbeit entwickelte Methode zur Datenextraktion bilden.
+Darauf aufbauend werden die technischen Konzepte von \glspl{llm} vorgestellt, welche die technologische Basis für die in dieser Arbeit entwickelte Lösung zur Datenextraktion bilden.
 
 % ======================================================================================================================
 
@@ -11,7 +11,7 @@ Darauf aufbauend werden die technischen Konzepte von \glspl{llm} vorgestellt, we
 Die zunehmende Verbreitung von \gls{oss} in Forschung, Industrie und öffentlicher Verwaltung wirft eine Vielzahl rechtlicher Fragen auf, die sich insbesondere auf das Urheberrecht und die Lizenzierungspraxis beziehen.
 Obwohl \gls{oss} für gewöhnlich frei zugänglich ist, unterliegt sie in Deutschland uneingeschränkt dem Schutz des Urheberrechts gemäß dem \gls{urhg} \autocite{noauthor_urhg_nodate}.
 Die rechtssichere Nutzung, Veränderung und Weiterverbreitung quelloffener Software setzt daher ein grundlegendes Verständnis der urheberrechtlichen Schutzmechanismen, der Einräumung und Durchsetzung von Nutzungsrechten sowie der Einhaltung von Lizenzbedingungen voraus.
-Gerade im Kontext automatisierter Softwareanalysen, etwa durch \glspl{llm}, rücken Fragen der korrekten Attribution, der Wahrung von Lizenzpflichten und der Erkennbarkeit urheberrechtlicher Hinweise im Code in den Fokus.
+Gerade im Kontext automatisierter Softwareanalysen, etwa durch \glspl{llm}, rücken Fragen der korrekten Attribution, der Wahrung von Lizenzpflichten und der Erkennbarkeit urheberrechtlicher Hinweise im Quellcode in den Fokus.
 Dieses Kapitel beleuchtet die rechtlichen Grundlagen für den Einsatz von \gls{oss}, analysiert spezifische Regelungen des deutschen \gls{urhg} im Bereich von Software, zeigt potenzielle Konflikte innerhalb der Software-Lieferkette und stellt die Konsequenzen urheberrechtlicher Verstöße dar.
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ Auch öffentlich zugängliche Software unterliegt dem Urheberrecht, und ihre Nut
 \subsection{Computerprogramme als besondere Werkform (§§ 69a–69g UrhG)}
 
 Im Jahr 1993 wurden durch die §§ 69a bis 69g \gls{urhg} spezielle Regelungen für Computerprogramme in das Gesetz aufgenommen.
-Diese Vorschriften basieren auf der EU-Richtlinie 2009/24/EG über den Rechtsschutz von Computerprogrammen.
+Diese Vorschriften basieren auf der EU-Richtlinie 2009/24/EG über den Rechtsschutz von Computerprogrammen\footnote{\url{https://eur-lex.europa.eu/legal-content/DE/ALL/?uri=celex:32009L0024}}.
 Software gilt damit als eine eigenständige Werkform mit besonderen Regelungen, die sich in Teilen von den allgemeinen Bestimmungen des Urheberrechts unterscheiden.
 
 Nach § 69a \gls{urhg} sind Programme geschützt, wenn sie eine persönliche geistige Schöpfung des Urhebers darstellen.
@@ -62,7 +62,7 @@ Während das Urheberrecht als solches nicht übertragbar ist (§ 29 Abs. 1 \gls{
 Hierbei wird zwischen einfachen und ausschließlichen Nutzungsrechten unterschieden (§ 31 Abs. 1 \gls{urhg}).
 Einfache Nutzungsrechte erlauben die gleichzeitige Nutzung durch mehrere Personen, während ausschließliche Rechte eine exklusive Nutzung vorsehen (§ 31 Abs. 2 \gls{urhg}).
 
-Software Lizenzen allgemein und insbesondere Open-Source-Lizenzen wie die \gls{gpl}\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.de.html}}, die MIT License\footnote{\url{https://opensource.org/license/mit}} oder die Apache
+Software-Lizenzen allgemein und insbesondere Open-Source-Lizenzen wie die \gls{gpl}\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.de.html}}, die MIT License\footnote{\url{https://opensource.org/license/mit}} oder die Apache
 License\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}} gewähren typischerweise einfache Nutzungsrechte.
 Diese standardisierten Lizenzverträge werden wirksam, sobald die Software verwendet, weitergegeben oder öffentlich verfügbar gemacht wird.
 
@@ -89,11 +89,11 @@ Der entscheidende Unterschied zu proprietärer Software besteht darin, dass die 
 Diese Freigabe erfolgt meist in Form einfacher Nutzungsrechte im Sinne von § 31 Abs. 2 \gls{urhg}.
 
 Einige Open-Source-Lizenzen unterscheiden sich vor allem darin, welche Pflichten sie bei der Weiterverbreitung auferlegen.
-So erlauben die MIT oder Apache License eine besonders freie Nutzung, auch in proprietären Softwareprodukten, ohne dass der weiterentwickelte oder kombinierte Code selbst wieder unter denselben Lizenzbedingungen veröffentlicht werden muss.
+So erlauben die MIT oder Apache License eine besonders freie Nutzung, auch in proprietären Softwareprodukten, ohne dass der weiterentwickelte oder kombinierte Quellode selbst wieder unter denselben Lizenzbedingungen veröffentlicht werden muss.
 Die \gls{gpl} hingegen schreibt im Rahmen ihres Copyleft-Prinzips vor, dass abgeleitete Werke oder Weitergaben ebenfalls unter den Bedingungen der \gls{gpl} offengelegt werden müssen.
 Durch diese Copyleft-Klauseln sind Lizenzen wie die \gls{gpl} für proprietäre Softwareentwicklung weitestgehend ungeeignet.
 
-Open Source kann somit entweder auf vertraglicher Grundlage oder, in bestimmten Fällen, durch gesetzliche Schranken genutzt werden.
+\gls{oss} kann somit entweder auf vertraglicher Grundlage oder, in bestimmten Fällen, durch gesetzliche Schranken genutzt werden.
 Voraussetzung ist stets, dass die Bedingungen eingehalten und die Verpflichtungen erfüllt werden.
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ Die Kenntnis dieser völker- und handelsrechtlichen Rahmenbedingungen ist somit 
 
 \section{Large Language Models}
 
-\glspl{llm} stellen einen zentralen Forschungsgegenstand der künstlichen Intelligenz dar und finden zunehmend Anwendung in digitalen Systemen.
+Large Language Models (LLMs) stellen einen zentralen Forschungsgegenstand der künstlichen Intelligenz dar und finden zunehmend Anwendung in digitalen Systemen.
 Ihre Entwicklung basiert auf einer Reihe fundamentaler wissenschaftlicher Arbeiten.
 
 Die technologische Grundlage heutiger \glspl{llm} wurde durch die Abkehr von \glspl{rnn} geschaffen.
@@ -170,7 +170,7 @@ Diese waren in ihrer Fähigkeit, lange sequenzielle Abhängigkeiten zu modellier
 Ein entscheidender Fortschritt war die Einführung der Transformer-Architektur durch \citeauthor{vaswani_attention_2023} \autocite{vaswani_attention_2023}.
 Anstelle einer sequenziellen Verarbeitung von Informationen implementiert der Transformer einen Self-Attention-Mechanismus.
 Dieser ermöglicht es dem Modell, die kontextuellen Beziehungen aller Elemente einer Eingabesequenz simultan zu gewichten.
-Diese Architektur bietet zwei wesentliche Vorteile: Sie erlaubt eine hohe Parallelisierbarkeit des Trainingsprozesses auf entsprechender Hardware und verbessert die Modellierung von langreichweitigen Abhängigkeiten in der Eingabesequenz \autocite{vaswani_attention_2023}.
+Diese Architektur bietet zwei wesentliche Vorteile: Sie erlaubt eine hohe Parallelisierbarkeit des Trainingsprozesses auf entsprechender Hardware und verbessert die Modellierung von weitreichenden Abhängigkeiten in der Eingabesequenz \autocite{vaswani_attention_2023}.
 
 Aufbauend auf dieser Architektur wurden in den folgenden Jahren spezialisierte Modellvarianten entwickelt, die entscheidend zur heutigen Leistungsfähigkeit von \glspl{llm} beigetragen haben.
 Ein bedeutender Meilenstein war die Veröffentlichung von \gls{bert} durch \citeauthor{devlin_bert_2019} \autocite{devlin_bert_2019}.
@@ -182,7 +182,7 @@ Dadurch kann \gls{bert} semantische Beziehungen sowohl aus vorangehenden als auc
 Parallel zur Weiterentwicklung von Encoder-basierten Modellen etablierten sich auch großskalige autoregressive Sprachmodelle, die auf dem Decoder-Teil der Transformer-Architektur beruhen.
 Ein herausragendes Beispiel ist \gls{gpt}-3 von \citeauthor{brown_language_2020} \autocite{brown_language_2020}.
 \gls{gpt}-3 verfolgt einen rein autoregressiven Ansatz, bei dem das nächste Token auf Grundlage der vorangegangenen Token vorhergesagt wird.
-Durch eine massive Skalierung der Modellparameter (auf 175 Milliarden) sowie des Trainingskorpus auf Hunderte Milliarden Token konnte \gls{gpt}-3 eine bemerkenswerte Fähigkeit zur Textgenerierung, Aufgabenadaption und kontextabhängigen Inferenz ohne explizites Fine-Tuning demonstrieren (\nameref{subsec:in-context-learning}).
+Durch eine massive Skalierung der Modellparameter (auf \num{175} Milliarden) sowie des Trainingskorpus auf Hunderte Milliarden Token konnte \gls{gpt}-3 eine bemerkenswerte Fähigkeit zur Textgenerierung, Aufgabenadaption und kontextabhängigen Inferenz ohne explizites Fine-Tuning demonstrieren (\nameref{subsec:in-context-learning}).
 Diese Entwicklung verdeutlichte, dass die Leistungsfähigkeit von \glspl{llm} nicht nur von der Transformer-Architektur, sondern maßgeblich auch von der Trainingsdatenmenge und der Modellgröße beeinflusst wird.
 
 Aktuelle \glspl{llm} unterscheiden sich von früheren Modellen wie \gls{bert} und \gls{gpt}-3 vor allem durch ihre Multimodalität, deutlich größere Kontextfenster, verbesserte Reasoning-Fähigkeiten und effizientere Architekturdesigns.
@@ -192,7 +192,7 @@ Ein Beispiel hierfür ist Gemini 2.5 Pro\footnote{\url{https://gemini.google.com
 
 \subsection{Natural Language Processing (NLP)}
 
-\gls{nlp} befasst sich mit der automatisierten Erkennung, Verarbeitung und Analyse natürlicher Sprache.
+Natural Language Processing (NLP) befasst sich mit der automatisierten Erkennung, Verarbeitung und Analyse natürlicher Sprache.
 Ziel ist es, die Kommunikation zwischen Mensch und Maschine in natürlicher Sprache zu ermöglichen, Übersetzungen zu erleichtern und große Mengen an Text effizient auszuwerten.
 Frühere Ansätze setzten dabei auf klar voneinander getrennte Verarbeitungsschritte, etwa der Segmentierung eines Textes in kleinere Einheiten, die Bestimmung der Wortarten oder die Analyse der Satzstruktur.
 Besonders herausfordernd ist die Syntaxanalyse, da sie die grammatische Struktur eines Satzes präzise erfassen muss, um die Beziehungen zwischen einzelnen Wörtern und Satzteilen korrekt zu modellieren.
@@ -245,7 +245,7 @@ Durch die Kombination aus klaren Anweisungen, relevanten Kontextinformationen un
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Fine-Tuning und Low-Rank Adaptation}
+\subsection{Fine-Tuning und Low-Rank Adaptation (LoRA)}
 
 Neben Prompt-Engineering stellt das Fine-Tuning eine zentrale Methode dar, um \glspl{llm} an spezifische Aufgaben oder Domänen anzupassen.
 Dies erfolgt, indem ein vortrainiertes \gls{llm} mit zusätzlichen, meist domänenspezifischen Trainingsdaten weitertrainiert wird.

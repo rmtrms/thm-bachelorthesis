@@ -39,25 +39,19 @@ Diese Änderungen dienen dazu, die Konformität mit der nachfolgend erläuterten
 Ein weiteres Open-Source-Toolkit für License-Compliance ist FOSSology\footnote{\url{https://github.com/fossology/fossology}}.
 Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
 Zusätzlich kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
-FOSSology wird seitens der metaeffekt nicht verwendet, da die bereitgestellte Lizenzerkennung nicht ausreichend ist.
-Zudem ist das Toolkit unter der \gls{gpl} lizenziert, was die Benutzung zusätzlich eingeschränkt.
 
-Ein weiteres Open-Source-Toolkit für License-Compliance ist FOSSology\footnote{\url{https://github.com/fossology/fossology}}.
-Es bietet ein \gls{cli} zum Scannen von Lizenzen und Copyrights.
-Zusätzlich kann man es mithilfe einer Web-Benutzeroberfläche dazu nutzen, Compliance Workflows zu erstellen.
-
-FOSSology wird seitens der metaeffekt aus mehreren Gründen nicht verwendet.
+FOSSology wird seitens der metaeffekt GmbH aus mehreren Gründen nicht verwendet.
 Zum einen wird die bereitgestellte Lizenzerkennung als nicht ausreichend bewertet.
 Zum anderen war der Community-Support des Projekts zwischenzeitlich rückläufig, was die langfristige Wartbarkeit und Weiterentwicklung unsicher machte.
-Ein weiterer entscheidender Grund ist, dass die mit FOSSology erhobenen Daten nicht die Informationen beinhalten, die für weiterführende Anwendungsfälle der metaeffekt, wie die Erstellung des Annex-Dokuments, benötigt werden.
+Ein weiterer entscheidender Grund ist, dass die mit FOSSology erhobenen Daten nicht die Informationen beinhalten, die für weiterführende Anwendungsfälle der metaeffekt GmbH, wie die Erstellung des Software-Annex, benötigt werden.
 Außerdem ist das Toolkit unter der \gls{gpl} lizenziert, was die kommerzielle Nutzung und Integration im Vergleich zu permissiveren Lizenzen zusätzlich einschränkt.
 
 % ======================================================================================================================
 
 \section{metaeffekt Copyright Identification and Extraction Policy}\label{sec:policy}
 
-In Kooperation mit einem Kunden der metaeffekt wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
-Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt mit einem Team von Experten im Bereich des License-Compliance-Managements in engen Austausch steht.
+In Kooperation mit einem Kunden der metaeffekt GmbH wurde eine Policy zur Erkennung und Extraktion von Copyright-Statements definiert.
+Die Zusammenarbeit mit dem Kunden ist besonders wertvoll, da die metaeffekt GmbH mit einem Team von Experten im Bereich des License-Compliance-Managements in engen Austausch steht.
 Im Laufe der Arbeit werden Erkenntnisse und Zwischenergebnisse mit diesem Team geteilt und regelmäßig Experteneinschätzungen eingeholt.
 Diese Policy stellt die formale und rechtliche Grundlage dieser Arbeit dar, an der sich die Implementierungen des nachfolgenden Benchmarks und Prototypen orientieren.
 Das Ziel der technischen Umsetzungen dieser Arbeit ist es, die Policy möglichst umfassend abzubilden.
@@ -93,7 +87,7 @@ Hierzu ein paar Beispiele für Copyright-Statements:
 
 Eine einfache Nennung eines Urhebers ohne die in \nameref{subsec:cir-01} genannten Markierungen gilt nicht als ausdrückliches Copyright-Statement.
 Es wird nicht impliziert, dass der Urheber eine solche Angabe machen wollte, die genannte Person wird dennoch als Urheber erfasst.
-Befindet sich die Nennung des Urhebers an Stellen im Material, die für ein Copyright-Statement vorgesehen ist, wird die Nennung als Copyright-Statement erkannt.
+Befindet sich die Nennung des Urhebers an Stellen im Material, die für ein Copyright-Statement vorgesehen sind, wird die Nennung als Copyright-Statement erkannt.
 Diese Regel gilt anhand der Kennzeichnung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
 Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position, die für ein Copyright-Statement vorgesehen ist.
 Dabei weist der Disclaimer auf ein vorher genanntes Copyright-Statement, welches allerdings nicht vorhanden ist.
@@ -114,7 +108,7 @@ list of conditions and the following disclaimer. [...]
 \subsection{AIR-01}\label{subsec:air-01}
 
 Ein \textit{Author} ist jede Person oder Organisation, die ausdrücklich als Verfasser oder Mitwirkender der Materialien gekennzeichnet ist.
-Solche Kennzeichnungen umfassen Begriffe wie \enquote{written by}, \enquote{modified by}, \enquote{edited by} oder Rollenbezeichnungen wie \enquote{Original Author}, \enquote{contributor} oder \enquote{editor}.
+Solche Kennzeichnungen umfassen Begriffe wie \enquote{Written by}, \enquote{Modified by}, \enquote{Edited by} oder Rollenbezeichnungen wie \enquote{Original Author}, \enquote{Contributor} oder \enquote{Editor}.
 Diese Zuschreibungen müssen klar auf eine Beteiligung an der Erstellung hinweisen.
 Personen mit Bezeichnungen wie \enquote{Maintainer} oder ähnlichen Rollen gelten nicht als \textit{Authors}, da das Pflegen von Inhalten nicht zwangsläufig Urheberschaft impliziert.
 Die in~\ref{subsec:grundlagen-des-urheberrechts} genannte Schöpfungshöhe wird durch eine solche Pflege allein nicht erreicht.
@@ -124,7 +118,7 @@ Die in~\ref{subsec:grundlagen-des-urheberrechts} genannte Schöpfungshöhe wird 
 \subsection{HIR-01}\label{subsec:hir-01}
 
 Ein \textit{Holder} ist eine Person oder Organisation, die als Inhaber, Kontrollinstanz oder Urheber des Materials genannt wird.
-Typische Hinweise sind Namen in Copyright-Statements oder Formulierungen wie \enquote{rights held by} und \enquote{property of}.
+Typische Hinweise sind Namen in Copyright-Statements oder Formulierungen wie \enquote{Rights held by} und \enquote{Property of}.
 Der Kontext der Aussage muss auf Eigentum oder rechtliche Befugnis über das Material hinweisen.
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -161,7 +155,7 @@ Der Vermerk \enquote{All Rights Reserved} wird nicht als Teil der Lizenz betrach
 
 Der Vermerk ist im Allgemeinen nicht erforderlich, da das Urheberrecht in den beteiligten Ländern gesetzlich geregelt ist.
 Da es sich aber um eine explizite Angabe des Urhebers handelt, wird diese erhalten.
-Generell werden alle Vermerke des Urhebers als Teil des Copyrights angesehen.
+Generell werden alle Vermerke des Urhebers als Teil des \textit{Copyrights} angesehen.
 Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinformationen:
 
 \begin{lstlisting}[keepspaces=true]
@@ -186,8 +180,8 @@ All rights reserved.
 \subsection{CEP-03}\label{subsec:cep-03}
 
 Blöcke von Copyright-Statements werden bei der Extraktion nicht aufgeteilt.
-Ein solcher Block beinhaltet mehrere Copyrights und deren Holder zu verschiedenen Teilen oder Änderungen der Software.
-Diese Blöcke weisen unter anderem auf ein gemeinschaftliches Werk mehrerer Holder hin.
+Ein solcher Block beinhaltet mehrere \textit{Copyrights} und deren \textit{Holder} zu verschiedenen Teilen oder Änderungen der Software.
+Diese Blöcke weisen unter anderem auf ein gemeinschaftliches Werk mehrerer \textit{Holder} hin.
 Außerdem werden diese Blöcke oft von einem einzelnen \enquote{All Rights Reserved} Vermerk begleitet.
 Eine Ergänzung des Vermerks an jedes Statement oder gar das Entfernen des Vermerks stellt eine Verzerrung des ursprünglichen Statements dar.
 Der Block bleibt in seiner ursprünglichen Form erhalten, da eine sinnvolle Aufteilung zusätzliches Wissen über das geschützte Material voraussetzen würde.
@@ -203,7 +197,7 @@ Dieses Beispiel veranschaulicht einerseits einen Block von mehreren Copyright-St
 */
 \end{lstlisting}
 
-Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen sowie den Vermerk am Ende beinhaltet:
+Das resultierende Extrakt ist ein Block, der die drei Statements ohne Veränderungen sowie den Vermerk am Ende beinhaltet:
 
 \begin{lstlisting}[keepspaces=true]
 Copyright 2013-2016 Freescale Semiconductor Inc.
@@ -257,14 +251,14 @@ Bei diesem Copyright-Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Ja
 
 Eine unzulässige Extraktion, die die Jahreszahlen zusammenfasst, könnte demnach folgend aussehen:
 
-\begin{lstlisting}[keepspaces=true, basicstyle=\ttfamily, keywordstyle=, commentstyle=, stringstyle=]
+\begin{lstlisting}[keepspaces=true]
 Copyright (c) 2000-2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
 
 Stattdessen müssen die tatsächlichen Angaben erhalten bleiben:
 
-\begin{lstlisting}[keepspaces=true, keepspaces=true]
+\begin{lstlisting}[keepspaces=true]
 Copyright (c) 2000, 2001, 2002 Fabrice Bellard
 Copyright (c) 2004 Michael Niedermayer
 \end{lstlisting}
@@ -279,8 +273,6 @@ Dabei kann ein und dasselbe Copyright-Statement mehrfach vorkommen, jeweils in V
 Es ist ausreichend, das Copyright einmal gemeinsam mit der zugehörigen Lizenz anzugeben.
 Mehrfache Nennungen desselben Copyrights mit identischer Lizenz gelten nicht als erforderlich.
 Diese Regel gilt anhand der Priorisierung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
-
-% TODO: Beispiel einfügen
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -427,11 +419,11 @@ Dennoch bleiben schwerwiegende Problematiken bestehen, welche das sind und wie s
 \subsection{Implementierung}
 
 Die Erkennung und Extraktion von Copyright-Statements im ScanCode-Toolkit\footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/blob/develop/src/cluecode/copyrights.py}} ist in einem einzigen, monolithischen Pythonmodul implementiert, welches ca.\ \num{3400} Zeilen Code umfasst.
-Das über \num{10} Jahre gewachsene Codebasis beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
+Die über zehn Jahre gewachsene Codebasis beinhaltet etwa \num{1500} Zeilen an RegEx-Patterns, die dazu dienen, Statements zu erkennen und anschließend regelbasiert zu parsen.
 Die Implementierung in nur einer Datei verhindert eine klare Trennung der Kernkomponenten und erschwert gezieltes Refactoring sowie die Wiederverwendbarkeit einzelner Module.
 Die Vielzahl an regulären Ausdrücken und Grammatikregeln ist weder systematisch dokumentiert noch modular organisiert.
 Außerdem können Änderungen an einer Regel unvorhergesehene Nebeneffekte in anderen Erkennungsszenarien auslösen.
-Das Nutzen von starr definierten Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Codes.
+Das Nutzen von starr definierten Mustern zur Erkennung von Randfällen verringert zusätzlich die Wartbarkeit des Quellcodes.
 Durch diese Faktoren ist das Debugging erheblich erschwert und ein tieferes Verständnis über die Entstehungshistorie nötig, um Anpassungen vorzunehmen und neue Randfälle oder Regeln zu ergänzen.
 Durch eine klare Modularisierung, umfangreiche Dokumentation und Aufarbeitung obsoleter Regeln und Konstrukte kann dazu beigetragen werden, die genannten Problematiken der Implementierung zu adressieren.
 
