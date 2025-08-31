@@ -22,8 +22,7 @@ Die Datenquelle wird anhand folgender Anforderungen ausgewählt:
     \item \textit{Erweiterbarkeit} -- der Datensatz soll durch zusätzliche Quellen erweiterbar sein.
 \end{itemize}
 
-% TODO: Quelle einfügen
-Eine naheliegende Datenquelle ist das GitHub-Repository des ScanCode-Toolkits, welches einen Testdatensatz zur Erkennung von Copyrights beinhaltet.
+Eine naheliegende Datenquelle ist das GitHub-Repository des ScanCode-Toolkits \footnote{\url{https://github.com/aboutcode-org/scancode-toolkit/tree/develop/tests/cluecode/data/copyrights}}, welches einen Testdatensatz zur Erkennung von Copyrights beinhaltet.
 Dieser Datensatz besteht aus Quellcode-Dateien und ihren zugehörigen ScanCode-Ergebnissen.
 Der Datensatz ist, wie auch das ScanCode-Toolkit, frei verfügbar.
 Da es sich in erster Linie um Testdaten für die bestehende Implementierung handelt, bestehen diese zum Teil aus künstlich erzeugten, kuratierten Testfällen.
@@ -62,7 +61,6 @@ Die \nameref{subsec:cep-01} besagt, dass Copyright-Statements nicht verändert w
 Da die Normalisierung und Segmentierung den originalen Zustand der Datei verändern, können sie nicht für den Datensatz herangezogen werden.
 Stattdessen werden die in den Segmenten referenzierten Originaldateien ermittelt und für jede Datei die Scan-Ergebnisse aller ihrer Segmente zurückgeführt.
 
-% TODO: Eventuell hier kurz darauf eingehen, dass der SHA-1 Hash gewählt wurde, um kollisionen zu vermeiden und von originalen Dateinamen zu abstrahieren. Wahrscheinlichkeit für Kollision nennen.
 Um Namenskonflikte zu vermeiden, wurde für jede Originaldatei der SHA-1 Hash berechnet und zusammen mit dem Dateityp zur Benennung der Datei verwendet.
 Da die Verzeichnisstruktur der Originaldateien nicht relevant ist, werden alle Dateien in einem flachen Verzeichnis gespeichert, dies vereinfacht die anschließende Verarbeitung zusätzlich.
 Der resultierende Ausgangsdatensatz umfasst etwa \num{467000} Originaldateien und ihre Scan-Ergebnisse.
@@ -76,74 +74,73 @@ Um diese Problematik zu adressieren, muss ein Prozess bestimmt werden, der berei
 Korrekt bedeutet in diesem Kontext, dass die extrahierten Daten der Policy entsprechen.
 Dieser Prozess wird nachfolgend schrittweise beschrieben.
 
-\paragraph{Schritt 1 -- Unterteilung nach ScanCode-Ergebnissen}
-Der Datensatz wurde in zwei Kategorien unterteilt: Dateien, für die ScanCode \textit{copyrights}, \textit{holders} bzw. \textit{authors} ermitteln konnte, und solche, die keine der genannten Informationen enthalten.
+\paragraph{Schritt 1 -- Unterteilung nach ScanCode-Ergebnissen:}
+Der Datensatz wurde in zwei Kategorien unterteilt: Dateien, für die ScanCode \textit{Copyrights}, \textit{Holders} bzw. \textit{Authors} ermitteln konnte und solche, die keine der genannten Informationen enthalten.
 Etwa zwei Drittel des Datensatzes gehören zur letzteren Kategorie.
 Die Daten ohne ScanCode-Ergebnis sind allerdings dennoch relevant, da es sich hierbei um False-Negatives des ScanCode-Toolkit handeln kann, die zur Verbesserung der Extraktion unbedingt ermittelt werden müssen.
 
-\paragraph{Schritt 2 -- Entfernung von Duplikaten}
+\paragraph{Schritt 2 -- Entfernung von Duplikaten:}
 Zunächst wurden Duplikate aus dem Datensatz mit ScanCode-Ergebnissen entfernt.
 Hierzu wurden Daten mit demselben SHA-1 Hash ermittelt und alle Duplikate eliminiert.
 Diese Filterung reduzierte den Datensatz um etwa 8\,\%.
 
-\paragraph{Schritt 3 -- Trennung von Einträgen ohne Copyrights}
-Der von Duplikaten bereinigte Datensatz wurde danach unterteilt, ob das ScanCode-Ergebnis ausschließlich \textit{authors} enthält.
-% TODO: Kategorie von contains no copyrigths zu contains only authors umbenennen.
-Diese Kategorie von Daten ohne Copyrights (\textit{only authors}) umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \textit{copyrights} zu analysieren.
-Außerdem kann dieser Datensatz genutzt werden, das Extrahieren von Autoren gezielt und isoliert zu untersuchen.
+\paragraph{Schritt 3 -- Trennung von Einträgen ohne Copyrights:}
+Der von Duplikaten bereinigte Datensatz wurde danach unterteilt, ob das ScanCode-Ergebnis ausschließlich \textit{Authors} enthält.
+Diese Kategorie von Daten ohne Copyrights (\textit{Only Authors}) umfasst ca.\ 11\,000 Dateien und dient dazu, die Extraktion auf False-Positives beim Erkennen der \textit{Copyrights} zu analysieren.
+Außerdem kann dieser Datensatz genutzt werden, um das Extrahieren von Autoren gezielt und isoliert zu untersuchen.
 
-\paragraph{Schritt 4 -- Abgleich mit Originaldateien (\enquote{exact matches})}
+\paragraph{Schritt 4 -- Abgleich mit Originaldateien (\textit{Exact Matches}):}
 Die extrahierten Copyright-Statements der ScanCode-Ergebnisse wurden in den entsprechenden Originaldateien gesucht.
-Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde diese Datei und ihr extrahiertes Ergebnis den \textit{exact matches} zugeordnet.
+Wenn eine Originaldatei jedes der extrahierten Statements exakt enthält, wurde diese Datei und ihr extrahiertes Ergebnis den \textit{Exact Matches} zugeordnet.
 Das exakte Vorkommen des extrahierten Statements in der Originaldatei erfüllt die Bedingung einer Extraktion \enquote{as-is} gemäß \nameref{subsec:cep-01}.
-ScanCode-Ergebnisse, die einen \textit{exact match} aufweisen und keine Blöcke von Copyrights beinhalten (siehe \nameref{subsec:cep-03}), sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \textit{copyrights} Policy-konform.
-Blöcke von Copyright-Statements können zwar für jedes extrahierte Statement einen \textit{exact match} aufweisen, verstoßen aber durch ihre ScanCode bedingte Aufteilung gegen die \nameref{subsec:cep-03}.
-Eine korrekte Extraktion der \textit{holders} und \textit{authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
-Da die Priorität bei einer korrekten Extraktion der \textit{copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als akzeptable Fehlertoleranz hingenommen.
+ScanCode-Ergebnisse, die einen \textit{Exact Match} aufweisen und keine Blöcke von Copyrights beinhalten (siehe \nameref{subsec:cep-03}), sind demnach ohne weitere Verarbeitung in Hinsicht auf ihre \textit{Copyrights} Policy-konform.
+Blöcke von Copyright-Statements können zwar für jedes extrahierte Statement einen \textit{Exact Match} aufweisen, verstoßen aber durch ihre ScanCode bedingte Aufteilung gegen die \nameref{subsec:cep-03}.
+Eine korrekte Extraktion der \textit{Holders} und \textit{Authors} erfordert komplexere Mechanismen und wird im Laufe der Arbeit hauptsächlich durch manuelle Überprüfung gewährleistet.
+Da die Priorität bei einer korrekten Extraktion der \textit{Copyrights} liegt, werden die möglicherweise fehlerhaft extrahierten Urheber und Autoren als akzeptable Fehlertoleranz hingenommen.
 
-\paragraph{Schritt 5 -- Analyse und Rekonstruktion der \enquote{mismatches}}
-Die ScanCode-Ergebnisse ohne \textit{exact match} umfassen ca.\ zwei Drittel des Datensatzes.
+\paragraph{Schritt 5 -- Analyse und Rekonstruktion der \textit{Mismatches}:}
+Die ScanCode-Ergebnisse ohne \textit{Exact Match} umfassen ca.\ zwei Drittel des Datensatzes.
 Die Analyse dieser Ergebnisse zeigte, dass ScanCode unter anderem die Groß- und Kleinschreibung der Statements normalisiert.
 Ein Beispiel hierfür ist die konsequente Ersetzung der \enquote{(C)} Markierung durch \enquote{(c)}.
-Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob für jedes extrahierte Statement ein \textit{exact match} vorliegt.
+Um diese Fälle zu identifizieren, wurden alle Originaldateien und ihre ScanCode-Ergebnisse in Kleinbuchstaben umgewandelt und anschließend überprüft, ob für jedes extrahierte Statement ein \textit{Exact Match} vorliegt.
 Wenn ein solcher Match vorlag, konnte geschlussfolgert werden, dass die einzige Differenz zwischen Originaldatei und Extrakt die Groß- bzw.\ Kleinschreibung war.
-Dieser Teil des Datensatzes wurde der Kategorie \textit{case-insensitive matches} zugeordnet und die enthaltenen Fälle wurden anschließend zu \textit{exact matches} aufgewertet.
+Dieser Teil des Datensatzes wurde der Kategorie \textit{case-insensitive matches} zugeordnet und die enthaltenen Fälle wurden anschließend zu \textit{Exact Matches} aufgewertet.
 Die Rekonstruktion der Original-Statements erfolgte, indem das extrahierte Statement in der Originaldatei gesucht und anschließend das Original-Statement im Ergebnis ersetzt wurde.
-Auf diese Weise konnten ca.\ \num{57000} Dateien den \textit{exact matches} hinzugefügt werden.
+Auf diese Weise konnten ca.\ \num{57000} Dateien den \textit{Exact Matches} hinzugefügt werden.
 
-\paragraph{Schritt 6 -- Rekonstruktion der Formatierung}
+\paragraph{Schritt 6 -- Rekonstruktion der Formatierung:}
 Da sowohl durch das ScanCode-Toolkit als auch durch die metaeffekt Prozesse Normalisierungen stattfinden, gehen Formatierungen wie Zeilenumbrüche und Tabulatoren bzw.\ mehrfache Leerzeichen verloren.
 Um die \nameref{subsec:cep-06} zu erfüllen, muss die Formatierung im extrahierten Copyright-Statement erhalten bleiben.
-Die durch Normalisierung betroffenen Statements wurden dadurch identifiziert, dass aus den Originaldateien und ScanScode-Ergebnissen jegliche Formatierungen, also Leerzeichen, Zeilenumbrüche und Tabulatoren entfernt wurden.
-Anschließend wurde überprüft, ob für jedes Statement einer Datei ein \textit{exact match} vorliegt.
+Die durch Normalisierung betroffenen Statements wurden dadurch identifiziert, dass aus den Originaldateien und ScanCode-Ergebnissen jegliche Formatierungen, also Leerzeichen, Zeilenumbrüche und Tabulatoren entfernt wurden.
+Anschließend wurde überprüft, ob für jedes Statement einer Datei ein \textit{Exact Match} vorliegt.
 Die Rekonstruktion dieser \textit{format-insensitive matches} erfordert, dass das Statement in der Originaldatei gefunden und anschließend in das ScanCode-Ergebnis kopiert wird.
-Da die Statements durch ihre Formatierung nicht eindeutig dem Ergebnis zuweisbar sind, wurde die Levenstein-Distanz zwischen den extrahierten Statements und jedem Substring der Originaldatei berechnet und der Substring gewählt, welcher die geringste Distanz zum Statement ergab.
-Anschließend wurden alle Zeichen zwischen dem ersten und letzten Index des Substring aus der Originaldatei in das ScanCode-Ergebnis übertragen.
+Da die Statements durch ihre Formatierung nicht eindeutig dem Ergebnis zuweisbar sind, wurde die Levenshtein-Distanz zwischen den extrahierten Statements und jedem Substring der Originaldatei berechnet und der Substring gewählt, welcher die geringste Distanz zum Statement ergab.
+Anschließend wurden alle Zeichen zwischen dem ersten und letzten Index des Substrings aus der Originaldatei in das ScanCode-Ergebnis übertragen.
 Durch diese Methode konnten ca.\ \num{6000} \textit{case-insensitive matches} rekonstruiert werden.
-Die Statements erfordern dennoch Teils manuelle Arbeit, da bei mehrzeiligen Statements die in Kommentarsyntax eingebettet sind, nun auch die entspreche Kommentarsyntax in die Metadaten übertagen wurde.
+Die Statements erfordern dennoch teils manuelle Arbeit, da bei mehrzeiligen Statements, die in Kommentarsyntax eingebettet sind, nun auch die entsprechende Kommentarsyntax in die Metadaten übertragen wurde.
 
-Die Kategorie \textit{case-and-format-insensitive-matches} enthält solche Fälle, die sowohl abweichende Formatierung als auch abweichende Groß- und Kleinschreibung im ScanCode-Ergebnis enthalten.
-Die Fälle dieser Kategorie wurden dadurch ermittelt, dass zunächst jegliche Formatierung und dann jede Großschreibung in den Originaldateien und den ScanCode-Ergebnissen entfernt wurde, anschließend wurde auch \textit{exact matches} geprüft.
-Von den ursprünglichen rund \num{94000} \textit{mismatches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \textit{unresolved mismatches} an.
+Die Kategorie \textit{Case-And-Format-Insensitive-Matches} enthält solche Fälle, die sowohl abweichende Formatierung als auch abweichende Groß- und Kleinschreibung im ScanCode-Ergebnis enthalten.
+Die Fälle dieser Kategorie wurden dadurch ermittelt, dass zunächst jegliche Formatierung und dann jede Großschreibung in den Originaldateien und den ScanCode-Ergebnissen entfernt wurde.
+Anschließend erfolgte eine Prüfung auf \textit{Exact Matches}.
+Von den ursprünglichen rund \num{94000} \textit{Mismatches} gehören nach den vorherigen Schritten noch ca.\ \num{27000} Dateien der Kategorie \textit{Unresolved Mismatches} an.
 Diese Kategorie erfordert weitere Untersuchungen und weitgehend manuelle Aufbereitung.
 
-\paragraph{Schritt 7 -- Identifizierung von \enquote{multiple copyrights}}
-Die \textit{exact matches} wurden danach unterteilt, ob das entsprechende ScanCode-Ergebnis mehrere oder nur ein einzelnes Statement beinhalten.
-Die Dateien, welche mehrere Statements beinhalten wurden der Kategorie \textit{multiple copyrights} zugeordnet und anschließend erneut unterteilt, je nachdem ob sie \textit{authors} enthalten oder nicht.
-Die Absicht bei der Unterteilung nach \textit{multiple copyrights} und die anschließende Unterteilung nach \textit{authors} soll dazu dienen, dass beim späteren Erstellen von Benchmark- bzw.\ Evaluationsdatensätzen möglichst viele Formen von Copyrights in vergleichbarer Anzahl vorhanden sind.
+\paragraph{Schritt 7 -- Identifizierung von \textit{Multiple Copyrights}:}
+Die \textit{Exact Matches} wurden danach unterteilt, ob das entsprechende ScanCode-Ergebnis mehrere oder nur ein einzelnes Statement beinhaltet.
+Die Dateien, welche mehrere Statements beinhalten, wurden der Kategorie \textit{Multiple Copyrights} zugeordnet und anschließend erneut unterteilt, je nachdem, ob sie \textit{Authors} enthalten oder nicht.
+Die Absicht bei der Unterteilung nach \textit{Multiple Copyrights} und die anschließende Unterteilung nach \textit{Authors} soll dazu dienen, dass beim späteren Erstellen von Benchmark- bzw.\ Evaluationsdatensätzen möglichst viele Formen von Copyrights in vergleichbarer Anzahl vorhanden sind.
 
-\paragraph{Schritt 8 -- Identifizierung von \enquote{single copyrights}}
-Analog zu den \textit{multiple copyrights} wurden die \textit{single copyrights} identifiziert und nach dem Vorkommen von \textit{authors} unterteilt.
-Die resultierenden Kategorien \textit{single copyrights with authors} und \textit{single copyrights without authors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \textit{authors}.
+\paragraph{Schritt 8 -- Identifizierung von \textit{Single Copyrights}:}
+Analog zu den \textit{Multiple Copyrights} wurden die \textit{Single Copyrights} identifiziert und nach dem Vorkommen von \textit{Authors} unterteilt.
+Die resultierenden Kategorien \textit{Single Copyrights With Authors} und \textit{Single Copyrights Without Authors} sind die zwei größten Unterkategorien des Datensatzes mit ca.\ \num{20000} Dateien ohne und ca.\ \num{70000} Dateien mit \textit{Authors}.
 
-\paragraph{Schritt 9 -- Manuelle Datenpflege}
+\paragraph{Schritt 9 -- Manuelle Datenpflege:}
 Im Laufe dieser Arbeit wurde zu mehreren Zeitpunkten eine Untermenge aller Kategorien manuell anhand der Policy geprüft und, wenn nötig, korrigiert.
-Diese manuell gepflegten Daten wurden regelmäßig dem Stakeholder stichprobenartig zur Validierung vorgelegt und sofern Unregelmäßigkeiten identifiziert wurden, angepasst.
+Diese manuell gepflegten Daten wurden regelmäßig dem Stakeholder stichprobenartig zur Validierung vorgelegt und, sofern Unregelmäßigkeiten identifiziert wurden, angepasst.
 Diese Validierungsschritte trugen zusätzlich zur Schärfung der Policy bei.
 Die manuelle Erstellung eines Datensatzes ist enorm zeitaufwändig.
-Die Überlegenheit von \glspl{llm} die auf sorgfältig kuratierten Datensätzen trainiert wurden gegenüber z.B.\ generierten Daten oder \gls{glos:zero-shot}- bzw.\ \gls{glos:few-shot}-Ansätze zeigen mehrere Studien\autocite{breton_empowering_2024}\autocite{villena_llmner_2024}.
-% TODO: hier die finale Zahl der manuellen Datenpflege eintragen und noch auf die Zusammensetzung pro Kategorie eingehen.
-Der resultierende Datensatz \textit{manually checked} umfasst \num{700} Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
+Die Überlegenheit von \glspl{llm}, die auf sorgfältig kuratierten Datensätzen trainiert wurden, gegenüber z. B.\ generierten Daten oder \gls{glos:zero-shot}- bzw.\ \gls{glos:few-shot}-Ansätze zeigen mehrere Studien \autocite{breton_empowering_2024} \autocite{villena_llmner_2024}.
+Der resultierende Datensatz \textit{Manually Checked} umfasst \num{600} Dateien und stellt die Kategorie mit der höchsten Qualität in Hinsicht auf die Policy dar.
 Mithilfe dieses Datensatzes soll die Option untersucht werden, ein \gls{llm} durch Fine-Tuning für den Anwendungsfall zu spezialisieren.
 
 \begin{figure}[ht]
@@ -155,13 +152,11 @@ Sankey-Diagramm der Kategorien extrahierter Copyright-Informationen bei der Date
 \end{figure}
 Das Resultat der Datenaggregation sind zehn Hauptkategorien von Dateien, welche unterschiedliche Qualitätsstufen in Hinsicht auf die Policy und auf den Aufwand in ihrer Nachbereitung aufweisen.
 Die \autoref{fig:data-sankey} veranschaulicht die schrittweise Verarbeitung und Kategorisierung der Daten.
-Besonders bei der Abbildung hervorzuheben ist die Zusammenführung der \textit{exact matches} und der rekonstruierten \textit{case-insensitive matches}, welche den größten Anteil des Datensatzes ausmachen.
+Besonders bei der Abbildung hervorzuheben ist die Zusammenführung der \textit{Exact Matches} und der rekonstruierten \textit{Case-Insensitive Matches}, welche den größten Anteil des Datensatzes ausmachen.
 Die aggregierten Kategorien dienen in den folgenden Untersuchungen dazu, möglichst heterogene Testdaten zu wählen und dabei möglichst viele Arten von Copyrights zu prüfen.
 
 % ======================================================================================================================
 
-% Hier soll darauf eingegangen werden, welche Probleme und Herausforderungen der Datensatz mit sich gebracht hat, einige
-% davon sind die Größe (170GB), die Encodings, Binary-Dateien und die geringe Qualität der Scancode extraktion im "authors" Feld.
 \section{Herausforderungen bei der Datenaggregation}\label{sec:herausforderungen-datenaggregation}
 
 Die Verarbeitung der Daten brachte einige Schwierigkeiten mit sich.
@@ -176,13 +171,10 @@ Eine verbesserte Version des Datenaggregationsprozesses sollte demnach die korre
 
 % ======================================================================================================================
 
-% Hier soll darauf eingegangen werden, welche Probleme/Qualitätseinbußen der Datensatz aufzuweisen hat, darüber hinaus soll erläutert werden, warum der Datensatz gut ist
-% Der Datensatz ist nicht gut weil es keinen besseren gibt -> vielleicht ist ein besserer nur nicht bekannt, stattdessen
-% ist der Datensatz mit dem aktuellen Industriestandard (ScanCode) erzeugt worden und wurde nach der von uns erstellten Policy verbessert und validiert
 \section{Qualität der Daten}\label{sec:qualitaet-der-daten}
 
-Der aus der Datenaggregation resultierende Datensatz umfasst eine große Anzahl an Dateien die eine Policy-konforme Extraktion von Copyright-Statements aufweisen.
-Die \textit{holders} und \textit{authors} dieser Extraktionen sind allerdings nicht geprüft und können aus Sicht der Policy fehlerhaft sein.
+Der aus der Datenaggregation resultierende Datensatz umfasst eine große Anzahl an Dateien, die eine Policy-konforme Extraktion von Copyright-Statements aufweisen.
+Die \textit{Holders} und \textit{Authors} dieser Extraktionen sind allerdings nicht geprüft und können aus Sicht der Policy fehlerhaft sein.
 Einige der Datenkategorien benötigen außerdem noch manuelle Prüfung bzw.\ Pflege.
-Um dennoch korrekte Daten dieser Kategorien zur Verfügung zu haben wurde ein manuell überprüfter Datensatz erstellt.
-Die Qualität des Datensatzes ist dadurch gegeben, dass der Ausgangsdatensatz mithilfe des Toolkits erzeugt wurde, welches der aktuelle Industriestandard ist, und anschließend in Form der Datenaggregation Schrittweise verbessert wurde.
+Um dennoch korrekte Daten dieser Kategorien zur Verfügung zu haben, wurde ein manuell überprüfter Datensatz erstellt.
+Die Qualität des Datensatzes ist dadurch gegeben, dass der Ausgangsdatensatz mithilfe des Toolkits erzeugt wurde, welches der aktuelle Industriestandard ist, und anschließend in Form der Datenaggregation schrittweise verbessert wurde.

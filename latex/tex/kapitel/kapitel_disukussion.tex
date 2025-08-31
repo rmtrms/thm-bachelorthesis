@@ -2,14 +2,14 @@
 
 Dieses Kapitel dient der Einordnung, Interpretation und kritischen Reflexion der in dieser Arbeit erzielten Ergebnisse.
 Es werden die Resultate in den Kontext der ursprünglichen Problemstellung und der definierten Anforderungen gestellt.
-Hierzu werden die Anwendungsszenarien (AS) aus~\ref{ch:anwendungsszenarien} sowie die funktionalen (F) und nicht-funktionalen (NF) Anforderungen herangezogen.
+Hierzu werden die Anwendungsszenarien (AS) aus Kapitel~\ref{ch:anwendungsszenarien} sowie die funktionalen (F) und nicht-funktionalen (NF) Anforderungen herangezogen.
 Darüber hinaus werden die Herausforderungen und Limitationen der Untersuchung beleuchtet und die Vorgehensweise im Hinblick auf Erfolge sowie Versäumnisse kritisch gewürdigt.
 
 % ======================================================================================================================
 
 \section{Interpretation der Ergebnisse im Kontext der ursprünglichen Problemstellung}
 
-Die vorliegende Arbeit adressiert die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen und demonstriert, dass der entwickelte, auf \glspl{llm} basierende Ansatz eine leistungsfähige Alternative darstellt.
+Die vorliegende Arbeit adressiert die methodischen Schwächen etablierter, regelbasierter Systeme bei der Extraktion von Copyright-Informationen und demonstriert, dass der \glspl{llm}-Ansatz eine leistungsfähige Alternative darstellt.
 Die Auswahl des finalen Sprachmodells erfolgte nicht willkürlich, sondern basierte auf einem dokumentierten Evaluationsverfahren, das einen systematischen Vergleich mehrerer Kandidaten ermöglichte, womit das Modellauswahlverfahren nachvollziehbar begründet ist (NF7).
 Durch gezieltes Prompt-Engineering konnte mit dem Modell \texttt{mistral-small:24b} eine Extraktionsgenauigkeit von \num{96,3} \% \textit{Exact Matches} erreicht werden.
 Damit wurde die Anforderung einer Extraktionsgenauigkeit von mindestens \num{95} \% nicht nur erfüllt, sondern übertroffen (NF1).
@@ -31,7 +31,8 @@ Alle eingesetzten Modelle und Werkzeuge stehen unter der Apache-2.0-Lizenz, was 
 Die Kompatibilität des Ausgabeformats mit bestehenden Werkzeugen der metaeffekt GmbH schafft die Grundlage für eine nahtlose Systemintegration (NF11).
 Die Prompt-Engineering-Lösung setzt alle als \enquote{in-scope} gekennzeichneten Regeln der Policy um und gewährleistet somit die erforderliche Policy-Abdeckung (F5).
 
-Das erste Anwendungsszenario zur Generierung eines Testdatensatzes wurde weitgehend umgesetzt und der erstellte Datensatz kann als wertvolle Basis für zukünftige Arbeiten dienen, auch wenn eine automatische Validierung von Copyright-Blöcken noch aussteht (AS1).
+Das erste Anwendungsszenario zur Generierung eines Testdatensatzes wurde weitgehend umgesetzt und der erstellte Datensatz kann als wertvolle Basis für zukünftige Arbeiten dienen (AS1).
+Die derzeit noch fehlende Validierung von Copyright-Blöcken ist dabei allerdings zu berücksichtigen.
 Für die Anwendungsszenarien der internen und kundenseitigen Inbetriebnahme wurden entscheidende Grundlagen geschaffen (AS2, AS3).
 
 % ======================================================================================================================
@@ -42,29 +43,33 @@ Für die Anwendungsszenarien der internen und kundenseitigen Inbetriebnahme wurd
 
 Die Durchführung der Arbeit war mit verschiedenen Herausforderungen und Limitationen verbunden.
 Die verwendete Hardware ermöglichte zwar die Ausführung größerer \glspl{llm}, brachte jedoch auch zeitliche Beschränkungen mit sich.
-Insbesondere aufwendige Durchläufe wie der Benchmark oder das Fine-Tuning nahmen teilweise mehrere Stunden in Anspruch, was die Anzahl möglicher Iterationen und Experimente begrenzte.
+Insbesondere aufwendige Durchläufe wie der Benchmark oder das Fine-Tuning nahmen teilweise mehrere Stunden in Anspruch, was die Anzahl möglicher Iterationen und Experimente begrenzte (NF5, NF7).
 
-Eine wesentliche Limitation der Arbeit liegt in der Erstellung des Evaluations- und Trainingsdatensatzes.
+Eine wesentliche Limitation der Arbeit liegt in der Erstellung des Evaluations- und Trainingsdatensatzes (AS1).
 Aus zeitlichen und personellen Gründen konnte keine umfassende Annotation von Daten durch externe Experten erfolgen.
-Die manuelle Pflege und Validierung der Datensätze basierte daher primär auf der Einschätzung des Autors, was eine potenzielle Subjektivität und Fehlerquelle darstellt.
+Die manuelle Pflege und Validierung der Datensätze wurde ausschließlich durch den Autor durchgeführt.
+Dabei wurde die iterativ verfeinerte Policy interpretiert, aber der Datensatz nicht weiter unabhängig geprüft.
+Dies stellt eine mögliche Fehlerquelle dar.
 
 % ======================================================================================================================
 
 \section{Kritische Würdigung der Vorgehensweise in Hinsicht auf Erfolge und Versäumnisse}
 
 Im Rückblick lassen sich einige Versäumnisse in der Vorgehensweise identifizieren.
-Der durchgeführte Benchmark basierte auf einem Datensatz von lediglich \num{200} Dateien.
+Der durchgeführte Benchmark basierte auf einem Datensatz von lediglich \num{200} Dateien (NF7).
 Für ein statistisch aussagekräftigeres und generalisierbareres Ergebnis wäre ein umfangreicherer Benchmarkdatensatz notwendig gewesen.
-Auch die zur Vorverarbeitung der Eingabedateien genutzte Wortliste wurde manuell durch Beobachtung und iterative Verbesserung erstellt.
+Auch die zur Vorverarbeitung der Eingabedateien genutzte Wortliste wurde manuell durch Beobachtung und iterative Verbesserung erstellt (F4).
 Eine zuverlässige Produktivlösung würde hier einen automatisierten Ansatz zur Generierung erfordern.
 Ebenso erfolgte das Prompt-Engineering manuell, während ein automatisierter Prozess, der wirkungsvolle Beispiele und Instruktionsvarianten systematisch kombiniert, perspektivisch eine bessere Lösung darstellt.
-Ein weiteres Defizit zeigt sich bei der Erzeugung von Testdaten für das Fine-Tuning, da hier ein expliziter Validierungsschritt fehlte und stattdessen nur die vorherige Analyse ungesehener Daten als Gütekriterium herangzeogen wurde.
-Insbesondere bei komplexen Blöcken von Copyright-Statements, bei denen die optimierte Lösung unzureichende Ergebnisse erzielte, wäre eine anschließende Validierung notwendig gewesen um diesen Eingabetyp auch im Fine-Tuning zu unterstützen.
-Schließlich wurde das Fine-Tuning nur durch initiale Experimente als Option analysiert, eine tiefgehende Untersuchung mit verschiedenen Trainingsparametern fand nicht statt.
+
+Ein weiteres Defizit zeigt sich bei der Erzeugung von Testdaten für das Fine-Tuning, da hier ein expliziter Validierungsschritt fehlte und stattdessen nur die vorherige Analyse ungesehener Daten als Gütekriterium herangezogen wurde (F2).
+Insbesondere bei komplexen Blöcken von Copyright-Statements, bei denen die optimierte Lösung unzureichende Ergebnisse erzielte, wäre eine anschließende Validierung notwendig gewesen, um diesen Eingabetyp auch im Fine-Tuning zu unterstützen (F5).
+Schließlich wurde das Fine-Tuning nur durch initiale Experimente als Option analysiert.
+Eine tiefgehende Untersuchung mit verschiedenen Trainingsparametern fand nicht statt.
 
 Diesen Versäumnissen stehen jedoch bedeutende Erfolge gegenüber.
 So gelang es trotz des engen zeitlichen Rahmens, eine vollständige \gls{llm}-Entwicklungspipeline von der Datenaggregation über den Benchmark und das Prompt-Engineering bis hin zum Fine-Tuning mittels Knowledge-Distillation erfolgreich zu konzipieren und durchzuführen.
-Der Benchmark selbst erwies sich als aussagekräftig, da die weite Streuung der Ergebnisse seine grundsätzliche Lösbarkeit und Eignung zur Modelldifferenzierung belegte.
-Das systematische Prompt-Engineering führte zu hohen Präzisionsergebnissen.
+Der Benchmark selbst erwies sich als aussagekräftig, da die weite Streuung der Ergebnisse seine grundsätzliche Lösbarkeit und Eignung zur Modelldifferenzierung belegte (NF7).
+Das systematische Prompt-Engineering führte zur hohen Präzision der Ergebnisse (NF1).
 Auch die initialen Experimente zum Fine-Tuning waren erfolgreich, indem ein kleineres, spezialisiertes Modell eine vergleichbare Genauigkeit bei signifikant höherer Effizienz erreichte.
-Schließlich stellt die im Rahmen der Arbeit weiter ausformulierte und verfeinerte Policy eine wertvolle Grundlage für die metaeffekt GmbH und ihre Kunden für zukünftige Arbeiten dar.
+Schließlich stellt der im Rahmen der Arbeit erstellte Testdatensatz sowie die weiter ausformulierte und verfeinerte Policy (AS1) eine wertvolle Grundlage für die zukünftigen Arbeiten der metaeffekt GmbH und ihre Kunden dar.

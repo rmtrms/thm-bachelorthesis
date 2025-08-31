@@ -1,7 +1,7 @@
 \chapter{Benchmark und Modellauswahl}\label{ch:benchmark}
 
 Die systematische Auswahl eines geeigneten \glspl{llm} erforderte die Entwicklung und Anwendung eines spezifisch auf den Anwendungsfall zugeschnittenen Benchmarks.
-Die Konzeption und Durchführung war ein iterativer Prozess bei dem stetig Erkenntnisse und identifizierte Probleme dazu genutzt wurden, die Rahmenbedingungen des Benchmarks zu verbessern.
+Die Konzeption und Durchführung war ein iterativer Prozess, bei dem stetig Erkenntnisse und identifizierte Probleme dazu genutzt wurden, die Rahmenbedingungen des Benchmarks zu verbessern.
 Dieser iterative Prozess hatte zur Folge, dass aufbauend auf den Zwischenergebnissen Erkenntnisse gewonnen und entsprechende Anpassungen vorgenommen wurden.
 Zur Nachvollziehbarkeit der Entstehung des Benchmarks wird in den folgenden Unterkapiteln nicht nur auf das finale Ergebnis, sondern ebenso auf die Zwischenergebnisse und die daraus abgeleiteten Entscheidungen eingegangen.
 
@@ -11,11 +11,11 @@ Zur Nachvollziehbarkeit der Entstehung des Benchmarks wird in den folgenden Unte
 
 % TODO: konkret die reduzierte Policy ansprechen
 Ziel des Benchmarks ist es, ein geeignetes \gls{llm} zu bestimmen.
-Es wird geprüft, inwiefern jedes \gls{llm} Copyright-Informationen extrahieren kann, die Policy-konformen Erwartungshaltungen entsprechen.
+Es wird geprüft, inwiefern jedes \gls{llm} Copyright-Informationen extrahieren kann, die den Policy-konformen Erwartungshaltungen entsprechen.
 Hierzu wird das \gls{llm} mit einem Prompt dazu aufgefordert, die Copyright-Statements, Urheber und Autoren für eine bestimmte Eingangsdatei zu bestimmen und anschließend wird die Antwort des \gls{llm} mit einer vorher formulierten Erwartungshaltung abgeglichen.
 Dieser Schritt wird für jede Datei des Benchmark-Datensatzes durchgeführt.
 Der verwendete Datensatz wird im Abschnitt \nameref{sec:datensatz-benchmark} thematisiert.
-Schließlich die Ergebnisse des \gls{llm} anhand mehrerer Metriken ausgewertet und mit den Ergebnissen anderer \glspl{llm} verglichen.
+Schließlich werden die Ergebnisse des \gls{llm} anhand mehrerer Metriken ausgewertet und mit den Ergebnissen anderer \glspl{llm} verglichen.
 
 \subsection{Lokale Ausführung der LLMs}\label{subsec:lokale-ausfuehrung}
 
@@ -33,7 +33,7 @@ Außerdem fallen für die Nutzung der \gls{api} dieser Modelle Kosten an, weshal
 
 Die Auswahl an verfügbaren \glspl{llm} wird einerseits durch die Leistungsfähigkeit der verwendeten Hardware und andererseits durch die Kompatibilität der Software eingeschränkt.
 Erste Experimente ergaben, dass der verwendete Mac Mini M4 Pro mit 64 Gigabyte Arbeitsspeicher \glspl{llm} mit einer Parametergröße von maximal 108 Milliarden ausführen kann, ohne wärmebedingt die Leistung zu drosseln.
-Da die finale Implementierung des Benchmarks softwareseitig mit Ollama4J einen lokal ausgeführten Ollama Server anspricht, konnten nur solche \glspl{llm} ausgewählt werden, die auf Ollama zur Verfügung stehen.
+Da die finale Implementierung des Benchmarks softwareseitig mit Ollama4J einen lokal ausgeführten Ollama-Server anspricht, konnten nur solche \glspl{llm} ausgewählt werden, die auf Ollama zur Verfügung stehen.
 Die Wahl an \glspl{llm}, die für den Benchmark genutzt werden sollen, beschränkt sich somit auf Modelle, die durch Ollama unterstützt werden und bis zu 108 Milliarden Parameter groß sind.
 
 Es wurden \glspl{llm} von zahlreichen namhaften Providern geprüft, darunter Microsoft (phi4, phi3), Meta (llama4, llama3), Deepseek (deepseek-coder, deepseek-r1), Alibaba (qwen3, qwen2.5, qwen2.5-coder), Google (gemma3, gemma3n) und Mistral (mistral, mathstral, devstral, mistral-small, mistral-nemo).
@@ -50,34 +50,33 @@ Die finale Durchführung des Benchmarks umfasste 30 \glspl{llm}.
 \subsection{Zusammenstellung des Datensatzes}\label{sec:datensatz-benchmark}
 
 Die Ergebnisse der Datenaggregation wurden dazu genutzt, einen kuratierten Benchmark-Datensatz zu erstellen.
-Hierzu wurden repräsentative Fälle aus der Datenaggregation identifiziert und ihre Erwartungshaltung anhand der Policy überprüft und wenn nötig, angepasst.
+Hierzu wurden repräsentative Fälle aus der Datenaggregation identifiziert und ihre Erwartungshaltung anhand der Policy überprüft und, wenn nötig, angepasst.
 Der Datensatz umfasst insgesamt \num{200} Dateien und ihre überprüften Erwartungshaltungen.
 Die \num{200} Dateien sind in acht Kategorien mit jeweils \num{25} Dateien unterteilt:
 
 \begin{itemize}
-    \item single copyrights with authors
-    \item single copyrights without authors
-    \item multiple copyrights with authors
-    \item multiple copyrights without authors
-    \item case-insensitive matches
-    \item format-insensitive matches
-    \item only authors
-    \item no copyrights or authors or holders
+    \item Single Copyrights With Authors
+    \item Single Copyrights Without Authors
+    \item Multiple Copyrights With Authors
+    \item Multiple Copyrights Without Authors
+    \item Case-Insensitive Matches
+    \item Format-Insensitive Matches
+    \item Only Authors
+    \item No Copyrights Or Authors Or Holders
 \end{itemize}
 
-Die ersten vier Kategorien stellen die \enquote{normalen} Fälle dar, wobei die \textit{case-insensitive} und \textit{format-insensitive} Fälle speziell die Normalisierungen des ScanCode-Toolkits abdecken.
-Die Kategorien \textit{no copyrights or authors or holders} und \textit{only authors} dienen gezielt dazu, das Verhalten des Modells bei Abwesenheit von Copyright-Statements zu untersuchen sowie die alleinige Autorenextraktion.
+Die ersten vier Kategorien stellen die \textit{gängigen} Fälle dar, wobei die \textit{Case-Insensitive} und \textit{Format-Insensitive} Fälle speziell die Normalisierungen des ScanCode-Toolkits abdecken.
+Die Kategorien \textit{No Copyrights Or Authors Or Holders} und \textit{Only Authors} dienen gezielt dazu, das Verhalten des Modells bei Abwesenheit von Copyright-Statements zu untersuchen sowie die alleinige Autorenextraktion.
 
-Um repräsentative Fälle einer Kategorie zusammenzustellen wurden je \num{25} Dateien aus den Hauptkategorien des Datensatzes zufällig ausgewählt und anschließend gesichtet.
-Ähnliche Fälle (z.B.\ mehrere Copyright-Statements desselben Urhebers) wurden identifiziert und entsprechend ersetzt.
+Um repräsentative Fälle einer Kategorie zusammenzustellen, wurden je \num{25} Dateien aus den Hauptkategorien des Datensatzes zufällig ausgewählt und anschließend gesichtet.
+Ähnliche Fälle (z. B.\ mehrere Copyright-Statements desselben Urhebers) wurden identifiziert und entsprechend ersetzt.
 Somit konnte sichergestellt werden, dass kein Copyright, Urheber oder Autor überrepräsentiert im Datensatz vorkommt.
 
 Die relativ kleine Anzahl von Dateien wurde dadurch kompensiert, dass mithilfe der Kategorien möglichst unterschiedliche Arten von Statements und Autoren im Benchmark enthalten sind.
 Darüber hinaus ist jede Kategorie mit derselben Anzahl an Dateien vertreten, wodurch eine Bevorzugung bzw.\ Benachteiligung eines Modells anhand ungleichmäßiger Verteilung von Fällen zusätzlich mitigiert wird.
 
-% TODO: konkret die reduzierte Policy ansprechen
 Die Formulierung der Erwartungshaltungen der ausgewählten Dateien wurde anhand einer reduzierten Policy durchgeführt.
-Die reduzierte Policy enthielt lediglich die \nameref{subsec:cir-01}, sowie die \nameref{subsec:cep-01} und \nameref{subsec:cep-02}, wobei die \nameref{subsec:hir-01} und \nameref{subsec:air-01} implizit umgesetzt wurden, da sie zu diesem Zeitpunkt noch nicht ausreichend formuliert waren.
+Die reduzierte Policy enthielt lediglich die \nameref{subsec:cir-01} sowie die \nameref{subsec:cep-01} und \nameref{subsec:cep-02}, wobei die \nameref{subsec:hir-01} und \nameref{subsec:air-01} implizit umgesetzt wurden, da sie zu diesem Zeitpunkt noch nicht ausreichend formuliert waren.
 
 % ======================================================================================================================
 
@@ -110,7 +109,7 @@ Ollama erwies sich somit als flexiblere und wartungsfreundlichere Lösung für d
 \subsection{LLM Warm-Up}\label{subsec:llm-warm-up}
 
 Da Ollama beim erstmaligen Ausführen eines \glspl{llm} das Modell zunächst in den Arbeitsspeicher lädt, entsteht eine initiale Verzögerung vor Beginn der \gls{glos:inferenz}.
-Diese Verzögerung tritt zu Beginn des \gls{glos:benchmark} auf und verfälscht die Messung der Laufzeit beim ersten Prompt.
+Diese Verzögerung tritt zu Beginn des \gls{glos:benchmark}s auf und verfälscht die Messung der Laufzeit beim ersten Prompt.
 Um die Metrik Tokens/sec unabhängig von diesem Ladevorgang zu bestimmen, wurde ein Warm-Up-Verfahren implementiert.
 Dabei wird das Modell vor dem eigentlichen \gls{glos:benchmark} einmalig aufgefordert, mit einem einzelnen Wort (\enquote{ready}) zu antworten.
 Sobald diese Antwort vorliegt, gilt das \gls{llm} als geladen und einsatzbereit, sodass im Anschluss die \gls{glos:benchmark}-Messung ohne zusätzliche Initialisierungszeit durchgeführt werden kann.
@@ -148,9 +147,9 @@ Da im Benchmark verschiedene Modelle mit stark variierenden Kontextgrößen eing
 Um vergleichbare Bedingungen zu schaffen, wurde das Kontextfenster für alle Modelle auf \num{4096} Tokens begrenzt.
 Diese Begrenzung entspricht dem Standardwert von Ollama, sofern keine explizite Vergrößerung vorgenommen wird.
 
-Die Kombination aus unterschiedlichen Kontextgrößen und sehr großen Eingabedateien machte eine Vorverarbeitung erforderlich, um die Eingaben auf copyright-relevante Inhalte zu reduzieren.
+Die Kombination aus unterschiedlichen Kontextgrößen und sehr großen Eingabedateien machte eine Vorverarbeitung erforderlich, um die Eingaben auf Copyright-relevante Inhalte zu reduzieren.
 Hierfür wurde eine metaeffekt-interne Java-Klasse eingesetzt, die auf Basis einer bereitgestellten Wortliste Filterungen vornimmt.
-Die Dateien werden dabei nach den Begriffen durchsucht wobei jedes Vorkommen eine Maske setzt, die alle Zeichen im definierten Umgebungsbereich beibehält, während irrelevante Teile entfernt werden.
+Die Dateien werden dabei nach den Begriffen durchsucht, wobei jedes Vorkommen eine Maske setzt, die alle Zeichen im definierten Umgebungsbereich beibehält, während irrelevante Teile entfernt werden.
 Auf diese Weise konnte mithilfe einer aggregierten und sukzessive optimierten Wortliste sichergestellt werden, dass nur relevante Textabschnitte an das \gls{llm} übergeben werden.
 
 Zur Validierung wurden die gefilterten Dateien gemeinsam mit den Originaldateien zwischengespeichert, um nachträglich prüfen zu können, ob keine für die Extraktion erforderlichen Informationen verloren gegangen sind.
@@ -199,8 +198,8 @@ Das Ergebnis ist eine umfassende Analysedatei, die sowohl für manuelle Betracht
 Eine systematische Analyse der Eignung mehrerer \glspl{llm} erfordert mehrere Metriken, die zur Evaluation herangezogen werden.
 Die in diesem Benchmark verwendeten Metriken werden nachfolgend erläutert, dabei werden die generierten Ergebnisse des \gls{llm} wie folgt interpretiert:
 \begin{itemize}
-    \item \textit{\gls{tp}} -- ein Element aus der Erwartungshaltung wird korrekt extrahiert (entweder exakte oder ausreichend ähnliche Übereinstimmung). Sofern ein \gls{tp} für ein Element aus der Erwartungshaltung gefunden wurde, wird dieses Element für die weitere Bewertung ausgeschlossen da jedes Element nur einmalig zugewiesen werden kann.
-    \item \textit{\gls{fp}} -- ein vom Modell extrahiertes Element ist nicht in der Erwartungshaltung enthalten oder es ist verbleibt kein ausreichend ähnliches Element.
+    \item \textit{\gls{tp}} -- ein Element aus der Erwartungshaltung wird korrekt extrahiert (entweder exakte oder ausreichend ähnliche Übereinstimmung). Sofern ein \gls{tp} für ein Element aus der Erwartungshaltung gefunden wurde, wird dieses Element für die weitere Bewertung ausgeschlossen, da jedes Element nur einmalig zugewiesen werden kann.
+    \item \textit{\gls{fp}} -- ein vom Modell extrahiertes Element ist nicht in der Erwartungshaltung enthalten oder es verbleibt kein ausreichend ähnliches Element.
     \item \textit{\gls{fn}} -- ein Element aus der Erwartungshaltung wird vom Modell nicht extrahiert (weder exakte noch ausreichend ähnliche Übereinstimmung).
 \end{itemize}
 
@@ -208,7 +207,7 @@ Die in diesem Benchmark verwendeten Metriken werden nachfolgend erläutert, dabe
 Die zentrale Metrik zur Bewertung der Extraktion von Copyright-Statements ist der Anteil sogenannter \textit{Exact Matches}.
 Ein \textit{Exact Match} liegt vor, wenn ein vom \gls{llm} generiertes Statement exakt mit einem Statement der vorher formulierten Erwartungshaltung übereinstimmt.
 Durch eine perfekte Extraktion ohne zusätzliche Zeichen oder fehlerhafte Normalisierungen wird die \nameref{subsec:cep-01} erfüllt.
-Mehrere Studien nutzen \textit{Exact Matches} als Bewertungsmaß für die Leistung von \gls{ner}- und \gls{ie}-Systemen auf Basis von \glspl{llm} \autocite{dunn_structured_2022}\autocite{hu_improving_2024}.
+Mehrere Studien nutzen \textit{Exact Matches} als Bewertungsmaß für die Leistung von \gls{ner}- und \gls{ie}-Systemen auf Basis von \glspl{llm} \autocite{dunn_structured_2022} \autocite{hu_improving_2024}.
 
 \subsection{F1-Score}
 Eine gängige Metrik zur Bewertung von Klassifikationsmodellen ist der F1-Score\autocite{noauthor_f-score_2025}.
@@ -236,7 +235,7 @@ Außerdem wird ein kombinierter F1-Score aller Elemente einer Eingabe $\mathrm{F
 In diesem Benchmark wird für jeden Entitätstyp der jeweilige F1-Score berechnet und zusätzlich ein durchschnittlicher F1-Score über alle Typen hinweg erfasst.
 Zunächst wird jedes extrahierte Copyright-Statement auf einen \textit{Exact Match} mit der Erwartungshaltung geprüft.
 Liegt dieser vor, wird das Statement als \gls{tp} gezählt.
-Sofern kein \textit{Exact Match} vorliegt, wird die Jaro-Winkler-Ähnlichkeit\autocite{noauthor_jarowinkler_nodate} verwendet um das ähnlichste Element aus der Erwartungshaltung welches einen Similarity-Threshold vom \num{0,95} überschreitet, zu finden.
+Sofern kein \textit{Exact Match} vorliegt, wird die Jaro-Winkler-Ähnlichkeit \autocite{noauthor_jarowinkler_nodate} verwendet, um das ähnlichste Element aus der Erwartungshaltung, welches einen Similarity-Threshold vom \num{0,95} überschreitet, zu finden.
 Wenn eine solche Übereinstimmung gefunden wird, zählt diese als \gls{tp}.
 Bei Holders und Authors wird ausschließlich durch die Jaro-Winkler-Ähnlichkeit auf ähnliche Elemente in der Erwartungshaltung geprüft und entsprechende Fälle werden als \gls{tp} gezählt.
 
@@ -255,8 +254,8 @@ Auf diese Weise wird vermieden, dass größere Unterschiede als korrekt gezählt
 
 \subsection{Tokens/sec}
 Zur zeitlichen Messung der Modellleistungen werden die \textit{Tokens/sec} berechnet.
-Da Ollama4J keine Abfrage der tatsächlichen Token pro Sekunde eines Modells unterstützt muss eine Alternative herangezogen Metrik werden.
-Um die Leistung der unterschiedlichen Modelle zu bestimmen, wird berechnet wie groß der Eingabe-Prompt ist und wie viel Zeit das Modell zur Bearbeitung benötigt.
+Da Ollama4J keine Abfrage der tatsächlichen Token pro Sekunde eines Modells unterstützt, muss eine Alternative Metrik herangezogen werden.
+Um die Leistung der unterschiedlichen Modelle zu bestimmen, wird berechnet, wie groß der Eingabe-Prompt ist und wie viel Zeit das Modell zur Bearbeitung benötigt.
 Die Größe eines Prompts wird in Tokens gemessen, da die Modelle aber intern unterschiedliche Prozesse zur Tokenisierung eines Prompts verwenden, wird eine Annäherung verwendet.
 Eine grobe Umrechnung von Eingabetext zu Tokens ist $1\;\text{Token}\approx 4\;\text{Buchstaben}$\autocite{noauthor_what_nodate}.
 Die Dauer der Bearbeitung entspricht der Zeit zwischen dem Absenden des Eingabe-Prompts und der Beantwortung durch das Modell.
@@ -267,7 +266,7 @@ Die somit ermittelte Metrik stellt eine Vergleichbarkeit der Modell-Geschwindigk
 \section{Durchführung}\label{sec:durchfuhrung-benchmark}
 
 In diesem Abschnitt wird die Durchführung des Benchmarks näher erläutert.
-Grundlage bildet der in Abschnitt~\ref{subsec:eingabeprompt} beschriebene Eingabeprompt sowie ein zweistufiges Vorgehen bestehend aus einem initialen und einem finalen Durchlauf, wobei die im ersten Durchlauf gewonnenen Erkenntnisse in die finale Evaluation eingeflossen sind.
+Grundlage bildet der in Abschnitt~\ref{subsec:eingabeprompt} beschriebene Eingabeprompt sowie ein zweistufiges Vorgehen, bestehend aus einem initialen und einem finalen Durchlauf, wobei die im ersten Durchlauf gewonnenen Erkenntnisse in die finale Evaluation eingeflossen sind.
 
 Die \autoref{fig:prompting_setup} veranschaulicht den Ablauf der Inferenz im Benchmark.
 Zunächst wird die Eingabedatei durch ein Preprocessing auf copyright-relevante Inhalte reduziert.
@@ -299,7 +298,7 @@ You are an expert at extracting copyright information from text.
 Your output MUST be a valid JSON object. Do NOT include any additional text, comments, or explanations outside the JSON.
 \end{lstlisting}
 
-Inhaltlich ist der Prompt so gestaltet, dass er drei klar abgegrenzte Zielkategorien definiert: \textit{copyrights}, \textit{holders} und \textit{authors}.
+Inhaltlich ist der Prompt so gestaltet, dass er drei klar abgegrenzte Zielkategorien definiert: \textit{Copyrights}, \textit{Holders} und \textit{Authors}.
 Für jede Kategorie wird präzisiert, welche Informationen aus dem Eingabetext zu extrahieren sind und in welcher Form diese in das \gls{json}-Schema einzutragen sind.
 Dabei werden auch Grenzfälle berücksichtigt, etwa die Behandlung von \enquote{All Rights Reserved}-Vermerken oder die explizite Auslassung Lizenzinformationen.
 
@@ -497,28 +496,28 @@ Abbildung~\ref{fig:exact-matches-overall-result} zeigt den Prozentsatz der \text
 \end{figure}
 
 Die Ergebnisse verdeutlichen, dass kleinere Modelle tendenziell deutlich geringere Werte bei den \textit{Exact Matches} erreichen.
-So liegt \texttt{tinyllama:1.1b} mit lediglich \num{3.43}\% am unteren Ende.
-Im Kontrast dazu erzielte \texttt{mistral-small:24b} mit \num{94}\% den höchsten Wert, gefolgt von weiteren eng verwandten Varianten wie \texttt{devstral:24b} und \texttt{mistral-small3.2:24b}.
+So liegt \texttt{tinyllama:1.1b} mit lediglich \num{3.43} \% am unteren Ende.
+Im Kontrast dazu erzielte \texttt{mistral-small:24b} mit \num{94} \% den höchsten Wert, gefolgt von weiteren eng verwandten Varianten wie \texttt{devstral:24b} und \texttt{mistral-small3.2:24b}.
 Dies bestätigt, dass größere Modelle eine deutlich höhere Zuverlässigkeit in der exakten Reproduktion erreichen.
 
 Die Ergebnisse bilden klare Cluster entlang der Parametergrößen:
 \begin{itemize}
-    \item Kleine Modelle (bis etwa 3 Milliarden Parameter) generierten in vielen Fällen sehr schnell Tokens, erzielten aber nur sehr geringe Anteile an \textit{Exact Matches}. Beispiele hierfür sind \texttt{qwen2.5-coder:0.5b} mit über \num{100} Tokens/sec, aber nur \num{6.42}\% \textit{Exact Matches}, oder \texttt{tinyllama:1.1b} mit ähnlich schwacher Leistung.
-    \item Mittelgroße Modelle im Bereich von 7 bis 12 Milliarden Parametern zeigten bemerkenswerterweise alle eine sehr ähnliche Geschwindigkeit von etwa \num{20} Tokens/sec. Unterschiede zeigten sich hier hauptsächlich in der Genauigkeit, die zwischen \num{20}\% (\texttt{dolphin3:8b}) und über \num{80}\% (\texttt{mistral:7b}) streute.
-    \item Große Modelle ab 24B Parametern dominierten das obere Ende der Skala und erzielten durchweg hohe Genauigkeiten (über \num{85}\%), allerdings bei deutlich reduzierter Geschwindigkeit. Lediglich \texttt{qwen2.5-coder:32b} und \texttt{mixtral8x7b} weichen davon ab und erzielten mittelmäßige bis unbrauchbare Ergebnisse.
+    \item Kleine Modelle (bis etwa 3 Milliarden Parameter) generierten in vielen Fällen sehr schnell Tokens, erzielten aber nur sehr geringe Anteile an \textit{Exact Matches}. Beispiele hierfür sind \texttt{qwen2.5-coder:0.5b} mit über \num{100} Tokens/sec, aber nur \num{6.42} \% \textit{Exact Matches}, oder \texttt{tinyllama:1.1b} mit ähnlich schwacher Leistung.
+    \item Mittelgroße Modelle im Bereich von 7 bis 12 Milliarden Parametern zeigten bemerkenswerterweise alle eine sehr ähnliche Geschwindigkeit von etwa \num{20} Tokens/sec. Unterschiede zeigten sich hier hauptsächlich in der Genauigkeit, die zwischen \num{20} \% (\texttt{dolphin3:8b}) und über \num{80} \% (\texttt{mistral:7b}) streute.
+    \item Große Modelle ab 24B Parametern dominierten das obere Ende der Skala und erzielten durchweg hohe Genauigkeiten (über \num{85} \%), allerdings bei deutlich reduzierter Geschwindigkeit. Lediglich \texttt{qwen2.5-coder:32b} und \texttt{mixtral8x7b} weichen davon ab und erzielten mittelmäßige bis unbrauchbare Ergebnisse.
 \end{itemize}
 
-Besonders auffällig sind die Reasoning-Modelle \texttt{qwen3:4b} und \texttt{qwen3:8b}, die trotz ihrer geringen Parametergröße extrem langsam waren (\num{0.24} bzw. \num{0.19} Tokens/sec) und gleichzeitig unzureichende Genauigkeitswerte erreichten (\num{13.58}\% bzw. \num{7.69}\%). Dies deckt sich mit den besonders häufigen Timeouts dieser Modelle.
-Ein gegenteiliger Fall ist \texttt{llama4:16x17b}, das zwar zu den langsamsten Modellen zählt, aber dennoch \num{88}\% \textit{Exact Matches} erreichte.
+Besonders auffällig sind die Reasoning-Modelle \texttt{qwen3:4b} und \texttt{qwen3:8b}, die trotz ihrer geringen Parametergröße extrem langsam waren (\num{0.24} bzw. \num{0.19} Tokens/sec) und gleichzeitig unzureichende Genauigkeitswerte erreichten (\num{13.58} \% bzw. \num{7.69} \%). Dies deckt sich mit den besonders häufigen Timeouts dieser Modelle.
+Ein gegenteiliger Fall ist \texttt{llama4:16x17b}, das zwar zu den langsamsten Modellen zählt, aber dennoch \num{88} \% \textit{Exact Matches} erreichte.
 Im Gegensatz zu den Reasoning-Modellen ist \texttt{llama4:16x17b} mit 109 Milliarden Parametern das mit Abstand größte Modell des Benchmarks, erzielt aber dennoch geringere Leistungswerte als alle \texttt{mistral}-Varianten mit nur 24 Milliarden Parametern.
 
-Innerhalb der Mistral-Familie zeigt sich eine deutliche Entwicklung: Während \texttt{mistral:7b} im ersten Durchlauf mit \num{80.69}\% noch das beste Ergebnis erzielte, steigerten die Varianten mit 24 Milliarden Parametern die Genauigkeit bis auf \num{94}\%.
+Innerhalb der Mistral-Familie zeigt sich eine deutliche Entwicklung: Während \texttt{mistral:7b} im ersten Durchlauf mit \num{80.69} \% noch das beste Ergebnis erzielte, steigerten die Varianten mit 24 Milliarden Parametern die Genauigkeit bis auf \num{94}  \%.
 Bei den Varianten von \texttt{qwen2.5-coder} zeigt sich, dass die kleineren Modelle (0.5B, 1.5B, 3B) erwartungsgemäß zwar deutlich schneller, jedoch weniger präzise arbeiteten als ihre größeren Pendants.
-Auffällig ist jedoch, dass die \texttt{qwen2.5-coder:7b}-Variante mit \num{74,68}\% den höchsten Wert an \textit{Exact Matches} erreichte.
-Entgegen der Erwartungen erzielte die 14b-Variante lediglich \num{69,53}\%, während die 32b-Variante sogar auf \num{50,21}\% zurückfiel.
+Auffällig ist jedoch, dass die \texttt{qwen2.5-coder:7b}-Variante mit \num{74,68} \% den höchsten Wert an \textit{Exact Matches} erreichte.
+Entgegen der Erwartungen erzielte die 14b-Variante lediglich \num{69,53} \%, während die 32b-Variante sogar auf \num{50,21} \% zurückfiel.
 Dies verdeutlicht, dass eine höhere Parameterzahl nicht zwangsläufig zu besseren Ergebnissen innerhalb derselben Modellfamilie führt.
 
-Die große Spannweite der Ergebnisse von nur \num{3}\% bis zu \num{94}\% \textit{Exact Matches} liefert einen wichtigen Hinweis auf die grundsätzlich Lösbarkeit des Benchmarks.
+Die große Spannweite der Ergebnisse von nur \num{3} \% bis zu \num{94} \% \textit{Exact Matches} liefert einen wichtigen Hinweis auf die grundsätzlich Lösbarkeit des Benchmarks.
 Wäre die Aufgabe unlösbar oder fehlerhaft gestellt gewesen, hätten alle Modelle an einer oberen Grenze stagniert.
 Dies bestätigt die Validität des Benchmarks und seinen Nutzen für die Modellbewertung.
 
@@ -535,7 +534,7 @@ Damit bietet der F1-Score eine andere Perspektive bei der Bewertung der Modellqu
 
 Die Abbildung~\ref{fig:f1-overall-result} zeigt den Zusammenhang zwischen dem F1-Score und der Geschwindigkeit in \textit{Tokens/sec} für alle Modelle.
 Im Vergleich zu den Ergebnissen der \textit{Exact Matches} wird deutlich, dass viele Modelle durch den F1-Score ein robusteres Bild abgeben.
-Während die Spannweite bei den \textit{Exact Matches} von nur rund \num{3}\% bis \num{94}\% reichte, bewegen sich die meisten Modelle im F1-Score zwischen \num{0.6} und \num{0.9}.
+Während die Spannweite bei den \textit{Exact Matches} von nur rund \num{3} \% bis \num{94} \% reichte, bewegen sich die meisten Modelle im F1-Score zwischen \num{0.6} und \num{0.9}.
 Dies deutet darauf hin, dass auch Modelle mit schwacher Performance bei den \textit{Exact Matches} dennoch relevante Teilergebnisse liefern konnten, die in den F1-Score einfließen.
 
 \begin{figure}[ht]
@@ -555,14 +554,14 @@ Während die Modelle mit 0.5B und 1.5B Parametern zwar sehr schnell arbeiteten (
 Die besten Resultate innerhalb dieser Modellfamilie erzielte erneut die 7B-Variante (\num{0.82}), während die 14B- und 32B-Varianten etwas abfielen.
 Dies verdeutlicht erneut, dass ein größerer Parameterumfang nicht zwangsläufig zu einer besseren Leistung in einem spezifischen Anwendungsfall innerhalb einer Modellreihe führt.
 
-Die 7B- und 8B-Modelle der meisten Anbieter (z.B.\ \texttt{mistral:7b}, \texttt{mathstral:7b}, \texttt{llava:7b}, \texttt{gemma3:4b}, \texttt{llama3:8b}) zeigen einen F1-Score im Bereich von \num{0.6} bis \num{0.8} bei relativ stabilen Geschwindigkeiten um die 20 Tokens/sec.
+Die 7B- und 8B-Modelle der meisten Provider (z. B.\ \texttt{mistral:7b}, \texttt{mathstral:7b}, \texttt{llava:7b}, \texttt{gemma3:4b}, \texttt{llama3:8b}) zeigen einen F1-Score im Bereich von \num{0.6} bis \num{0.8} bei relativ stabilen Geschwindigkeiten um die 20 Tokens/sec.
 Dies bestätigt den zuvor beobachteten Cluster und verdeutlicht, dass mittlere Modellgrößen eine solide, wenn auch nicht führende Performance liefern.
 
 Insgesamt zeigt sich, dass die Berücksichtigung der \textit{Authors} und \textit{Holders} sowie die Akzeptanz von nahezu idealen Ergebnissen (Similarity-Threshold) engere Verteilung der Ergebnisse verursacht.
 Zwar scheitern einige Modelle bei einer exakten Extraktion anhand der Aufgabenbeschreibung aber dennoch sind sie imstande, leicht abweichende Ergebnisse zu erzielen.
 
-Insgesamt zeigt sich, dass die Einbeziehung der \textit{Authors} und \textit{Holders} sowie die Berücksichtigung nahezu identischer Ergebnisse durch den Similarity-Threshold zu einer konsistenteren und weniger stark streuenden Ergebnisverteilung führt.
-Zwar verfehlen einige Modelle die exakte Extraktion gemäß der Aufgabenbeschreibung, sind jedoch dennoch in der Lage, leicht abweichende Ergebnisse zu liefern.
+Die Ergebnisse verdeutlichen, dass die Einbeziehung der \textit{Authors} und \textit{Holders} sowie die Berücksichtigung nahezu identischer Ergebnisse durch den Similarity-Threshold zu einer konsistenteren und weniger stark streuenden Ergebnisverteilung führt.
+Zwar verfehlen einige Modelle die exakte Extraktion gemäß der Aufgabenbeschreibung, sind dennoch in der Lage, leicht abweichende Ergebnisse zu liefern.
 
 % ======================================================================================================================
 
@@ -574,7 +573,7 @@ Ausschlaggebend hierfür waren mehrere Faktoren:
 Erstens zeigte \texttt{mistral-small:24b} eine außerordentliche Robustheit in der Durchführung des Benchmarks.
 Im Gegensatz zu zahlreichen anderen Modellen kam es weder zu Timeouts noch zu ungültigen \gls{json}-Ausgaben.
 
-Zweitens erzielte \texttt{mistral-small:24b} mit einem Anteil von \num{94}\% \textit{Exact Matches} den höchsten Wert aller getesteten Modelle.
+Zweitens erzielte \texttt{mistral-small:24b} mit einem Anteil von \num{94} \% \textit{Exact Matches} den höchsten Wert aller getesteten Modelle.
 Auch im F1-Score erreichte es Spitzenwerte nahe \num{0.9}, was seine Fähigkeit unterstreicht, nicht nur exakte Übereinstimmungen, sondern auch semantisch konsistente Extraktionen von \textit{Authors} und \textit{Holders} vorzunehmen.
 
 Ein drittes entscheidendes Kriterium war die Lizenzierung.

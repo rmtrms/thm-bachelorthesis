@@ -16,21 +16,21 @@ Die Engine des Toolkits wird von den fortschrittlichsten Open-Source- und kommer
 
 Im Kontext dieser Arbeit spielt die Funktion des ScanCode-Toolkits, Copyrights zu erkennen, eine zentrale Rolle.
 Die Erkennung von Copyrights findet dabei mithilfe einer spezialisierten \gls{nlp} Grammatik statt.
-Die anderen Funktionen des ScanCode-Toolkits sind für diese Arbeit nicht weiter relevant und werden deshalb nicht im Detail erläutert\autocite{noauthor_scancode-toolkit-documentation_nodate}.
+Die anderen Funktionen des ScanCode-Toolkits sind für diese Arbeit nicht weiter relevant und werden deshalb nicht im Detail erläutert \autocite{noauthor_scancode-toolkit-documentation_nodate}.
 
 % ======================================================================================================================
 
 \section{ScanCode Service}\label{sec:scancode-service}
 
 Der ScanCode-Service\footnote{\url{https://github.com/org-metaeffekt/metaeffekt-scancode-service}} ist eine Entwicklung der metaeffekt, welche das ScanCode-Toolkit nutzt und erweitert.
-Im Gegensatz zum ScanCode-Toolkit nutzt der Service kein \gls{cli}, sondern einen Web-Service der z.B.\ in einem Docker-Container ausgeführt werden kann.
+Im Gegensatz zum ScanCode-Toolkit nutzt der Service kein \gls{cli}, sondern einen Web-Service der z. B.\ in einem Docker-Container ausgeführt werden kann.
 Neben den integrativen Vorteilen eines Services sind auch inhaltliche Verbesserungen Teil seiner Implementierung.
 
 Die Implementierung des ScanCode-Toolkit bietet interne Schalter, die dazu dienen, Vermerke wie \enquote{All Rights Reserved} zu erkennen.
 Die Voreinstellung des ScanCode-Toolkit ist, dass diese Vermerke ausgeschlossen werden.
 Der ScanCode-Service hingegen schließt sie nicht aus.
-Zudem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Zeichensetzung im Extrakt\autocite{noauthor_metaeffekt-scancode-service_2025}.
-Diese Änderungen dienen dazu, die Konformität mit der nachfolgend erläuterten Policy des ScanCode-Toolkit zu anzunähern.
+Zudem entfernt das ScanCode-Toolkit den Punkt am Ende eines Copyright-Statements, der Service erhält diese Zeichensetzung im Extrakt \autocite{noauthor_metaeffekt-scancode-service_2025}.
+Diese Änderungen dienen dazu, die Konformität mit der nachfolgend erläuterten Policy des ScanCode-Toolkits anzunähern.
 
 % ======================================================================================================================
 
@@ -78,7 +78,7 @@ Im Folgenden wird die Policy kurz erläutert, die gesamte Fassung der Policy ist
 
 \subsection{CIR-01}\label{subsec:cir-01}
 
-Die \gls{cir} besagt, dass ein explizites Copyright Statement dann vorliegt, wenn klar erkennbar ist, wer Rechte an den verwendeten Materialien besitzt, gekennzeichnet durch die Hinweise ©, (C), (c) oder das Wort \enquote{Copyright} in Verbindung mit Namen und/oder Jahreszahlen.
+Die \gls{cir} besagt, dass ein explizites Copyright-Statement dann vorliegt, wenn klar erkennbar ist, wer Rechte an den verwendeten Materialien besitzt, gekennzeichnet durch die Hinweise ©, (C), (c) oder das Wort \enquote{Copyright} in Verbindung mit Namen und/oder Jahreszahlen.
 
 Hierzu ein paar Beispiele für Copyright-Statements:
 \begin{itemize}
@@ -93,10 +93,11 @@ Hierzu ein paar Beispiele für Copyright-Statements:
 
 Eine einfache Nennung eines Urhebers ohne die in \nameref{subsec:cir-01} genannten Markierungen gilt nicht als ausdrückliches Copyright-Statement.
 Es wird nicht impliziert, dass der Urheber eine solche Angabe machen wollte, die genannte Person wird dennoch als Urheber erfasst.
-Befindet sich die Nennung des Urhebers an Stelle im Material, die für ein Copyright-Statement vorgesehen ist, wird die Nennung als Copyright-Statement erkannt.
+Befindet sich die Nennung des Urhebers an Stellen im Material, die für ein Copyright-Statement vorgesehen ist, wird die Nennung als Copyright-Statement erkannt.
 Diese Regel gilt anhand der Kennzeichnung durch den Stakeholder als \textit{out of scope} für diese Arbeit.
 Das nachfolgende Beispiel anhand der 3-Clause BSD Lizenz\footnote{\url{https://opensource.org/license/bsd-3-clause}} veranschaulicht eine Urhebernennung an einer Position, die für ein Copyright-Statement vorgesehen ist.
-Dabei weist der Disclaimer auf ein vorher genanntes Copyright-Statement welches Allerdings nicht vorhanden ist, stattdessen wird der Urheber \enquote{The Open Code Project} genannt:
+Dabei weist der Disclaimer auf ein vorher genanntes Copyright-Statement, welches allerdings nicht vorhanden ist.
+Stattdessen wird der Urheber \enquote{The Open Code Project} genannt:
 
 \begin{lstlisting}[keepspaces=true]
 The Open Code Project
@@ -112,17 +113,17 @@ list of conditions and the following disclaimer. [...]
 
 \subsection{AIR-01}\label{subsec:air-01}
 
-Ein \textit{author} ist jede Person oder Organisation, die ausdrücklich als Verfasser oder Mitwirkender der Materialien gekennzeichnet ist.
-Solche Kennzeichnungen umfassen Begriffe wie \enquote{written by}, \enquote{modified by}, \enquote{edited by} oder Rollenbezeichnungen wie \enquote{original author}, \enquote{contributor} oder \enquote{editor}.
+Ein \textit{Author} ist jede Person oder Organisation, die ausdrücklich als Verfasser oder Mitwirkender der Materialien gekennzeichnet ist.
+Solche Kennzeichnungen umfassen Begriffe wie \enquote{written by}, \enquote{modified by}, \enquote{edited by} oder Rollenbezeichnungen wie \enquote{Original Author}, \enquote{contributor} oder \enquote{editor}.
 Diese Zuschreibungen müssen klar auf eine Beteiligung an der Erstellung hinweisen.
-Personen mit Bezeichnungen wie \enquote{maintainer} oder ähnlichen Rollen gelten nicht als \textit{authors}, da das Pflegen von Inhalten nicht zwangsläufig Urheberschaft impliziert.
+Personen mit Bezeichnungen wie \enquote{Maintainer} oder ähnlichen Rollen gelten nicht als \textit{Authors}, da das Pflegen von Inhalten nicht zwangsläufig Urheberschaft impliziert.
 Die in~\ref{subsec:grundlagen-des-urheberrechts} genannte Schöpfungshöhe wird durch eine solche Pflege allein nicht erreicht.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
 \subsection{HIR-01}\label{subsec:hir-01}
 
-Ein \textit{holder} ist eine Person oder Organisation, die als Inhaber, Kontrollinstanz oder Urheber des Materials genannt wird.
+Ein \textit{Holder} ist eine Person oder Organisation, die als Inhaber, Kontrollinstanz oder Urheber des Materials genannt wird.
 Typische Hinweise sind Namen in Copyright-Statements oder Formulierungen wie \enquote{rights held by} und \enquote{property of}.
 Der Kontext der Aussage muss auf Eigentum oder rechtliche Befugnis über das Material hinweisen.
 
@@ -130,13 +131,13 @@ Der Kontext der Aussage muss auf Eigentum oder rechtliche Befugnis über das Mat
 
 \subsection{CEP-01}\label{subsec:cep-01}
 
-Das Copyright Statement wurde vom Urheber formuliert.
+Das Copyright-Statement wurde vom Urheber formuliert.
 Beim Extrahieren dieser Information gilt es, die Entscheidungen und Intentionen des Urhebers zu wahren.
 Dies wird durch eine exakte Extraktion \enquote{as is} gewährleistet.
 Als technische Einschränkung gelten hier unterschiedliche Zeichensätze und grafische Repräsentationen.
-Das extrahierte Copyright muss versuchen, so weit wie möglich das Original abzubilden.
+Das extrahierte Copyright soll, so weit wie möglich, das Original abbilden.
 Dabei werden Tabulatoren und Zeilenumbrüche innerhalb des Statements erhalten.
-Formatierungen und Zeichen, die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Gegebenheiten betrachtet und werden nicht erhalten.
+Formatierungen und Zeichen, die auf Kommentarsyntax der jeweiligen Programmiersprache der Quellcode-Datei zurückzuführen sind, werden als externe Gegebenheiten betrachtet und nicht erhalten.
 Das folgende Beispiel beinhaltet einerseits Kommentarsyntax und andererseits ein doppeltes Leerzeichen vor dem zweiten \enquote{All rights reserved.}-Vermerk:
 
 \begin{lstlisting}[keepspaces=true]
@@ -173,7 +174,7 @@ Hier ist ein Ausschnitt aus einer Quellcode-Datei mit Copyright- und Lizenzinfor
 */
 \end{lstlisting}
 
-Das extrahierte Copyright Statement lautet demnach:
+Das extrahierte Copyright-Statement lautet demnach:
 
 \begin{lstlisting}[keepspaces=true]
 Copyright(c) 2014-2015 Intel Corporation
@@ -202,7 +203,7 @@ Dieses Beispiel veranschaulicht einerseits einen Block von mehreren Copyright-St
 */
 \end{lstlisting}
 
-Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen, sowie den Vermerk am Ende, beinhaltet:
+Das resultierende Statement ist ein Block, der die drei Statements ohne Veränderungen sowie den Vermerk am Ende beinhaltet:
 
 \begin{lstlisting}[keepspaces=true]
 Copyright 2013-2016 Freescale Semiconductor Inc.
@@ -244,7 +245,7 @@ to take away your freedom to share and change the works. [...]
 
 Eine Zusammenführung oder Vereinheitlichung der Copyrights ist nicht zulässig.
 Die Konsolidierung von Zeitangaben und die Vereinheitlichung von Urhebern ist bei einer Extraktion \enquote{as-is} verboten.
-Bei diesem Copyright Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Jahreszahlen vermerkt:
+Bei diesem Copyright-Abschnitt einer Quellcode-Datei ist ein Urheber mit drei Jahreszahlen vermerkt:
 
 \begin{lstlisting}[keepspaces=true]
 /*
@@ -327,7 +328,7 @@ Das nach der Policy extrahierte \gls{json} zu dieser Autorenliste entspricht som
 
 Das Vorkommen von Kontaktinformationen wie Namen, Telefonnummern oder E-Mail-Adressen weist allein nicht auf Urheberschaft oder Eigentum hin.
 Solche Angaben dienen häufig ausschließlich der Kommunikation.
-Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpft sind, werden sie nicht als Teil der \textit{author}- oder \textit{holder}-Daten erfasst:
+Sofern sie nicht ausdrücklich mit einer Urheber- oder Eigentumsangabe verknüpft sind, werden sie nicht als Teil der \textit{Author}- oder \textit{Holder}-Daten erfasst:
 
 \begin{lstlisting}[keepspaces=true]
 * Copyright(c) 2010 Larry Finger. All rights reserved.
@@ -351,8 +352,8 @@ Die korrekte Extraktion entspricht demnach:
 
 \subsection{HEP-01}\label{subsec:hep-01}
 
-Ähnlich wie bei \textit{authors} in \nameref{subsec:aep-01} werden \textit{holders} individuell pro Person oder Organisation erfasst.
-Auch wenn mehrere Urheber gemeinsam in einer einzigen Angabe oder einem Block genannt werden, wird jeder einzeln als eigener \textit{holder} behandelt.
+Ähnlich wie bei \textit{Authors} in \nameref{subsec:aep-01} werden \textit{Holders} individuell pro Person oder Organisation erfasst.
+Auch wenn mehrere Urheber gemeinsam in einer einzigen Angabe oder einem Block genannt werden, wird jeder einzeln als eigener \textit{Holder} behandelt.
 Es erfolgt keine Zusammenführung oder Gruppierung.
 Dies ermöglicht eine präzise Zuordnung und verhindert eine falsche Darstellung der Urheberschaft.
 
@@ -374,10 +375,10 @@ Dies ermöglicht eine präzise Zuordnung und verhindert eine falsche Darstellung
 
 \subsection{GEP-01}\label{subsec:gep-01}
 
-E-Mail-Adressen, die in der Nähe von \textit{authors} oder \textit{holders} angegeben sind, werden beibehalten und der jeweiligen Person oder Organisation zugeordnet.
+E-Mail-Adressen, die in der Nähe von \textit{Authors} oder \textit{Holders} angegeben sind, werden beibehalten und der jeweiligen Person oder Organisation zugeordnet.
 Sie gelten als identifizierende Merkmale und helfen bei der Unterscheidung, insbesondere bei häufigen Namen oder organisatorischen Zugehörigkeiten.
-E-Mail-Adressen werden in Kleinbuchstaben normalisiert und durch spitze Klammern gekennzeichnet (z.B.\ <user@example.com>).
-Obfuskierte Adressen (z.B.\ user [at] example [dot] com) werden nicht verändert.
+E-Mail-Adressen werden in Kleinbuchstaben normalisiert und durch spitze Klammern gekennzeichnet (z. B.\ <user@example.com>).
+Obfuskierte Adressen (z. B.\ user [at] example [dot] com) werden nicht verändert.
 
 \begin{lstlisting}[keepspaces=true]
 * Copyright 2004-2005 Andrea Merello <andrea.merello@gmail.com>, et al.
@@ -397,9 +398,9 @@ Obfuskierte Adressen (z.B.\ user [at] example [dot] com) werden nicht verändert
 
 \subsection{GEP-02}\label{subsec:gep-02}
 
-URLs, die mit einem \textit{holder} oder \textit{author} in Verbindung stehen (z.B.\ ein GitHub-Profil), können zur eindeutigen Identifizierung der Person oder Organisation beitragen.
-Bei \textit{holders} muss die URL direkt im Anschluss an den Namen innerhalb des Statements stehen.
-Bei \textit{authors} muss eindeutig erkennbar sein, dass die URL zu der jeweiligen Person gehört.
+URLs, die mit einem \textit{Holder} oder \textit{Author} in Verbindung stehen (z. B.\ ein GitHub-Profil), können zur eindeutigen Identifizierung der Person oder Organisation beitragen.
+Bei \textit{Holders} muss die URL direkt im Anschluss an den Namen innerhalb des Statements stehen.
+Bei \textit{Authors} muss eindeutig erkennbar sein, dass die URL zu der jeweiligen Person gehört.
 
 \begin{lstlisting}[keepspaces=true]
 "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)
@@ -567,7 +568,7 @@ Die geringe Wartbarkeit der Implementierung sowie die zahlreichen Abweichungen z
 \section{Large Language Models zur Extraktion unstrukturierter Daten}\label{sec:vorstellung-llm}
 
 Die Fähigkeiten von \glspl{llm}, komplexe sprachliche Muster, Kontextbezüge und semantische Feinheiten aus großen Mengen unstrukturierter Daten zu erkennen, können im Kontext der Copyright-Extraktion neue Wege eröffnen.
-Sie eignen sich in besonderem Maße für Aufgaben, bei denen Informationen aus heterogenen oder nur gering vorstrukturierten Quellen extrahiert werden müssen wie z.B.\ Quellcode, Kommentaren, Lizenztexten oder gemischten Dateiformaten.
+Sie eignen sich in besonderem Maße für Aufgaben, bei denen Informationen aus heterogenen oder nur gering vorstrukturierten Quellen extrahiert werden müssen, wie z. B.\ Quellcode, Kommentaren, Lizenztexten oder gemischten Dateiformaten.
 
 Die Policy definiert klare Regeln zur Extraktion von \textit{Copyrights}, \textit{Holders} und \textit{Authors}, wie dem Erhalt des exakten Copyright-Statements (\nameref{subsec:cep-01}), der Behandlung von „All Rights Reserved“-Vermerken (\nameref{subsec:cep-02}) oder der Blockerhaltung (\nameref{subsec:cep-03}).
 Konventionelle RegEx- und Grammatik-basierte Verfahren (siehe Abschnitt~\ref{sec:analyse-bestehender-losungen}) stoßen hier an Grenzen, da sie bei komplexen, mehrzeiligen Strukturen, nicht-standardisierten Schreibweisen oder kontextabhängigen Aussagen fehleranfällig sind.
@@ -579,7 +580,7 @@ Gleichzeitig können \glspl{llm} bei der Erkennung von komplexen Fällen (z.\,B.
 Für die Umsetzung der Policy-konformen Extraktion bieten sich verschiedene in Kapitel~\ref{ch:grundlagen} vorgestellte Verfahren an:
 \begin{itemize}
     \item \textit{In-Context Learning (ICL)}: Die Policy-Regeln können direkt im Prompt als Anweisungen hinterlegt werden, ergänzt durch Beispiele für gewünschte und unerwünschte Extraktionsformen. Dadurch lassen sich \glspl{llm} flexibel auf Änderungen in der Policy anpassen, ohne ein erneutes Training.
-    \item \textit{Prompt-Engineering}: Eine sorgfältige Gestaltung der Eingaben durch z.B.\ klare Trennung zwischen Quelltext und Anweisung, sowie gezielte Few-Shot-Beispiele, erhöhen die Genauigkeit bei der Erkennung und Kategorisierung der Entitäten.
+    \item \textit{Prompt-Engineering}: Eine sorgfältige Gestaltung der Eingaben durch z. B.\ klare Trennung zwischen Quelltext und Anweisung sowie gezielte Few-Shot-Beispiele, erhöhen die Genauigkeit bei der Erkennung und Kategorisierung der Entitäten.
     \item \textit{Fine-Tuning / LoRA}: Anhand eines qualitativ hochwertigen Datensatzes kann ein \gls{llm} gezielt auf annotierte Beispieldaten trainiert werden, um die Policy-Regeln besonders robust und implizit, ohne genaue Formulierung der zugrundeliegenden Regeln, umzusetzen.
 \end{itemize}
 
@@ -595,26 +596,26 @@ Durch die Kombination von \glspl{llm} mit den in der Policy definierten Präzisi
 
 \section{Verwandte Arbeiten}\label{sec:verwandte-arbeiten}
 
-\citeauthor{breton_empowering_2024}\autocite{breton_empowering_2024} präsentieren einen hybriden Ansatz zur Extraktion rechtlicher Entitäten aus französischen Gesetzestexten.
+\citeauthor{breton_empowering_2024} \autocite{breton_empowering_2024} präsentieren einen hybriden Ansatz zur Extraktion rechtlicher Entitäten aus französischen Gesetzestexten.
 Ausgangspunkt ist eine erste Extraktion durch \gls{gpt}-4, deren Ergebnisse mittels regelbasierter Filterung verfeinert werden.
 Die so bereinigten Entitäten dienen anschließend als Trainingsdaten für ein auf französische Rechtstexte spezialisiertes \gls{bert}-Modell (CamemBERT). Durch diese Wissensdistillation aus einem \gls{llm} in ein kompakteres Modell konnten die Autoren eine gute Balance zwischen den Stärken von \glspl{llm} und der Effizienz eines kleineren, skalierbaren Systems erreichen, ohne auf umfangreich durch Experten annotierte Datensätze angewiesen zu sein.
 Die Ergebnisse zeigen, dass dieser hybride Ansatz eine deutliche Leistungssteigerung gegenüber einer reinen Prompt-Engineering-Strategie mit \gls{gpt}-4 ermöglicht.
-Dennoch erreicht ein Modell, das auf manuell erstellten Expertendaten trainiert wurde, weiterhin die höchste Präzision bei der Extraktion\autocite{breton_empowering_2024}.
+Dennoch erreicht ein Modell, das auf manuell erstellten Expertendaten trainiert wurde, weiterhin die höchste Präzision bei der Extraktion \autocite{breton_empowering_2024}.
 
-\citeauthor{cheng_novel_2024}\autocite{cheng_novel_2024} stellen eine neuartige Prompting-Methode für Few-Shot-\gls{ner} mithilfe von \glspl{llm} vor.
+\citeauthor{cheng_novel_2024} \autocite{cheng_novel_2024} stellen eine neuartige Prompting-Methode für Few-Shot-\gls{ner} mithilfe von \glspl{llm} vor.
 Der Ansatz zielt darauf ab, die Extraktionsleistung in Szenarien mit nur wenigen annotierten Beispielen zu verbessern.
 Kernidee ist ein zweistufiges Prompting: Zunächst werden aus den Eingabetexten potenzielle Entitäten generiert, die anschließend in einem separaten Schritt kategorisiert werden.
 Durch diese Trennung von Erkennung und Klassifikation wird die Präzision insbesondere bei seltenen Entitätsklassen gesteigert.
 Die Autoren zeigen in Experimenten auf mehreren Benchmarks, dass diese Methode sowohl die Genauigkeit als auch die Robustheit gegenüber variierenden Formulierungen erhöht und dabei weniger von umfangreichen Trainingsdaten abhängig ist.
-Damit bietet der Ansatz eine effiziente Möglichkeit, \glspl{llm} für \gls{ner}-Aufgaben mit begrenzten Ressourcen einzusetzen\autocite{cheng_novel_2024}.
+Damit bietet der Ansatz eine effiziente Möglichkeit, \glspl{llm} für \gls{ner}-Aufgaben mit begrenzten Ressourcen einzusetzen \autocite{cheng_novel_2024}.
 
-\citeauthor{dunn_structured_2022}\autocite{dunn_structured_2022} entwickeln in ihrer Studie einen Ansatz zur Extraktion strukturierter Informationen aus komplexen wissenschaftlichen Texten.
+\citeauthor{dunn_structured_2022} \autocite{dunn_structured_2022} entwickeln in ihrer Studie einen Ansatz zur Extraktion strukturierter Informationen aus komplexen wissenschaftlichen Texten.
 Ihr Verfahren kombiniert regelbasierte Verarbeitung mit maschinellen Lernmodellen, um Entitäten und Relationen in domänenspezifischen Inhalten zuverlässig zu identifizieren.
 Zunächst werden die Texte vorverarbeitet und mittels heuristischer Regeln in semantisch relevante Abschnitte segmentiert.
 Darauf folgt ein mehrstufiges Extraktionsverfahren, bei dem trainierte Modelle für \gls{ner} und Relationsextraktion eingesetzt werden.
 Die Autoren evaluieren den Ansatz auf mehreren wissenschaftlichen Korpora und berichten signifikante Verbesserungen bei Präzision und Vollständigkeit gegenüber rein regelbasierten Methoden.
 Eine zentrale Erkenntnis ist, dass die Kombination aus regelgestützten Vorverarbeitungsschritten und statistischen Modellen besonders bei komplex strukturierten und variabel formulierten Texten robuste Ergebnisse liefert.
-Zudem betonen sie die Übertragbarkeit des Ansatzes auf andere wissenschaftliche Domänen, sofern ausreichend angepasste Trainingsdaten verfügbar sind\autocite{dunn_structured_2022}.
+Zudem betonen sie die Übertragbarkeit des Ansatzes auf andere wissenschaftliche Domänen, sofern ausreichend angepasste Trainingsdaten verfügbar sind \autocite{dunn_structured_2022}.
 
-Die Arbeiten von \textcite{breton_empowering_2024}\autocite{breton_empowering_2024}, \textcite{cheng_novel_2024}\autocite{cheng_novel_2024} und \textcite{dunn_structured_2022}\autocite{dunn_structured_2022}, sind für diese Forschung relevant, da sie unterschiedliche Wege aufzeigen, wie unstrukturierte oder variabel formatierte Inhalte effizient und präzise verarbeitet werden können.
+Die Arbeiten von \citeauthor{breton_empowering_2024} \autocite{breton_empowering_2024}, \citeauthor{cheng_novel_2024} \autocite{cheng_novel_2024} und \citeauthor{dunn_structured_2022} \autocite{dunn_structured_2022}, sind für diese Forschung relevant, da sie unterschiedliche Wege aufzeigen, wie unstrukturierte oder variabel formatierte Inhalte effizient und präzise verarbeitet werden können.
 Insbesondere die Erkenntnisse zu hybriden Verfahren, domänenspezifischer Modellanpassung und strukturiertem Prompting bieten wertvolle Anknüpfungspunkte für die Umsetzung einer Policy-konformen Extraktion von Copyright-Informationen.

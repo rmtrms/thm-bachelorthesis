@@ -15,8 +15,8 @@ Die Vorgehensweise orientierte sich maßgeblich an den Referenzimplementierungen
 Voraussetzung für das Training ist ein Datensatz im JSONL-Format, der in die drei Kategorien \textit{train}, \textit{test} und \textit{valid} gegliedert wird.
 
 \begin{itemize}
-    \item \textit{train} enthält die Daten, mit denen das Modell tatsächlich trainiert wird. Nach Empfehlung von MLX sollten etwa \num{80}\% der Gesamtdaten in diesem Teil enthalten sein.
-    \item \textit{test} dient der Evaluierung der Trainingsleistung auf bislang ungesehenen Daten und sollte rund \num{10}\% des Datensatzes umfassen.
+    \item \textit{train} enthält die Daten, mit denen das Modell tatsächlich trainiert wird. Nach Empfehlung von MLX sollten etwa \num{80} \% der Gesamtdaten in diesem Teil enthalten sein.
+    \item \textit{test} dient der Evaluierung der Trainingsleistung auf bislang ungesehenen Daten und sollte rund \num{10} \% des Datensatzes umfassen.
     \item \textit{valid} wird für die fortlaufende Validierung während des Trainings genutzt. In regelmäßigen Abständen wird so überprüft, ob das Modell die gewünschten Lernfortschritte macht.
 \end{itemize}
 Jede Zeile des Datensatzes enthält einen Eingabeprompt sowie die dazugehörige erwartete Ausgabe.
@@ -59,7 +59,7 @@ Für die zweite Durchführung wurde daher ein erweiterter Datensatz erstellt.
 Zunächst wurden 2000 Dateien der Kategorie \textit{single copyrights without authors} sowie 2000 Dateien der Kategorie \textit{single copyrights with authors} zufällig ausgewählt.
 Anschließend wurde die im Kapitel~\ref{ch:prompt-engineering} entwickelte Lösung eingesetzt, um für diese insgesamt 4000 Dateien die Copyright-Informationen zu extrahieren.
 
-Die Eignung dieses Ansatzes basiert auf den zuvor erzielten Ergebnissen, die gezeigt haben, dass die Prompt-Engineering-Lösung bei ungesehenen Daten in der Kategorie \textit{single copyrights} eine Extraktionsgenauigkeit von \num{99}\% an \textit{Exact Matches} erreichen konnte.
+Die Eignung dieses Ansatzes basiert auf den zuvor erzielten Ergebnissen, die gezeigt haben, dass die Prompt-Engineering-Lösung bei ungesehenen Daten in der Kategorie \textit{single copyrights} eine Extraktionsgenauigkeit von \num{99} \% an \textit{Exact Matches} erreichen konnte.
 Es ist daher davon auszugehen, dass die generierten Trainingsdaten eine hinreichend hohe Qualität aufwiesen, um für ein Fine-Tuning geeignet zu sein.
 
 Der so erstellte Datensatz wurde für das Fine-Tuning des Modells \texttt{mistral-7B-Instruct-v0.3} verwendet.
@@ -103,12 +103,12 @@ Tabelle~\ref{tab:modellvergleich} fasst die Ergebnisse zusammen.
 \end{table}
 
 Wie die Ergebnisse zeigen, erbringt das Modell \texttt{mistral:7b-instruct-v0.3-fine"=tuned} eine herausragende Leistung.
-Mit einem Anteil von \num{99}\% an \textit{Exact Matches} erreicht es exakt dieselbe Genauigkeit wie das deutlich größere \texttt{mistral-small:24b}.
+Mit einem Anteil von \num{99} \% an \textit{Exact Matches} erreicht es exakt dieselbe Genauigkeit wie das deutlich größere \texttt{mistral-small:24b}.
 Gleichzeitig ist die Verarbeitungsgeschwindigkeit mit rund \num{21} \textit{Tokens/sec} mehr als dreimal so hoch wie bei der Prompt-Engineering-Lösung mit ca. \num{6} \textit{Tokens/sec}.
 Dieses Ergebnis belegt, dass das Modell die impliziten Regeln der Policy erfolgreich aus den Trainingsdaten erlernen konnte und dabei eine signifikante Effizienzsteigerung erzielt.
 
 Das deutlich kleinere Modell \texttt{qwen2.5-1.5b-instruct-fine-tuned} stellt einen Kompromiss zwischen Genauigkeit und Geschwindigkeit dar.
-Die Genauigkeit der Extraktionen sinkt auf \num{91,5}\%, was eine merkliche Reduzierung im Vergleich zu den beiden Mistral-Modellen darstellt.
+Die Genauigkeit der Extraktionen sinkt auf \num{91,5} \%, was eine merkliche Reduzierung im Vergleich zu den beiden Mistral-Modellen darstellt.
 Im Gegenzug erreicht es mit über \num{71} \textit{Tokens/sec} eine deutlich höhere Verarbeitungsgeschwindigkeit.
 Es ist damit mehr als elfmal so schnell wie die ursprüngliche Prompt-Engineering-Lösung.
 

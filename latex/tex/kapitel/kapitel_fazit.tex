@@ -17,7 +17,7 @@ Damit konnte das Anwendungsszenario 1 zur Generierung eines Testdatensatzes weit
 Ein systematischer Benchmark, der 30 Open-Source-\glspl{llm} umfasste, identifizierte das Modell \texttt{mistral-small:24b} als die am besten geeignete Basis für den Anwendungsfall.
 Die iterative Entwicklung dieses Benchmarks trug maßgeblich zur Implementierung des finalen Prototyps bei.
 
-Durch gezieltes Prompt-Engineering wurde die Extraktionsleistung optimiert, um eine vollständige Abdeckung der Policy zu erreichen, was zu einer Genauigkeit von \num{96,3}\% \textit{Exact Matches} führte.
+Durch gezieltes Prompt-Engineering wurde die Extraktionsleistung optimiert, um eine vollständige Abdeckung der Policy zu erreichen, was zu einer Genauigkeit von \num{96,3} \% \textit{Exact Matches} führte.
 Eine anschließende Validierung mit ungesehenen Daten bestätigte die hohe Qualität der Lösung für einzelne Copyright-Vermerke, zeigte jedoch zugleich noch Schwächen bei der Verarbeitung von zusammenhängenden Blöcken auf.
 
 Die Experimente zum Fine-Tuning belegen, dass ein spezialisiertes, deutlich kleineres Modell (\texttt{mistral-7b-instruct-v0.3}) bei identischer Genauigkeit eine mehr als dreifache Verarbeitungsgeschwindigkeit im Vergleich zur Prompt-Engineering-Lösung erzielen kann.
@@ -36,7 +36,7 @@ Der im Rahmen dieser Arbeit entwickelte Prototyp demonstriert ein erhebliches Po
 Seine Eignung ergibt sich aus einer Kombination von hoher Extraktionsgenauigkeit, technischer Flexibilität und einer klaren Perspektive für den performanten Betrieb.
 
 Ein entscheidender Vorteil für die Praxistauglichkeit ist die ermittelte Extraktionsqualität.
-Mit einer Genauigkeit von \num{96,3}\% \textit{Exact Matches} übertrifft der Prototyp die Leistung etablierter regelbasierter Werkzeuge und erfüllt die definierte Anforderung von \num{95}\% (NF1).
+Mit einer Genauigkeit von \num{96,3} \% \textit{Exact Matches} übertrifft der Prototyp die Leistung etablierter regelbasierter Werkzeuge und erfüllt die definierte Anforderung von \num{95} \% (NF1).
 Diese hohe Präzision hat das Potenzial, den manuellen Nachbesserungsaufwand erheblich zu reduzieren und die Rechtskonformität in der Software-Lieferkette zu verbessern.
 Die Gestaltung des Ausgabeformats (F1), das bewusst an das JSON-Schema des ScanCode-Toolkits angelehnt ist, gewährleistet zudem eine nahtlose Systemintegration (NF11).
 Bestehende Prozessketten der metaeffekt GmbH können die generierten Ergebnisse ohne wesentliche Anpassungen weiterverarbeiten, was eine reibungslose Einführung als ergänzende oder ersetzende Komponente ermöglicht.
@@ -76,6 +76,6 @@ Dies würde eine Fähigkeit darstellen, die derzeit von keinem etablierten Werkz
 
 Darüber hinaus könnte eine breitere Datenbasis die Untersuchung alternativer, gradienten-basierter Machine-Learning-Lösungen ermöglichen, die langfristig eine weniger ressourcenintensive Alternative zur \gls{llm}-Bereitstellung darstellen könnten.
 
-Das Erreichen einer Extraktionsgenauigkeit von über \num{95}\% \textit{Exact Matches} über alle Kategorien hinweg, kombiniert mit einem performanten und effizienten Modell, würde schließlich den Weg für den produktiven Einsatz des Systems ebnen.
+Das Erreichen einer Extraktionsgenauigkeit von über \num{95} \% \textit{Exact Matches} über alle Kategorien hinweg, kombiniert mit einem performanten und effizienten Modell, würde schließlich den Weg für den produktiven Einsatz des Systems ebnen.
 Nicht nur intern, sondern auch direkt im Kundenkontext.
 Die konsequente Verfolgung dieser Forschungs- und Entwicklungsperspektiven birgt das Potenzial, die automatisierte Lizenz-Compliance nachhaltig zu verbessern und einen neuen Standard an Genauigkeit und Effizienz in diesem wichtigen Feld zu etablieren.

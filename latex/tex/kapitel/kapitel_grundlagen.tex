@@ -1,11 +1,15 @@
 \chapter{Grundlagen}\label{ch:grundlagen}
 
+Dieses Kapitel erläutert die wesentlichen Grundlagen, auf denen diese Arbeit aufbaut.
+Zunächst werden die rechtlichen Rahmenbedingungen des Urheberrechts untersucht, insbesondere im Hinblick auf Software und die Besonderheiten der Open-Source-Lizenzierung.
+Darauf aufbauend werden die technischen Konzepte von \glspl{llm} vorgestellt, welche die technologische Basis für die in dieser Arbeit entwickelte Methode zur Datenextraktion bilden.
+
 % ======================================================================================================================
 
 \section{Rechtliche Grundlagen}\label{sec:rechtliches}
 
 Die zunehmende Verbreitung von \gls{oss} in Forschung, Industrie und öffentlicher Verwaltung wirft eine Vielzahl rechtlicher Fragen auf, die sich insbesondere auf das Urheberrecht und die Lizenzierungspraxis beziehen.
-Obwohl \gls{oss} für gewöhnlich frei zugänglich ist, unterliegt sie in Deutschland uneingeschränkt dem Schutz des Urheberrechts gemäß dem \gls{urhg}\autocite{noauthor_urhg_nodate}.
+Obwohl \gls{oss} für gewöhnlich frei zugänglich ist, unterliegt sie in Deutschland uneingeschränkt dem Schutz des Urheberrechts gemäß dem \gls{urhg} \autocite{noauthor_urhg_nodate}.
 Die rechtssichere Nutzung, Veränderung und Weiterverbreitung quelloffener Software setzt daher ein grundlegendes Verständnis der urheberrechtlichen Schutzmechanismen, der Einräumung und Durchsetzung von Nutzungsrechten sowie der Einhaltung von Lizenzbedingungen voraus.
 Gerade im Kontext automatisierter Softwareanalysen, etwa durch \glspl{llm}, rücken Fragen der korrekten Attribution, der Wahrung von Lizenzpflichten und der Erkennbarkeit urheberrechtlicher Hinweise im Code in den Fokus.
 Dieses Kapitel beleuchtet die rechtlichen Grundlagen für den Einsatz von \gls{oss}, analysiert spezifische Regelungen des deutschen \gls{urhg} im Bereich von Software, zeigt potenzielle Konflikte innerhalb der Software-Lieferkette und stellt die Konsequenzen urheberrechtlicher Verstöße dar.
@@ -14,13 +18,13 @@ Dieses Kapitel beleuchtet die rechtlichen Grundlagen für den Einsatz von \gls{o
 
 \subsection{Grundlagen des Urheberrechts}\label{subsec:grundlagen-des-urheberrechts}
 
-Das deutsche \acrlong{urhg} schützt die geistigen Schöpfungen von Autoren, Künstlern und anderen Kreativen.
+Das deutsche Urheberrechtsgesetz schützt die geistigen Schöpfungen von Autoren, Künstlern und anderen Kreativen.
 Ziel des Urheberrechts ist es, sowohl die persönlichen als auch die wirtschaftlichen Interessen des Urhebers zu sichern (§ 11 \gls{urhg}).
 Die zentrale Voraussetzung für den Schutz ist die sogenannte Schöpfungshöhe, also ein gewisses Maß an Individualität des Werkes.
 Ein urheberrechtlicher Schutz entsteht automatisch mit der Schaffung des Werkes, eine Registrierung ist nicht erforderlich.
 
 Gemäß § 2 Absatz 1 \gls{urhg} gehören Computerprogramme ausdrücklich zu den schutzfähigen Werken.
-Sie werden unter Punkt 1 als \enquote{Werke der Literatur} erfasst, unabhängig davon, ob sie künstlerisch anspruchsvoll oder lediglich funktional gestaltet sind.
+Sie werden unter Nr. 1 als \enquote{Werke der Literatur} erfasst, unabhängig davon, ob sie künstlerisch anspruchsvoll oder lediglich funktional gestaltet sind.
 Der Urheber im Sinne des \gls{urhg} ist die natürliche Person, die das Werk geschaffen hat (§ 7 \gls{urhg}).
 
 Für das Verständnis von \gls{oss} ist besonders relevant, dass die Schutzwirkung des Urheberrechts unabhängig davon gilt, ob das Werk kommerziell oder unentgeltlich verwendet werden soll.
@@ -28,7 +32,7 @@ Auch öffentlich zugängliche Software unterliegt dem Urheberrecht, und ihre Nut
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Computerprogramme als besondere Werkform (§§ 69a–69g \gls{urhg})}
+\subsection{Computerprogramme als besondere Werkform (§§ 69a–69g UrhG)}
 
 Im Jahr 1993 wurden durch die §§ 69a bis 69g \gls{urhg} spezielle Regelungen für Computerprogramme in das Gesetz aufgenommen.
 Diese Vorschriften basieren auf der EU-Richtlinie 2009/24/EG über den Rechtsschutz von Computerprogrammen.
@@ -50,13 +54,13 @@ Gerade im Open-Source-Kontext kann diese Vorschrift bei der Analyse proprietäre
 
 % ----------------------------------------------------------------------------------------------------------------------
 
-\subsection{Einräumung von Nutzungsrechten (§§ 31–33 \gls{urhg})}
+\subsection{Einräumung von Nutzungsrechten (§§ 31–33 UrhG)}
 
 Ein zentrales Instrument für die Verbreitung und Nutzung von Software ist die Einräumung von Nutzungsrechten.
 Diese ist im Urheberrecht in den §§ 31 bis 33 \gls{urhg} geregelt.
-Während das Urheberrecht als solches nicht übertragbar ist (§ 29 Abs. 1 \gls{urhg}), können Nutzungsrechte an einem Werk sehr wohl eingeräumt werden.
-Hierbei wird zwischen einfachen und ausschließlichen Nutzungsrechten unterschieden (§ 31 Abs. 2 \gls{urhg}).
-Einfache Nutzungsrechte erlauben die gleichzeitige Nutzung durch mehrere Personen, während ausschließliche Rechte eine exklusive Nutzung vorsehen.
+Während das Urheberrecht als solches nicht übertragbar ist (§ 29 Abs. 1 \gls{urhg}), können Nutzungsrechte an einem Werk sehr wohl eingeräumt werden (§ 29 Abs. 2 \gls{urhg}).
+Hierbei wird zwischen einfachen und ausschließlichen Nutzungsrechten unterschieden (§ 31 Abs. 1 \gls{urhg}).
+Einfache Nutzungsrechte erlauben die gleichzeitige Nutzung durch mehrere Personen, während ausschließliche Rechte eine exklusive Nutzung vorsehen (§ 31 Abs. 2 \gls{urhg}).
 
 Software Lizenzen allgemein und insbesondere Open-Source-Lizenzen wie die \gls{gpl}\footnote{\url{https://www.gnu.org/licenses/gpl-3.0.de.html}}, die MIT License\footnote{\url{https://opensource.org/license/mit}} oder die Apache
 License\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}} gewähren typischerweise einfache Nutzungsrechte.
@@ -101,8 +105,8 @@ Nach § 97 \gls{urhg} hat der Urheber Anspruch auf Unterlassung und Beseitigung 
 Darüber hinaus kann ein Anspruch auf Schadensersatz bestehen, der je nach Sachlage entweder auf dem konkreten Schaden, dem Gewinn des Verletzers oder einer fiktiven Lizenzgebühr basiert.
 
 § 98 \gls{urhg} ermöglicht es zudem, rechtswidrig hergestellte oder verbreitete Vervielfältigungsstücke zu vernichten oder vom Markt zu nehmen.
-In besonders schweren Fällen sind sogar strafrechtliche Sanktionen nach § 106 \gls{urhg} möglich, etwa bei vorsätzlicher und gewerbsmäßiger Verletzung des Urheberrechts.
-Wer \gls{oss} einsetzt oder weiterverbreitet, trägt daher die Verantwortung, die jeweiligen Lizenzbedingungen genau zu beachten und die gelten Verpflichtungen zu erfüllen.
+In besonders schweren Fällen sind strafrechtliche Sanktionen nach § 106 \gls{urhg} möglich, etwa bei vorsätzlicher und gewerbsmäßiger Verletzung des Urheberrechts.
+Wer \gls{oss} einsetzt oder weiterverbreitet, trägt daher die Verantwortung, die jeweiligen Lizenzbedingungen genau zu beachten und die geltenden Verpflichtungen zu erfüllen.
 Wird beispielsweise eine Lizenzbedingung der \gls{gpl} verletzt, etwa durch Nichtoffenlegung des Quellcodes, kann die Lizenzwirkung entfallen.
 In diesem Fall ist jede weitere Nutzung als unrechtmäßige Verwertung zu bewerten, mit allen sich daraus ergebenden rechtlichen und wirtschaftlichen Konsequenzen.
 
@@ -149,7 +153,7 @@ Ihre Umsetzung ist im nationalen Recht unter anderem durch das Urheberrechtsgese
 Die deutsche Version des Vertrags findet sich unter anderem im Bundesgesetzblatt sowie auf der Website des Bundesministeriums der Justiz\footnote{\url{https://www.gesetze-im-internet.de/\_bkbern\_berlinav}}.
 
 Ergänzend hierzu ist das \gls{trips} zu nennen, das im Rahmen der \gls{wto} 1994 abgeschlossen wurde.
-Es verpflichtet alle \gls{wto}-Mitgliedstaaten zur Einhaltung zentraler Bestimmungen der \gls{rbü} (mit Ausnahme der Urheberpersönlichkeitsrechte) und bildet damit einen völkerrechtlichen Mindeststandard auch für Staaten, die der \gls{rbü} oder dem \gls{wua} nicht beigetreten sind\autocite{malbon_standards_2014}.
+Es verpflichtet alle \gls{wto}-Mitgliedstaaten zur Einhaltung zentraler Bestimmungen der \gls{rbü} (mit Ausnahme der Urheberpersönlichkeitsrechte) und bildet damit einen völkerrechtlichen Mindeststandard auch für Staaten, die der \gls{rbü} oder dem \gls{wua} nicht beigetreten sind \autocite{malbon_standards_2014}.
 
 Diese internationalen Regelungen sind nicht zuletzt deshalb relevant, weil \gls{oss} regelmäßig grenzüberschreitend entwickelt und verbreitet wird.
 Die Kenntnis dieser völker- und handelsrechtlichen Rahmenbedingungen ist somit für die rechtssichere Nutzung von Software in internationalen Zusammenhängen entscheidend.
@@ -162,23 +166,23 @@ Die Kenntnis dieser völker- und handelsrechtlichen Rahmenbedingungen ist somit 
 Ihre Entwicklung basiert auf einer Reihe fundamentaler wissenschaftlicher Arbeiten.
 
 Die technologische Grundlage heutiger \glspl{llm} wurde durch die Abkehr von \glspl{rnn} geschaffen.
-Diese waren in ihrer Fähigkeit, lange sequenzielle Abhängigkeiten zu modellieren, limitiert und nur bedingt für paralleles Rechnen geeignet\autocite{vaswani_attention_2023}.
+Diese waren in ihrer Fähigkeit, lange sequenzielle Abhängigkeiten zu modellieren, limitiert und nur bedingt für paralleles Rechnen geeignet \autocite{vaswani_attention_2023}.
 Ein entscheidender Fortschritt war die Einführung der Transformer-Architektur durch \citeauthor{vaswani_attention_2023} \autocite{vaswani_attention_2023}.
 Anstelle einer sequenziellen Verarbeitung von Informationen implementiert der Transformer einen Self-Attention-Mechanismus.
 Dieser ermöglicht es dem Modell, die kontextuellen Beziehungen aller Elemente einer Eingabesequenz simultan zu gewichten.
-Diese Architektur bietet zwei wesentliche Vorteile: Sie erlaubt eine hohe Parallelisierbarkeit des Trainingsprozesses auf entsprechender Hardware und verbessert die Modellierung von langreichweitigen Abhängigkeiten in der Eingabesequenz\autocite{vaswani_attention_2023}.
+Diese Architektur bietet zwei wesentliche Vorteile: Sie erlaubt eine hohe Parallelisierbarkeit des Trainingsprozesses auf entsprechender Hardware und verbessert die Modellierung von langreichweitigen Abhängigkeiten in der Eingabesequenz \autocite{vaswani_attention_2023}.
 
 Aufbauend auf dieser Architektur wurden in den folgenden Jahren spezialisierte Modellvarianten entwickelt, die entscheidend zur heutigen Leistungsfähigkeit von \glspl{llm} beigetragen haben.
-Ein bedeutender Meilenstein war die Veröffentlichung von \gls{bert} durch \citeauthor{devlin_bert_2019}\autocite{devlin_bert_2019}.
+Ein bedeutender Meilenstein war die Veröffentlichung von \gls{bert} durch \citeauthor{devlin_bert_2019} \autocite{devlin_bert_2019}.
 \gls{bert} nutzt ausschließlich den Encoder-Teil des Transformers und wurde darauf ausgelegt, kontextuelle Wortrepräsentationen bidirektional zu erfassen.
 Dies geschieht durch das sogenannte \gls{mlm}, bei dem einzelne Token einer Eingabesequenz maskiert und vom Modell vorhergesagt werden müssen.
 Ein Token bezeichnet dabei eine kleinste Verarbeitungseinheit von Text, die je nach Modell ein einzelnes Zeichen, eine Silbe oder ein ganzes Wort umfassen kann.
-Dadurch kann \gls{bert} semantische Beziehungen sowohl aus vorangehenden als auch nachfolgenden Kontexten ableiten, was zu erheblichen Leistungssteigerungen bei einer Vielzahl von Aufgaben des \gls{nlp} führt, etwa bei Fragebeantwortung oder semantischer Textklassifikation\autocite{devlin_bert_2019}.
+Dadurch kann \gls{bert} semantische Beziehungen sowohl aus vorangehenden als auch nachfolgenden Kontexten ableiten, was zu erheblichen Leistungssteigerungen bei einer Vielzahl von Aufgaben des \gls{nlp} führt, etwa bei Fragebeantwortung oder semantischer Textklassifikation \autocite{devlin_bert_2019}.
 
 Parallel zur Weiterentwicklung von Encoder-basierten Modellen etablierten sich auch großskalige autoregressive Sprachmodelle, die auf dem Decoder-Teil der Transformer-Architektur beruhen.
-Ein herausragendes Beispiel ist \gls{gpt}-3 von \citeauthor{brown_language_2020}\autocite{brown_language_2020}.
+Ein herausragendes Beispiel ist \gls{gpt}-3 von \citeauthor{brown_language_2020} \autocite{brown_language_2020}.
 \gls{gpt}-3 verfolgt einen rein autoregressiven Ansatz, bei dem das nächste Token auf Grundlage der vorangegangenen Token vorhergesagt wird.
-Durch eine massive Skalierung der Modellparameter (auf 175 Milliarden), sowie des Trainingskorpus auf Hunderte Milliarden Token konnte \gls{gpt}-3 eine bemerkenswerte Fähigkeit zur Textgenerierung, Aufgabenadaption und kontextabhängigen Inferenz ohne explizites Fine-Tuning demonstrieren (\nameref{subsec:in-context-learning}).
+Durch eine massive Skalierung der Modellparameter (auf 175 Milliarden) sowie des Trainingskorpus auf Hunderte Milliarden Token konnte \gls{gpt}-3 eine bemerkenswerte Fähigkeit zur Textgenerierung, Aufgabenadaption und kontextabhängigen Inferenz ohne explizites Fine-Tuning demonstrieren (\nameref{subsec:in-context-learning}).
 Diese Entwicklung verdeutlichte, dass die Leistungsfähigkeit von \glspl{llm} nicht nur von der Transformer-Architektur, sondern maßgeblich auch von der Trainingsdatenmenge und der Modellgröße beeinflusst wird.
 
 Aktuelle \glspl{llm} unterscheiden sich von früheren Modellen wie \gls{bert} und \gls{gpt}-3 vor allem durch ihre Multimodalität, deutlich größere Kontextfenster, verbesserte Reasoning-Fähigkeiten und effizientere Architekturdesigns.
@@ -193,7 +197,7 @@ Ziel ist es, die Kommunikation zwischen Mensch und Maschine in natürlicher Spra
 Frühere Ansätze setzten dabei auf klar voneinander getrennte Verarbeitungsschritte, etwa der Segmentierung eines Textes in kleinere Einheiten, die Bestimmung der Wortarten oder die Analyse der Satzstruktur.
 Besonders herausfordernd ist die Syntaxanalyse, da sie die grammatische Struktur eines Satzes präzise erfassen muss, um die Beziehungen zwischen einzelnen Wörtern und Satzteilen korrekt zu modellieren.
 Die hohe Komplexität natürlicher Sprache, die sich in Mehrdeutigkeit, Kontextabhängigkeit und schwer erkennbaren Phänomenen wie Ironie zeigt, macht dieses Gebiet zu einem der anspruchsvollsten innerhalb der Informatik.
-Gleichzeitig ist die Fähigkeit, Sprache als intuitive Schnittstelle zwischen Mensch und Maschine zu nutzen, eine zentrale Voraussetzung für die Verbreitung moderner Assistenzsysteme, da alternative Steuerungsformen oft zu umständlich sind\autocite{grigoleit_natural_2019}.
+Gleichzeitig ist die Fähigkeit, Sprache als intuitive Schnittstelle zwischen Mensch und Maschine zu nutzen, eine zentrale Voraussetzung für die Verbreitung moderner Assistenzsysteme, da alternative Steuerungsformen oft zu umständlich sind \autocite{grigoleit_natural_2019}.
 
 Moderne \glspl{llm} vereinen viele dieser Analyse- und Verarbeitungsschritte in einem einzigen Modell.
 Sie können sowohl semantische als auch syntaktische Zusammenhänge über große Textkontexte hinweg erkennen und verarbeiten, wodurch sie in Bereichen wie maschineller Übersetzung, automatischer Fragebeantwortung und Stimmungsanalyse deutlich bessere Ergebnisse erzielen als traditionelle Systeme.
@@ -202,11 +206,11 @@ Sie können sowohl semantische als auch syntaktische Zusammenhänge über große
 
 \subsection{In-Context Learning (ICL)}\label{subsec:in-context-learning}
 
-Ein wesentlicher Grund für die hohe Leistungsfähigkeit moderner \glspl{llm} im Bereich \gls{nlp} liegt in ihrer Fähigkeit zum sogenannten \emph{In-Context Learning}.
+Ein wesentlicher Grund für die hohe Leistungsfähigkeit moderner \glspl{llm} im Bereich \gls{nlp} liegt in ihrer Fähigkeit zum sogenannten \enquote{In-Context Learning}.
 Dabei wird das Modell nicht durch eine separate Trainingsphase auf eine spezifische Aufgabe angepasst, sondern erhält die Aufgabenbeschreibung direkt im Eingabetext.
 Dieser kann aus einer Anweisung in natürlicher Sprache bestehen oder zusätzlich ausgewählte Beispiele enthalten, die das gewünschte Vorgehen verdeutlichen.
 Auf dieser Grundlage wird das Modell so konditioniert, dass es weitere Instanzen der Aufgabe allein durch Vorhersage des nächsten Tokens lösen kann.
-Dieses Verfahren ermöglicht eine flexible Anpassung an eine Vielzahl von Aufgaben, ohne dass das Modell für jede einzelne neu trainiert werden muss, und stellt damit einen zentralen Mechanismus dar, durch den \glspl{llm} in vielen \gls{nlp}-Anwendungsfeldern effektiv eingesetzt werden können\autocite{brown_language_2020}.
+Dieses Verfahren ermöglicht eine flexible Anpassung an eine Vielzahl von Aufgaben, ohne dass das Modell für jede einzelne neu trainiert werden muss, und stellt damit einen zentralen Mechanismus dar, durch den \glspl{llm} in vielen \gls{nlp}-Anwendungsfeldern effektiv eingesetzt werden können \autocite{brown_language_2020}.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -214,15 +218,15 @@ Dieses Verfahren ermöglicht eine flexible Anpassung an eine Vielzahl von Aufgab
 
 Die \gls{ner} ist eine grundlegende Aufgabe des \gls{nlp}, bei der benannte Entitäten wie Personennamen, Organisationen, Orte oder Datumsangaben in Texten erkannt und vordefinierten Kategorien zugeordnet werden.
 Sie dient dazu, strukturierte Informationen aus unstrukturierten Texten zu extrahieren und bildet damit eine zentrale Grundlage für viele weiterführende Anwendungen wie \gls{ie}, Fragebeantwortung oder Zusammenfassungen.
-Für die Umsetzung von \gls{ner} existieren unterschiedliche methodische Ansätze\autocite{pakhale_comprehensive_2023}.
+Für die Umsetzung von \gls{ner} existieren unterschiedliche methodische Ansätze \autocite{pakhale_comprehensive_2023}.
 
 Regelbasierte Verfahren arbeiten mit explizit definierten sprachlichen oder domänenspezifischen Mustern, während überwachte Lernverfahren auf annotierten Datensätzen trainiert werden, um Entitäten anhand gelernter Muster zu erkennen.
 Unüberwachte Ansätze hingegen nutzen kleine Mengen von Startbeispielen, um iterativ neue Erkennungsmuster zu generieren.
-Moderne Systeme setzen zunehmend auf Transformer-Modelle wie \gls{bert}, die durch kontextualisierte Wortrepräsentationen auch komplexe Abhängigkeiten und semantische Feinheiten erfassen können\autocite{pakhale_comprehensive_2023}.
+Moderne Systeme setzen zunehmend auf Transformer-Modelle wie \gls{bert}, die durch kontextualisierte Wortrepräsentationen auch komplexe Abhängigkeiten und semantische Feinheiten erfassen können \autocite{pakhale_comprehensive_2023}.
 
-Anwendungsfelder von \gls{ner} finden sich unter anderem in der Verarbeitung juristischer Dokumente\autocite{breton_empowering_2024}, der Extraktion medizinischer Fachtermini\autocite{islam_llm-based_2025}, der Analyse biologischer Fachliteratur\autocite{lee_biobert_2020} oder der Auswertung von Social-Media-Inhalten\autocite{niu_osint_2025}.
-\glspl{llm} erweitern diese Möglichkeiten, indem sie entweder durch gezieltes Fine-Tuning\autocite{dunn_structured_2022} auf spezifische \gls{ner}-Domänen angepasst oder mittels Prompt-basierten Zero- und Few-Shot-Verfahren\autocite{villena_llmner_2024,cheng_novel_2024,wei_chatie_2024} eingesetzt werden.
-Dadurch lassen sich selbst mit wenig oder gar keinem zusätzlichen Trainingsmaterial robuste Erkennungsleistungen erzielen, was insbesondere für ressourcenarme Sprachen und dynamische Anwendungsgebiete von Vorteil ist\autocite{pakhale_comprehensive_2023}.
+Anwendungsfelder von \gls{ner} finden sich unter anderem in der Verarbeitung juristischer Dokumente \autocite{breton_empowering_2024}, der Extraktion medizinischer Fachtermini \autocite{islam_llm-based_2025}, der Analyse biologischer Fachliteratur \autocite{lee_biobert_2020} oder der Auswertung von Social-Media-Inhalten \autocite{niu_osint_2025}.
+\glspl{llm} erweitern diese Möglichkeiten, indem sie entweder durch gezieltes Fine-Tuning \autocite{dunn_structured_2022} auf spezifische \gls{ner}-Domänen angepasst oder mittels Prompt-basierten Zero- und Few-Shot-Verfahren \autocite{villena_llmner_2024,cheng_novel_2024,wei_chatie_2024} eingesetzt werden.
+Dadurch lassen sich selbst mit wenig oder gar keinem zusätzlichen Trainingsmaterial robuste Erkennungsleistungen erzielen, was insbesondere für ressourcenarme Sprachen und dynamische Anwendungsgebiete von Vorteil ist \autocite{pakhale_comprehensive_2023}.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -230,12 +234,12 @@ Dadurch lassen sich selbst mit wenig oder gar keinem zusätzlichen Trainingsmate
 
 Prompt-Engineering bezeichnet die gezielte Gestaltung und Anpassung von Eingaben für \glspl{llm}, um deren Ausgabequalität zu beeinflussen.
 Ziel ist es, Anweisungen in natürlicher Sprache so zu formulieren, dass das Modell präzise, kontextbezogene und für den jeweiligen Anwendungsfall geeignete Ergebnisse erzeugt.
-Eine sorgfältige Ausgestaltung der Eingabe kann die Interaktion zwischen Nutzer und Modell strukturierter und nachvollziehbarer gestalten\autocite{chan_generative_2024}.
+Eine sorgfältige Ausgestaltung der Eingabe kann die Interaktion zwischen Nutzer und Modell strukturierter und nachvollziehbarer gestalten \autocite{chan_generative_2024}.
 
 Im Kontext von \glspl{llm} spielt Prompt Engineering eine wichtige Rolle bei Zero-Shot- und Few-Shot-Ansätzen.
 Beim Zero-Shot-Lernen erhält das Modell lediglich eine Aufgabenbeschreibung und bearbeitet die Aufgabe ohne weitere Beispiele.
 Beim Few-Shot-Lernen werden zusätzlich einige ausgewählte Beispiele in den Prompt integriert, um dem Modell die Struktur und den gewünschten Stil der Ausgabe zu verdeutlichen.
-Beide Ansätze nutzen das Prinzip des \gls{icl}, bei dem das Modell die im Prompt enthaltenen Informationen unmittelbar für die Generierung seiner Ausgabe verwendet, ohne dass eine gesonderte Anpassung der Modellparameter erforderlich ist\autocite{villena_llmner_2024}.
+Beide Ansätze nutzen das Prinzip des \gls{icl}, bei dem das Modell die im Prompt enthaltenen Informationen unmittelbar für die Generierung seiner Ausgabe verwendet, ohne dass eine gesonderte Anpassung der Modellparameter erforderlich ist \autocite{villena_llmner_2024}.
 
 Durch die Kombination aus klaren Anweisungen, relevanten Kontextinformationen und gegebenenfalls Beispielen kann Prompt-Engineering die Leistungsfähigkeit moderner \glspl{llm} in unterschiedlichen Anwendungsbereichen unterstützen.
 
@@ -246,10 +250,10 @@ Durch die Kombination aus klaren Anweisungen, relevanten Kontextinformationen un
 Neben Prompt-Engineering stellt das Fine-Tuning eine zentrale Methode dar, um \glspl{llm} an spezifische Aufgaben oder Domänen anzupassen.
 Dies erfolgt, indem ein vortrainiertes \gls{llm} mit zusätzlichen, meist domänenspezifischen Trainingsdaten weitertrainiert wird.
 Dabei werden die bestehenden Modellparameter aktualisiert, um die statistischen Eigenschaften der neuen Daten zu berücksichtigen und die Leistung in der Zielaufgabe zu verbessern.
-Dieser Prozess kann vollständig erfolgen, indem alle Parameter optimiert werden, oder partiell, indem nur ausgewählte Schichten des Modells angepasst werden\autocite{hu_lora_2021}.
+Dieser Prozess kann vollständig erfolgen, indem alle Parameter optimiert werden, oder partiell, indem nur ausgewählte Schichten des Modells angepasst werden \autocite{hu_lora_2021}.
 
 Das vollständige Fine-Tuning großer Sprachmodelle ist jedoch mit erheblichem Rechen- und Speicheraufwand verbunden.
-\citeauthor{hu_lora_2021} stellen mit der \gls{lora} einen ressourcenschonenden Ansatz vor, bei dem die Gewichte des vortrainierten Modells eingefroren bleiben und lediglich zusätzlich eingefügte, niedrig-rangige Matrizen während des Trainings optimiert werden\autocite{hu_lora_2021}.
+\citeauthor{hu_lora_2021} stellen mit der \gls{lora} einen ressourcenschonenden Ansatz vor, bei dem die Gewichte des vortrainierten Modells eingefroren bleiben und lediglich zusätzlich eingefügte, niedrig-rangige Matrizen während des Trainings optimiert werden \autocite{hu_lora_2021}.
 Diese Technik reduziert den Speicherbedarf und die Trainingszeit erheblich, ohne die Modellleistung signifikant zu beeinträchtigen.
 
 % ----------------------------------------------------------------------------------------------------------------------
@@ -260,7 +264,7 @@ Ein weiterer Ansatz zur Effizienzsteigerung ist die \gls{kd}.
 Dabei wird das Wissen eines großen, leistungsstarken \glspl{llm} (Teacher-Model) auf ein kleineres Modell (Student-Model) übertragen.
 Hierzu werden identische Eingaben beiden Modellen präsentiert, und das Student-Model wird auf die vom Teacher-Model erzeugten Ausgaben und Wahrscheinlichkeitsverteilungen trainiert.
 Auf diese Weise kann das kleinere Modell die Verhaltensmuster und Generalisierungsfähigkeiten des größeren Modells übernehmen, während Rechen- und Speicheranforderungen deutlich reduziert werden.
-Dieses Verfahren ist besonders relevant für den Einsatz von \glspl{llm} auf Geräten mit begrenzten Ressourcen oder in Echtzeitanwendungen\autocite{xu_survey_2024}.
+Dieses Verfahren ist besonders relevant für den Einsatz von \glspl{llm} auf Geräten mit begrenzten Ressourcen oder in Echtzeitanwendungen \autocite{xu_survey_2024}.
 
 % ----------------------------------------------------------------------------------------------------------------------
 
@@ -269,10 +273,10 @@ Dieses Verfahren ist besonders relevant für den Einsatz von \glspl{llm} auf Ger
 Die \gls{glos:quantisierung} ist eine weitere Methode zur Reduktion von Rechen- und Speicheranforderungen von \glspl{llm}.
 Dabei werden die hochpräzisen Fließkommazahlen, mit denen die Modellparameter gespeichert sind, durch Darstellungen mit geringerer numerischer Präzision ersetzt, beispielsweise 8-Bit- oder 4-Bit-Formate.
 Durch diese Reduktion der Bitbreite sinkt der Speicherbedarf signifikant.
-Darüber hinaus verkürzt sich auch die Ausführungszeit, da arithmetische Operationen auf niedrigeren Präzisionsstufen effizienter ausgeführt werden können\autocite{egashira_exploiting_2024}.
+Darüber hinaus verkürzt sich auch die Ausführungszeit, da arithmetische Operationen auf niedrigeren Präzisionsstufen effizienter ausgeführt werden können \autocite{egashira_exploiting_2024}.
 
 Quantisierte \glspl{llm} ermöglichen insbesondere die lokale Ausführung auf Hardware mit begrenzten Ressourcen, wie etwa auf Workstations, Laptops oder sogar mobilen Endgeräten.
-\citeauthor{egashira_exploiting_2024} betonen, dass moderne Quantisierungstechniken in der Lage sind, die Genauigkeit des ursprünglichen Modells weitgehend zu erhalten, sodass auch komplexe \gls{nlp}-Aufgaben lokal mit vertretbarem Qualitätsverlust durchgeführt werden können\autocite{egashira_exploiting_2024}.
+\citeauthor{egashira_exploiting_2024} betonen, dass moderne Quantisierungstechniken in der Lage sind, die Genauigkeit des ursprünglichen Modells weitgehend zu erhalten, sodass auch komplexe \gls{nlp}-Aufgaben lokal mit vertretbarem Qualitätsverlust durchgeführt werden können \autocite{egashira_exploiting_2024}.
 Durch die Kombination mit anderen Effizienzmethoden wie \gls{lora} oder \gls{kd} lassen sich so flexible und ressourcenschonende Bereitstellungsszenarien für \glspl{llm} realisieren.
 
 

@@ -39,7 +39,7 @@ Die primäre Schnittstelle des Systems ist für die Entgegennahme von Eingabedat
 Intern kommuniziert der Scanner, wie in Abbildung~\ref{fig:copyright-scanner} dargestellt, über die Ollama4J-Bibliothek, die eine REST-API-Schnittstelle zum lokal ausgeführten Ollama-Dienst kapselt.
 Diese Architektur ermöglicht eine flexible Bereitstellung, bei der das Sprachmodell unabhängig von der verarbeitenden Anwendung auf derselben oder einer anderen Maschine im Netzwerk betrieben werden kann, was dem im Anwendungsszenario geforderten On-Premise-Betrieb entgegenkommt.
 
-Ein entscheidender Vorteil für die Integration in bestehende Systeme der metaeffekt ist die bewusste Entscheidung, das Ausgabeformat des Scanners an das JSON-Schema des ScanCode-Toolkits anzugleichen.
+Ein entscheidender Vorteil für die Integration in bestehende Systeme der metaeffekt GmbH ist die bewusste Entscheidung, das Ausgabeformat des Scanners an das JSON-Schema des ScanCode-Toolkits anzugleichen.
 Bestehende nachgelagerte Prozesse, die bereits auf die Verarbeitung der ScanCode-Ergebnisse ausgelegt sind, können die vom LLM-basierten Scanner generierten Daten somit ohne wesentliche Anpassungen weiterverarbeiten.
 Diese Kompatibilität vereinfacht die Einführung der neuen Lösung erheblich, da sie als direkter Ersatz oder als ergänzende Komponente in der bestehenden Werkzeugkette fungieren kann.
 
