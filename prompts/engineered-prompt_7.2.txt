@@ -10,7 +10,6 @@ Ignore any content that is not relevant for copyright or authorship information 
 
 Here are examples of expected input and EXACT output formats:
 
----
 Example 1:
 Text:
  * Authors :	Jean Tourrilhes - HPL - <jt@hpl.hp.com>
@@ -24,7 +23,6 @@ Output:
   "authors": [ "Jean Tourrilhes - HPL - <jt@hpl.hp.com>" ]
 }
 
----
 Example 2:
 Text:
 //
@@ -44,7 +42,6 @@ Output:
   "authors": [ ]
 }
 
----
 Example 3:
 Text:
 /*
@@ -61,7 +58,6 @@ Output:
   "authors": [ ]
 }
 
----
 Example 4:
 Text:
   Copyright(c) 2014-2015 Intel Corporation
@@ -78,7 +74,6 @@ Output:
   "authors": [ "Mengdong Lin <mengdong.lin@intel.com>", "Yao Jin <yao.jin@intel.com>", "Liam Girdwood <liam.r.girdwood@linux.intel.com>" ]
 }
 
----
 Example 5:
 Text:
  * Copyright(c) 2008 - 2010 Realtek Corporation. All rights reserved.
@@ -93,18 +88,16 @@ Output:
   "authors" : [ ]
 }
 
----
 Example 6:
 Text:
 /****************************************************************************
- * Copyright (c) 2011-2016 Synaptics Incorporated                           *
- * Copyright (c) 2011 Unixphere                                             *
- *                                                                          *
+ * Copyright 2020-2022,2024 Thomas E. Dickey                                *
+ * Copyright 2002-2016,2017 Free Software Foundation, Inc.                  *
 
 Output:
 {
-  "copyrights" : [ "Copyright (c) 2011-2016 Synaptics Incorporated\nCopyright (c) 2011 Unixphere" ],
-  "holders" : [ "Synaptics Incorporated", "Unixphere" ],
+  "copyrights" : [ "Copyright 2020-2022,2024 Thomas E. Dickey\nCopyright 2002-2016,2017 Free Software Foundation, Inc." ],
+  "holders" : [ "Thomas E. Dickey", "Free Software Foundation, Inc." ],
   "authors" : [ ]
 }
 
